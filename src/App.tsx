@@ -3,12 +3,19 @@ import React, { useState } from 'react';
 // components
 import PlayerAudio from 'components/player/PlayerAudio.component';
 import SideBar from 'components/sidebar/SideBar.component';
+import BlockSong from 'components/blockSong/BlockSong.component';
 
 // antd css
 import 'antd/dist/antd.css';
 
+// react slick css
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 // styles scss
 import styles from './app.module.scss';
+import SlideShow from 'components/slideShow/SlideShow.component';
 
 function App() {
   const musics = [
@@ -18,8 +25,8 @@ function App() {
 
   const [index, setIndex] = useState(-1);
   const [statusPlay, setStatusPlay] = useState(false);
-  
-  function nextFunc() { 
+
+  function nextFunc() {
     if (index >= 1) {
       setIndex(1);
     } else {
@@ -39,7 +46,12 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <SideBar />
+      <div className={styles.app_layout}>
+        <SideBar />
+        <div className={styles.app_content}>
+          <SlideShow />
+        </div>
+      </div>
       <PlayerAudio audioSrc={musics[index] ? musics[index] : ''} status={statusPlay} next={nextFunc} previous={previousFunc} />
     </div>
   );
