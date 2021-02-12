@@ -5,17 +5,10 @@ import PlayerAudio from 'components/player/PlayerAudio.component';
 import SideBar from 'components/sidebar/SideBar.component';
 import BlockSong from 'components/blockSong/BlockSong.component';
 
-// antd css
-import 'antd/dist/antd.css';
-
-// react slick css
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 // styles scss
 import styles from './app.module.scss';
-import SlideShow from 'components/slideShow/SlideShow.component';
+import ListShow from 'components/listShow/ListShow.component';
+import Header from 'components/header/Header.component';
 
 function App() {
   const musics = [
@@ -44,12 +37,71 @@ function App() {
     setStatusPlay(true);
   }
 
+  const list = (
+    <>
+      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+        <BlockSong />
+      </div>
+      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+        <BlockSong />
+      </div>
+      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+        <BlockSong />
+      </div>
+      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+        <BlockSong />
+      </div>
+      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+        <BlockSong />
+      </div>
+      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+        <BlockSong />
+      </div>
+    </>
+  )
+
+  const responsiveSlide = [
+    {
+      breakpoint: 1300,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 1224,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1
+      }
+    }
+  ]
   return (
     <div className={styles.app}>
       <div className={styles.app_layout}>
         <SideBar />
-        <div className={styles.app_content}>
-          <SlideShow />
+        <div className={styles.app_content_wrap}>
+          <Header />
+          <div className={styles.app_content}>
+            {/* -------------- */}
+            <ListShow responsive={responsiveSlide} title="Âm Nhạc Dành Cho Bạn">
+              {list}
+            </ListShow>
+
+            {/* ------------------- */}
+            <ListShow responsive={responsiveSlide} title="Nghe Gần Đây">
+              <>
+                <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+                  <BlockSong />
+                </div>
+              </>
+            </ListShow>
+
+            {/* ------------------------ */}
+            <ListShow responsive={responsiveSlide} title="Radio Nổi Bật">
+              { list }
+            </ListShow>
+          </div>
         </div>
       </div>
       <PlayerAudio audioSrc={musics[index] ? musics[index] : ''} status={statusPlay} next={nextFunc} previous={previousFunc} />

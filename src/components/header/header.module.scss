@@ -1,0 +1,45 @@
+.header_app{
+  position: fixed;
+  z-index: 1000;
+  width: calc(100% - 226px);
+  background-color: transparent;
+  display: flex;
+  padding: 1rem 2rem;
+  align-items: center;
+  .arrow{
+    display: flex;
+    font-size: 2rem;
+    color: #fff;
+    .arrow_left{
+      cursor: pointer;
+      padding: 0 1rem;
+    }
+    .arrow_right{
+      cursor: pointer;
+      padding: 0 1rem;
+    }
+  }
+  .header_search{
+    display: flex;
+    cursor: pointer;
+    width: 45%;
+    background-color: #fff;
+    border-radius: 2rem;
+    overflow: hidden;
+    .search_icon{
+      padding: 1rem 1rem 1rem 2rem;
+    }
+    .search_input{
+      flex-grow: 1;
+      input{
+        padding: 1rem;
+        width: 100%;
+        box-shadow: unset;
+        border: unset;
+        &:focus{
+          outline: unset;
+        }
+      }
+    }
+  }
+}

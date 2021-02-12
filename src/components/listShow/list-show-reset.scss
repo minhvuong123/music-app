@@ -1,0 +1,27 @@
+.slick-arrow{
+    &:before{
+        content: unset !important;
+    }
+    &.slick-prev{
+        right: 50px;
+        top: -20px;
+        left: unset;
+    }
+    &.slick-next{
+        right: 10px;
+        top: -20px;
+    }
+}
+.slick-prev.slick-disabled, .slick-next.slick-disabled {
+  span{
+    opacity: 0.25;
+  }
+}
+
+.slick-slider{
+  .slick-list{
+    .slick-track{
+      display: inline-block;
+    }
+  }
+}
