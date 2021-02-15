@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // components
 import PlayerAudio from 'components/player/PlayerAudio.component';
@@ -10,14 +10,26 @@ import styles from './app.module.scss';
 import ListShow from 'components/listShow/ListShow.component';
 import Header from 'components/header/Header.component';
 
+import axios from 'axios';
+import { apiLink } from 'shared/const';
+
 function App() {
   const musics = [
-    'https://vnno-vn-6-tf-mp3-s1-zmp3.zadn.vn/567d2a75fb31126f4b20/5047299516671071615?authen=exp=1612965235~acl=/567d2a75fb31126f4b20/*~hmac=1b49fc30fd77c50a01e5a3445247eb3f&fs=MTYxMjmUsIC5MjQzNTY4OHx3ZWJWNnwwfDQyLjExNC4yMDYdUngMjI5',
-    'https://vnno-vn-5-tf-mp3-s1-zmp3.zadn.vn/e62a67adecea05b45cfb/449341657436324137?authen=exp=1612979640~acl=/e62a67adecea05b45cfb/*~hmac=7bee674897b10e2b69c043ae74b03604&fs=MTYxMjgwNjg0MDk2NXx3ZWJWNnwwfDQyLjExNC4yMDYdUngMjI5'
+    'https://vnno-vn-6-tf-mp3-s1-zmp3.zadn.vn/8abc2e2d896960373978/3799330207337094985?authen=exp=1613553428~acl=/8abc2e2d896960373978/*~hmac=0f5d742f75ca8ec33bb0a67d1f7c3ddf&fs=MTYxMzM4MDYyODM5Nnx3ZWJWNnwxMDEyNzMwNjmUsICyfDEdUngNTUdUngMC41Mg',
+    'http://localhost:4000/static/mp3/d893c9c1-6f6b-11eb-84b2-b53dfea0d7d1.mp3'
   ];
 
+  const [songs, setSongs] = useState([]);
   const [index, setIndex] = useState(-1);
   const [statusPlay, setStatusPlay] = useState(false);
+
+
+  useEffect(() => {
+    axios.get(`${apiLink}/songs`).then(result => {
+      setSongs(result.data.songs);
+    })
+    return () => {}
+  }, [])
 
   function nextFunc() {
     if (index >= 1) {
@@ -37,45 +49,45 @@ function App() {
     setStatusPlay(true);
   }
 
-  const list = (
-    <>
-      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-        <BlockSong />
-      </div>
-      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-        <BlockSong />
-      </div>
-      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-        <BlockSong />
-      </div>
-      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-        <BlockSong />
-      </div>
-      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-        <BlockSong />
-      </div>
-      <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-        <BlockSong />
-      </div>
-    </>
-  )
+  // const list = (
+  //   <>
+  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+  //       <BlockSong />
+  //     </div>
+  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+  //       <BlockSong />
+  //     </div>
+  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+  //       <BlockSong />
+  //     </div>
+  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+  //       <BlockSong />
+  //     </div>
+  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+  //       <BlockSong />
+  //     </div>
+  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+  //       <BlockSong />
+  //     </div>
+  //   </>
+  // )
 
-  const responsiveSlide = [
-    {
-      breakpoint: 1300,
-      settings: {
-        slidesToShow: 5,
-        slidesToScroll: 1
-      }
-    },
-    {
-      breakpoint: 1224,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 1
-      }
-    }
-  ]
+  // const responsiveSlide = [
+  //   {
+  //     breakpoint: 1300,
+  //     settings: {
+  //       slidesToShow: 5,
+  //       slidesToScroll: 1
+  //     }
+  //   },
+  //   {
+  //     breakpoint: 1224,
+  //     settings: {
+  //       slidesToShow: 4,
+  //       slidesToScroll: 1
+  //     }
+  //   }
+  // ]
   return (
     <div className={styles.app}>
       <div className={styles.app_layout}>
@@ -83,24 +95,35 @@ function App() {
         <div className={styles.app_content_wrap}>
           <Header />
           <div className={styles.app_content}>
+            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+              {
+                songs && songs.map((song: any) => {
+                  return (
+                    <div key={song._id} style={{width: '20%', padding: '10px'}}>
+                      <BlockSong song={song} />
+                    </div>
+                  )
+                })
+              }
+            </div>
             {/* -------------- */}
-            <ListShow responsive={responsiveSlide} title="Âm Nhạc Dành Cho Bạn">
+            {/* <ListShow responsive={responsiveSlide} title="Âm Nhạc Dành Cho Bạn">
               {list}
-            </ListShow>
+            </ListShow> */}
 
             {/* ------------------- */}
-            <ListShow responsive={responsiveSlide} title="Nghe Gần Đây">
+            {/* <ListShow responsive={responsiveSlide} title="Nghe Gần Đây">
               <>
                 <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
                   <BlockSong />
                 </div>
               </>
-            </ListShow>
+            </ListShow> */}
 
             {/* ------------------------ */}
-            <ListShow responsive={responsiveSlide} title="Radio Nổi Bật">
+            {/* <ListShow responsive={responsiveSlide} title="Radio Nổi Bật">
               { list }
-            </ListShow>
+            </ListShow> */}
           </div>
         </div>
       </div>

@@ -10,17 +10,18 @@ import {
   CaretLeftFilled,
   CaretRightFilled
 } from '@ant-design/icons';
-import { Tooltip } from 'antd';
+import { Tooltip, Popover } from 'antd';
 
 
 // styles
+import 'antd/dist/antd.css';
 import styles from './player-audio.module.scss';
 
 // images
 import music from 'images/music.jpg';
 
 // interface
-import { Audio } from 'types';
+import { Audio } from 'shared/types';
 
 
 function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
@@ -30,6 +31,7 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
   const [playStatus, setPlayStatus] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [durationTime, setDurationTime] = useState(0);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -45,21 +47,6 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
       setDurationTime(Math.floor(audioID.duration));
       setCurrentTime(Math.floor(audio.currentTime));
     });
-
-    // audio.onloadeddata = () => {
-    //   setDurationTime(Math.floor(audioID.duration));
-    //   setCurrentTime(Math.floor(audio.currentTime));
-    // }
-
-    // audio.onprogress = () => {
-    //   console.log(currentTime);
-    //   if (currentTime) {
-    //     audio.currentTime = currentTime;
-    //   }
-    //   setCurrentTime(Math.floor(audio.currentTime));
-    //   const percentage = audio.currentTime / audio.duration * 100;
-    //   progressRef.current.style.width = percentage + '%';
-    // }
 
     audio.addEventListener('timeupdate', () => {
       // listen and set current time -> total time of audio
@@ -123,9 +110,21 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
     }
   }
 
+  function handleVisibleChange(visible: boolean) {
+    setVisible(visible);
+  };
+
+  // const content = (
+  //   <>
+  //     <ul>
+  //       <li>THeme</li>
+  //     </ul>
+  //   </>
+  // )
+
   return (
     <div className={styles.player_control}>
-      <audio id='audio' ref={audioRef} src={audioSrc}></audio>
+      <audio data-html5-video preload='none' id='audio' ref={audioRef} src={audioSrc}></audio>
       <div className={styles.player_control_left}>
         <div className={styles.media}>
           <div className={styles.media_left}>
@@ -148,11 +147,18 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
               <Tooltip placement="top" color="#383737" title="Thêm vào thư viện">
                 <span className={styles.btn_icon}><HeartOutlined /></span>
               </Tooltip>
-              <Tooltip placement="top" color="#383737" title="Xem thêm">
-                <span className={[styles.btn_icon, styles.margin_left_10].join(' ')}>
-                  <EllipsisOutlined />
-                </span>
-              </Tooltip>
+              <Popover
+                title="Title"
+                trigger="click"
+                visible={visible}
+                onVisibleChange={handleVisibleChange}
+              >
+                <Tooltip placement="top" color="#383737" title="Xem thêm">
+                  <span className={[styles.btn_icon, styles.margin_left_10].join(' ')}>
+                    <EllipsisOutlined />
+                  </span>
+                </Tooltip>
+              </Popover>
             </div>
           </div>
         </div>
@@ -199,7 +205,7 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
           <span></span>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

@@ -4,7 +4,8 @@ import React from 'react';
 import {
   HeartOutlined,
   RightOutlined,
-  LeftOutlined
+  LeftOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 
 // styles
@@ -20,7 +21,7 @@ function SideBar() {
       </div>
       <div className={[styles.sidebar_list, styles.margin_bottom_20].join(' ')}>
         <div className={styles.sidebar_list_item}>
-          <span className={styles.list_item_icon}><HeartOutlined /></span>
+          <span className={styles.list_item_icon}><UserOutlined /></span>
           <span className={styles.list_item_text}>Cá nhân</span>
         </div>
         <div className={styles.sidebar_list_item}>

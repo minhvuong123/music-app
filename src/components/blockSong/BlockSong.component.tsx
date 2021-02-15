@@ -10,12 +10,10 @@ import { Tooltip } from 'antd';
 
 // styles
 import styles from './block-song.module.scss';
-
-// images
-import songImage from 'images/block-song.jpg';
+import { apiLink } from 'shared/const';
 
 
-function BlockSong() {
+function BlockSong({ song }: any) {
 
   function playSong(e: any) {
     e.preventDefault();
@@ -26,7 +24,7 @@ function BlockSong() {
     <div className={styles.block_song_container}>
       <a href="/" className={styles.block_song}>
         <div className={styles.block_song_image}>
-          <img src={songImage} alt="music app"/>
+          <img src={`${apiLink}/${song.song_url_image}`} alt="music app"/>
         </div>
         <div className={styles.song_opacity}></div>
         <div className={styles.block_song_action}>
