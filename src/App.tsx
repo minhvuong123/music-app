@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react';
 // components
 import PlayerAudio from 'components/player/PlayerAudio.component';
 import SideBar from 'components/sidebar/SideBar.component';
-import BlockSong from 'components/blockSong/BlockSong.component';
+import BlockList from 'components/blockList/BlockList.component';
 
 // styles scss
 import styles from './app.module.scss';
 import ListShow from 'components/listShow/ListShow.component';
 import Header from 'components/header/Header.component';
+import Admin from 'admin/Admin.component';
 
 import axios from 'axios';
 import { apiLink } from 'shared/const';
@@ -90,6 +91,7 @@ function App() {
   // ]
   return (
     <div className={styles.app}>
+      <Admin />
       <div className={styles.app_layout}>
         <SideBar />
         <div className={styles.app_content_wrap}>
@@ -100,7 +102,7 @@ function App() {
                 songs && songs.map((song: any) => {
                   return (
                     <div key={song._id} style={{width: '20%', padding: '10px'}}>
-                      <BlockSong song={song} />
+                      <BlockList listSong={song} />
                     </div>
                   )
                 })
