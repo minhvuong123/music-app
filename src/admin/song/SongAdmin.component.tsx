@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import {
   Form,
   Input,
-  Select
+  Select,
+  notification
 } from 'antd';
 
 import UploadComponent from 'components/upload/Upload.component';
@@ -52,6 +53,13 @@ function SongAdmin({ tabStatus }: any) {
     return () => {}
   }, [tabStatus])
 
+  function openNotification(placement: any){
+    notification.success({
+      message: 'Success!',
+      placement,
+      duration: 1
+    });
+  };
 
   function handleChangeImage(base64Result: string, type: string) {
     setBase64(base64Result);
@@ -104,6 +112,7 @@ function SongAdmin({ tabStatus }: any) {
         setBase64('');
         setBase64MP3('');
         form.resetFields();
+        openNotification('topRight');
       })
     }
 

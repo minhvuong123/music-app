@@ -7,17 +7,16 @@ import {
   notification
 } from 'antd';
 
-import styles from './country-admin.module.scss';
+import styles from './play-list-show-admin.module.scss';
 import axios from 'axios';
 import { apiLink } from 'shared/const';
-import { countryType } from 'shared/types';
+import { PlayListShowType } from 'shared/types';
 
 import moment from 'moment';
 
 
-function CountryAdmin({ tabStatus }: any) {
+function PlayListShowAdmin({ tabStatus }: any) {
   const [form] = Form.useForm();
-
 
   function openNotification(placement: any){
     notification.success({
@@ -27,29 +26,29 @@ function CountryAdmin({ tabStatus }: any) {
     });
   };
 
-  function onFinish(values: countryType) {
+  function onFinish(values: PlayListShowType) {
     const resultData = {...values};
     resultData.created_at = moment().toISOString();
 
-    axios.post(`${apiLink}/countries`, { country: resultData }).then(result => {
+    axios.post(`${apiLink}/playListShows`, { playListShow: resultData }).then(result => {
       form.resetFields();
       openNotification('topRight');
     })
   }
   return (
-    <div className={styles.app_country}>
+    <div className={styles.app_category}>
       <Form
         form={form}
         layout="vertical"
         initialValues={{
-          country_name: '',
+          playListShow_name: '',
           created_at: ''
         }}
         onFinish={onFinish}
       >
         <div className={styles.control_layout}>
           <Form.Item
-            name="country_name"
+            name="playListShow_name"
             label="Name"
             className={styles.control_item}
             rules={[{ required: true, message: 'Name is not empty!' }]}
@@ -65,4 +64,4 @@ function CountryAdmin({ tabStatus }: any) {
   );
 }
 
-export default CountryAdmin;
+export default PlayListShowAdmin;

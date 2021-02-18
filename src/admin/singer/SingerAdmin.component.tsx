@@ -3,7 +3,8 @@ import React from 'react';
 // ant
 import {
   Form,
-  Input
+  Input,
+  notification
 } from 'antd';
 
 import styles from './singer-admin.module.scss';
@@ -16,6 +17,14 @@ import moment from 'moment';
 
 function SingerAdmin({ tabStatus }: any) {
   const [form] = Form.useForm();
+  
+  function openNotification(placement: any){
+    notification.success({
+      message: 'Success!',
+      placement,
+      duration: 1
+    });
+  };
 
   function onFinish(values: singerType) {
     const resultData = {...values};
@@ -23,6 +32,7 @@ function SingerAdmin({ tabStatus }: any) {
 
     axios.post(`${apiLink}/singers`, { singer: resultData }).then(result => {
       form.resetFields();
+      openNotification('topRight');
     })
   }
   return (

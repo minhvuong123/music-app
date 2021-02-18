@@ -25,17 +25,13 @@ export interface playListType {
   playList_category: string;
   playList_country: string;
   playList_url_image: string;
+  playList_listShow: string;
   created_at: string;
 }
 
 export interface categoryType {
   _id: string,
   category_name: string;
-  created_at: string;
-}
-
-export interface singerType {
-  singer_name: string;
   created_at: string;
 }
 
@@ -48,5 +44,11 @@ export interface countryType {
 export interface singerType {
   _id: string;
   singer_name: string;
+  created_at: string;
+}
+
+export interface PlayListShowType {
+  _id: string;
+  playListShow_name: string;
   created_at: string;
 }

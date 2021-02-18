@@ -59,11 +59,26 @@
         height: 40px;
         border-radius: 50%;
         background-color: #ffffff33;
-        border: unset;
+        border-color: transparent;
+        border-width: .1rem;
+        border-style: solid;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: border-color .3s ease-in-out;
+        &:hover{
+          border-color: #c662ef;
+        }
       }
+    }
+    .admin{
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      border: unset;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .user{
       font-size: 2rem;
@@ -73,10 +88,16 @@
       height: 40px;
       border-radius: 50%;
       background-color: #ffffff33;
-      border: unset;
+      border-color: transparent;
+      border-width: .1rem;
+      border-style: solid;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: border-color .3s ease-in-out;
+      &:hover{
+        border-color: #c662ef;
+      }
     }
   }
 }

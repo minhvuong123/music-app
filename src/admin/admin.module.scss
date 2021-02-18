@@ -1,6 +1,10 @@
 .app_admin{
-  position: fixed;
-  bottom: 15rem;
-  right: 2rem;
-  z-index: 1000;
+  .admin_btn{
+    background-color: #ffffff33;
+    color: #fff;
+    border-color: transparent;
+    &:hover{
+      border-color: #c662ef;
+    }
+  }
 }

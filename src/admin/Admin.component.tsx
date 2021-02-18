@@ -14,6 +14,7 @@ import SongAdmin from './song/SongAdmin.component';
 import PlayListAdmin from './playList/PlayList.component';
 import SingerAdmin from './singer/SingerAdmin.component';
 import CountryAdmin from './country/CountryAdmin.component';
+import PlayListShowAdmin from './playListShow/PlayListShowAdmin.component';
 
 
 const { TabPane } = Tabs;
@@ -38,8 +39,8 @@ function Admin() {
 
   return (
     <div className={styles.app_admin}>
-      <Button type="primary" onClick={showDrawer}>
-        Open
+      <Button className={styles.admin_btn} onClick={showDrawer}>
+        Admin
       </Button>
       <Drawer
         title="Admin Management"
@@ -63,6 +64,9 @@ function Admin() {
           </TabPane>
           <TabPane tab="Countries" key="countries">
             <CountryAdmin tabStatus={tabStatus} />
+          </TabPane>
+          <TabPane tab="Create Play Lists" key="playListShows">
+            <PlayListShowAdmin tabStatus={tabStatus} />
           </TabPane>
         </Tabs>
       </Drawer>

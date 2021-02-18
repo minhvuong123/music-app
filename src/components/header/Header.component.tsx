@@ -15,6 +15,7 @@ import {
 
 import styles from './header.module.scss';
 import SongAdmin from 'admin/song/SongAdmin.component';
+import Admin from 'admin/Admin.component';
 
 
 function Header() {
@@ -45,6 +46,9 @@ function Header() {
         </div>
       </div>
       <div className={styles.header_right}>
+        <div className={styles.admin}>
+          <Admin />
+        </div>
         <div className={styles.upload}>
           <div className={styles.upload_btn} onClick={showModal}><UploadOutlined /></div>
           <Modal

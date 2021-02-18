@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import {
   Form,
   Input,
-  Select
+  Select,
+  notification
 } from 'antd';
 
 import UploadComponent from 'components/upload/Upload.component';
@@ -13,7 +14,7 @@ import styles from './play-list.module.scss';
 import { apiLink } from 'shared/const';
 import axios from 'axios';
 import moment from 'moment';
-import { categoryType, countryType, playListType } from 'shared/types';
+import { categoryType, countryType, PlayListShowType, playListType } from 'shared/types';
 
 const { Option } = Select;
 
@@ -21,6 +22,7 @@ function PlayListAdmin({ tabStatus }: any) {
   const [isSubmit, setIsSubmit] = useState(false);
   const [categories, setCategories] = useState([]);
   const [countries, setCountries] = useState([]);
+  const [listShows, setListShows] = useState([]);
   const [validateUploadImage, setValidateUploadImage] = useState<any>('');
   const [base64Image, setBase64] = useState('');
   const [imageType, setImageType] = useState('');
@@ -37,12 +39,25 @@ function PlayListAdmin({ tabStatus }: any) {
       if (resultCountry && resultCountry.data && resultCountry.data.countries) {
         setCountries(resultCountry.data.countries);
       }
+
+      const resultPlayListShow = await axios.get(`${apiLink}/playListShows`);
+      if (resultPlayListShow && resultPlayListShow.data && resultPlayListShow.data.playListShows) {
+        setListShows(resultPlayListShow.data.playListShows);
+      }
     }
 
     loadData();
 
     return () => {}
-  }, [tabStatus])
+  }, [tabStatus]);
+
+  function openNotification(placement: any){
+    notification.success({
+      message: 'Success!',
+      placement,
+      duration: 1
+    });
+  };
 
   function handleChangeImage(base64Result: string, type: string) {
     setBase64(base64Result);
@@ -62,6 +77,7 @@ function PlayListAdmin({ tabStatus }: any) {
     axios.post(`${apiLink}/playLists`, { playList: resultData, imageType: imageType }).then(result => {
       setIsSubmit(!isSubmit);
       form.resetFields();
+      openNotification('topRight');
     })
   }
 
@@ -99,14 +115,6 @@ function PlayListAdmin({ tabStatus }: any) {
           </Form.Item>
         </div>
         <div className={styles.control_layout}>
-          <Form.Item label="* Image" className={styles.control_item}>
-            <UploadComponent
-              limit={1}
-              isSubmit={isSubmit}
-              handleChangeImage={handleChangeImage}
-            />
-            {validateUploadImage ? <span style={{ color: 'red' }}>{validateUploadImage}</span> : null}
-          </Form.Item>
           <Form.Item
             name="playList_country"
             label="Country"
@@ -116,6 +124,26 @@ function PlayListAdmin({ tabStatus }: any) {
             <Select>
               { countries && countries.map((c: countryType) => <Option key={c._id} value={c._id}>{c.country_name}</Option>) }
             </Select>
+          </Form.Item>
+          <Form.Item
+            name="playList_listShow"
+            label="List Show"
+            className={styles.control_item}
+            rules={[{ required: true, message: 'List Show is not empty!' }]}
+          >
+            <Select>
+              { listShows && listShows.map((l: PlayListShowType) => <Option key={l._id} value={l._id}>{l.playListShow_name}</Option>) }
+            </Select>
+          </Form.Item>
+        </div>
+        <div className={styles.control_layout}>
+          <Form.Item label="* Image" className={styles.control_item}>
+            <UploadComponent
+              limit={1}
+              isSubmit={isSubmit}
+              handleChangeImage={handleChangeImage}
+            />
+            {validateUploadImage ? <span style={{ color: 'red' }}>{validateUploadImage}</span> : null}
           </Form.Item>
         </div>
         <div>

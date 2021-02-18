@@ -1,0 +1,18 @@
+.app_main{
+  .app_main_block{
+    display: 'flex';
+    flex-wrap: 'wrap';
+    .block_item{
+      width: '20%';
+      padding: '10px';
+    }
+  }
+}
+
+.padding_left_10{
+  padding-left: 1rem;
+}
+
+.padding_right_10{
+  padding-right: 1rem;
+}

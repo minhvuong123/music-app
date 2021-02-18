@@ -3,7 +3,8 @@ import React from 'react';
 // ant
 import {
   Form,
-  Input
+  Input,
+  notification
 } from 'antd';
 
 import styles from './category-admin.module.scss';
@@ -17,14 +18,24 @@ import moment from 'moment';
 function Category({ tabStatus }: any) {
   const [form] = Form.useForm();
 
+  function openNotification(placement: any){
+    notification.success({
+      message: 'Success!',
+      placement,
+      duration: 1
+    });
+  };
+
   function onFinish(values: categoryType) {
     const resultData = {...values};
     resultData.created_at = moment().toISOString();
 
     axios.post(`${apiLink}/categories`, { category: resultData }).then(result => {
       form.resetFields();
+      openNotification('topRight');
     })
   }
+
   return (
     <div className={styles.app_category}>
       <Form

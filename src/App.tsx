@@ -13,6 +13,7 @@ import Admin from 'admin/Admin.component';
 
 import axios from 'axios';
 import { apiLink } from 'shared/const';
+import MainComponent from 'components/main/Main.component';
 
 function App() {
   const musics = [
@@ -50,45 +51,6 @@ function App() {
     setStatusPlay(true);
   }
 
-  // const list = (
-  //   <>
-  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-  //       <BlockSong />
-  //     </div>
-  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-  //       <BlockSong />
-  //     </div>
-  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-  //       <BlockSong />
-  //     </div>
-  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-  //       <BlockSong />
-  //     </div>
-  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-  //       <BlockSong />
-  //     </div>
-  //     <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-  //       <BlockSong />
-  //     </div>
-  //   </>
-  // )
-
-  // const responsiveSlide = [
-  //   {
-  //     breakpoint: 1300,
-  //     settings: {
-  //       slidesToShow: 5,
-  //       slidesToScroll: 1
-  //     }
-  //   },
-  //   {
-  //     breakpoint: 1224,
-  //     settings: {
-  //       slidesToShow: 4,
-  //       slidesToScroll: 1
-  //     }
-  //   }
-  // ]
   return (
     <div className={styles.app}>
       <Admin />
@@ -97,35 +59,7 @@ function App() {
         <div className={styles.app_content_wrap}>
           <Header />
           <div className={styles.app_content}>
-            <div style={{display: 'flex', flexWrap: 'wrap'}}>
-              {
-                songs && songs.map((song: any) => {
-                  return (
-                    <div key={song._id} style={{width: '20%', padding: '10px'}}>
-                      <BlockList listSong={song} />
-                    </div>
-                  )
-                })
-              }
-            </div>
-            {/* -------------- */}
-            {/* <ListShow responsive={responsiveSlide} title="Âm Nhạc Dành Cho Bạn">
-              {list}
-            </ListShow> */}
-
-            {/* ------------------- */}
-            {/* <ListShow responsive={responsiveSlide} title="Nghe Gần Đây">
-              <>
-                <div className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-                  <BlockSong />
-                </div>
-              </>
-            </ListShow> */}
-
-            {/* ------------------------ */}
-            {/* <ListShow responsive={responsiveSlide} title="Radio Nổi Bật">
-              { list }
-            </ListShow> */}
+            <MainComponent />
           </div>
         </div>
       </div>
