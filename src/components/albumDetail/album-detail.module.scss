@@ -1,0 +1,165 @@
+.app_album{
+  display: flex;
+  @media screen and (max-width: 1200px) {
+    flex-direction: column;
+  }
+  .album_left{
+    display: inline-block;
+    width: 30rem;
+    @media screen and (max-width: 1200px) {
+      display: flex;
+      flex-direction: row;
+      width: unset;
+    }
+    .album_wrap{
+      display: inline-block;
+      .album_image{
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        width: 30rem;
+        @media screen and (max-width: 1200px) {
+          width: 20rem;
+        }
+        .images{
+          transform: scale(1);
+          transition: transform .5s ease-in-out;
+          img{
+            width: 100%;
+          }
+        }
+        .opacity{
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(#000, .5);
+          opacity: 0;
+        }
+        .play_btn{
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          z-index: 2;
+          transform: translate(-50%, -50%);
+          font-size: 2rem;
+          color: #fff;
+          display: flex;
+          align-self: center;
+          justify-content: center;
+          align-items: center;
+          opacity: 0;
+          font-size: 4rem;
+        }
+        &:hover{
+          .images{
+            transform: scale(1.1);
+          }
+          .opacity{
+            opacity: 1;
+          }
+          .play_btn{
+            opacity: 1;
+          }
+        }
+      }
+    }
+    .album_content{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1.2rem;
+      width: 100%;
+      .content_top{
+        .content_name{
+          color: #fff;
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 1.5;
+          margin-bottom: 0;
+          text-transform: none;
+          text-align: center;
+          @media screen and (max-width: 1200px) {
+            text-align: left;
+          }
+        }
+        .content_z{
+          color: #ffffff80;
+          font-size: 12px;
+          line-height: 1.75;
+          text-align: center;
+          @media screen and (max-width: 1200px) {
+            text-align: left;
+          }
+        }
+        p{
+          margin-bottom: 0;
+          text-align: center;
+          @media screen and (max-width: 1200px) {
+            text-align: left;
+          }
+        }
+      }
+      .album_actions{
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+        flex-direction: column;
+        @media screen and (max-width: 1200px) {
+          flex-direction: row;
+        }
+        .play_btn_random{
+          color: #fff;
+          padding: .8rem 2rem;
+          background-color: #8e0dc3;
+          border-radius: 1rem;
+          display: flex;
+          justify-content: center;
+          cursor: pointer;
+          &:hover{
+            background-color: #7200a1;
+          }
+        }
+        .actions_level{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 2rem;
+          @media screen and (max-width: 1200px) {
+            margin-top: 0;
+          }
+          .level_item{
+            margin: 0 1rem;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color .2s ease-in-out;
+            background-color: #76767680;
+          }
+          
+        }
+      }
+      @media screen and (max-width: 1200px) {
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-top: 0;
+        padding-left: 3rem;
+      }
+    }
+  }
+  .album_right{
+    padding-left: 3rem;
+    flex-grow: 1;
+    @media screen and (max-width: 1200px) {
+      margin-top: 2rem;
+      padding-left: 0;
+    }
+  }
+}

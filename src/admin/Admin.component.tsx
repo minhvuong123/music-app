@@ -21,7 +21,7 @@ const { TabPane } = Tabs;
 
 function Admin() {
   const [visible, setVisible] = useState(false);
-  const [tabValue, setTabValue] = useState('playLists');
+  const [tabValue, setTabValue] = useState('playListShows');
   const [tabStatus, setTabStatus] = useState(false);
 
   function showDrawer() {
@@ -50,6 +50,9 @@ function Admin() {
         visible={visible}
       >
         <Tabs defaultActiveKey={tabValue} onChange={tabChange}>
+        <TabPane tab="Create Play Lists" key="playListShows">
+            <PlayListShowAdmin tabStatus={tabStatus} />
+          </TabPane>
           <TabPane tab="Play Lists" key="playLists">
             <PlayListAdmin tabStatus={tabStatus} />
           </TabPane>
@@ -64,9 +67,6 @@ function Admin() {
           </TabPane>
           <TabPane tab="Countries" key="countries">
             <CountryAdmin tabStatus={tabStatus} />
-          </TabPane>
-          <TabPane tab="Create Play Lists" key="playListShows">
-            <PlayListShowAdmin tabStatus={tabStatus} />
           </TabPane>
         </Tabs>
       </Drawer>

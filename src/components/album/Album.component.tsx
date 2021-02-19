@@ -9,11 +9,11 @@ import {
 import { Tooltip } from 'antd';
 
 // styles
-import styles from './block-list.module.scss';
+import styles from './album.module.scss';
 import { apiLink } from 'shared/const';
 
 
-function BlockList({ playList }: any) {
+function Album({ album }: any) {
 
   function playSong(e: any) {
     e.preventDefault();
@@ -24,7 +24,7 @@ function BlockList({ playList }: any) {
     <div className={styles.block_list_container}>
       <a href="/" className={styles.block_list}>
         <div className={styles.block_list_image}>
-          <img src={`${apiLink}/${playList.playList_url_image}`} alt="music app"/>
+          <img src={`${apiLink}/${album.playList_url_image}`} alt="music app"/>
         </div>
         <div className={styles.list_opacity}></div>
         <div className={styles.block_list_action}>
@@ -40,13 +40,10 @@ function BlockList({ playList }: any) {
         </div>
       </a>
       <div className={styles.block_list_name}>
-        <a href="/" title={playList.playList_name}>{playList.playList_name}</a>
+        <a href="/" title={album.playList_name}>{album.playList_name}</a>
       </div>
-      {/* <div className={styles.block_list_singer}>
-        <a href="/" title={playList.song_name}>{playList.song_name}</a>
-      </div> */}
     </div>
   );
 }
 
-export default BlockList;
+export default Album;

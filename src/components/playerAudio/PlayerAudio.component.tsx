@@ -114,14 +114,6 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
     setVisible(visible);
   };
 
-  // const content = (
-  //   <>
-  //     <ul>
-  //       <li>THeme</li>
-  //     </ul>
-  //   </>
-  // )
-
   return (
     <div className={styles.player_control}>
       <audio data-html5-video preload='none' id='audio' ref={audioRef} src={audioSrc}></audio>

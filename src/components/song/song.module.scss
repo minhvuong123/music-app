@@ -1,0 +1,97 @@
+.app_song{
+  padding: 1rem;
+  border-radius: .5rem;
+  .app_media{
+    display: flex;
+    align-items: center;
+    color: #fff;
+    .media_left{
+      width: 70%;
+      display: flex;
+      .media_thumb{
+        width: 4rem;
+        position: relative;
+        cursor: pointer;
+        margin-right: 1rem;
+        .images{
+          img{
+            width: 100%;
+          }
+        }
+        .opacity{
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(#000, .5);
+          opacity: 0;
+        }
+        .play_btn{
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          z-index: 2;
+          transform: translate(-50%, -50%);
+          font-size: 2rem;
+          color: #fff;
+          display: flex;
+          align-self: center;
+          justify-content: center;
+          align-items: center;
+          opacity: 0;
+          font-size: 1.5rem;
+        }
+      }
+      .card_info{
+        display: inline-block;
+        flex-grow: 1;
+        .singer_name{
+          font-size: 12px;
+          margin-top: 3px;
+          color: #ffffff80;
+        }
+      }
+    }
+    .media_content{
+      flex-grow: 1;
+    }
+
+    .media_right{
+      .actions{
+        display: flex;
+        .action_btn{
+          color: #fff;
+          cursor: pointer;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background-color .2s ease-in-out;
+          &:hover{
+            background-color: #76767680;
+          }
+        }
+      }
+    }
+  }
+
+  &:hover{
+    background-color:#ffffff1a;
+    .app_media{
+      .media_left{
+        .media_thumb{
+          .opacity{
+            opacity: 1;
+          }
+          .play_btn{
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}

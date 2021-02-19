@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // components
-import BlockList from 'components/blockList/BlockList.component';
+import Album from 'components/album/Album.component';
 
 // styles scss
 import styles from './main.module.scss';
@@ -11,11 +11,11 @@ import { apiLink } from 'shared/const';
 import ListShow from 'components/listShow/ListShow.component';
 
 function MainComponent() {
-  const [playLists, setPlayLists] = useState<any>([]);
+  const [albums, setAlbums] = useState<any>([]);
 
   useEffect(() => {
     axios.get(`${apiLink}/playLists`).then(result => {
-      setPlayLists(result.data.playLists);
+      setAlbums(result.data.playLists);
     })
     return () => {}
   }, [])
@@ -40,23 +40,18 @@ function MainComponent() {
     <div className={styles.app_main}>
       <ListShow 
         responsive={responsiveSlide} 
-        title={playLists[0] && playLists[0].playList_listShow.playListShow_name}>
+        title={albums[0] && albums[0].playList_listShow.playListShow_name}>
         <div>
           {
-            playLists && playLists.map((playList: any) => { 
+            albums && albums.map((album: any) => { 
               return (
-                <div key={playList._id} className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-                  <BlockList playList={playList} /> 
+                <div key={album._id} className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+                  <Album album={album} /> 
                 </div>
             )})
           }
         </div>
       </ListShow>
-      {/* <div className={styles.app_main_block}>
-          <div className={styles.block_item}>
-            <BlockList listSong={song} />
-          </div>
-      </div> */}
     </div>
   );
 }
