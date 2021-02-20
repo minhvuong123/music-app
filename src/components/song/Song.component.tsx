@@ -10,16 +10,16 @@ import {
 // scss
 import styles from './song.module.scss';
 
-import picture from 'images/100_nhac-viet.jpg';
+import { apiLink } from 'shared/const';
 
-function Song() {
+function Song({ song }: any) {
   return (
     <div className={styles.app_song}>
       <div className={styles.app_media}>
         <div className={styles.media_left}>
           <div className={styles.media_thumb}>
             <div className={styles.images}>
-              <img src={picture} alt="album" />
+              <img src={`${apiLink}/${song.song_url_image}`} alt="album" />
             </div>
             <div className={styles.opacity}></div>
             <div className={styles.play_btn}>

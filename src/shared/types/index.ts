@@ -11,7 +11,7 @@ export interface UploadType {
   handleChangeImage: Function;
 }
 
-export interface Song {
+export interface songType {
   song_name: string;
   song_singer: string; 
   song_url_image: string; 
@@ -21,6 +21,7 @@ export interface Song {
 }
 
 export interface playListType {
+  _id: string,
   playList_name: string,
   playList_category: string;
   playList_country: string;

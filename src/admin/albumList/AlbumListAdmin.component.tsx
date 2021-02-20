@@ -7,7 +7,7 @@ import {
   notification
 } from 'antd';
 
-import styles from './play-list-show-admin.module.scss';
+import styles from './album-list-admin.module.scss';
 import axios from 'axios';
 import { apiLink } from 'shared/const';
 import { PlayListShowType } from 'shared/types';
@@ -15,7 +15,7 @@ import { PlayListShowType } from 'shared/types';
 import moment from 'moment';
 
 
-function PlayListShowAdmin({ tabStatus }: any) {
+function AlBumListAdmin({ tabStatus }: any) {
   const [form] = Form.useForm();
 
   function openNotification(placement: any){
@@ -64,4 +64,4 @@ function PlayListShowAdmin({ tabStatus }: any) {
   );
 }
 
-export default PlayListShowAdmin;
+export default AlBumListAdmin;

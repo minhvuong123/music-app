@@ -38,7 +38,7 @@ const Routes = [
   },
   {
     path: '/album/:name',
-    keyPath: 'root',
+    keyPath: '/album/:name',
     exact: true,
     component: AlbumDetail
   }

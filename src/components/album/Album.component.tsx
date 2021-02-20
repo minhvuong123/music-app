@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 // ant design
 import {
@@ -22,7 +23,7 @@ function Album({ album }: any) {
   
   return (
     <div className={styles.block_list_container}>
-      <a href="/" className={styles.block_list}>
+      <NavLink to={`/album/${album.playList_slug}`} className={styles.block_list}>
         <div className={styles.block_list_image}>
           <img src={`${apiLink}/${album.playList_url_image}`} alt="music app"/>
         </div>
@@ -38,7 +39,7 @@ function Album({ album }: any) {
             <div className={styles.list_icon}><EllipsisOutlined /></div>
           </Tooltip>
         </div>
-      </a>
+      </NavLink>
       <div className={styles.block_list_name}>
         <a href="/" title={album.playList_name}>{album.playList_name}</a>
       </div>

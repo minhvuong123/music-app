@@ -5,14 +5,16 @@ import {
   Form,
   Input,
   Select,
-  notification
+  notification,
+  Popover
 } from 'antd';
 
 import UploadComponent from 'components/upload/Upload.component';
 
+import './song-admin-reset.scss';
 import styles from './song-admin.module.scss';
 import { apiLink } from 'shared/const';
-import { countryType, singerType } from 'shared/types';
+import { countryType, playListType, singerType } from 'shared/types';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -27,11 +29,12 @@ function SongAdmin({ tabStatus }: any) {
   const [validateUploadImage, setValidateUploadImage] = useState<any>('');
   const [validateUploadMP3, setValidateUploadMP3] = useState<any>('');
   const [singers, setSingers] = useState<any>([]);
-  const [countries, setcountries] = useState([]);
+  const [countries, setcountries] = useState<any>([]);
+  const [albums, setAlbums] = useState<any>([]);
   const [form] = Form.useForm();
 
   useEffect(() => {
-    
+
     async function loadData() {
       const resultSinger = await axios.get(`${apiLink}/singers`);
       if (resultSinger && resultSinger.data && resultSinger.data.singers) {
@@ -41,19 +44,24 @@ function SongAdmin({ tabStatus }: any) {
         })
         setSingers(singerResult);
       }
-      
+
       const resultCountry = await axios.get(`${apiLink}/countries`);
       if (resultCountry && resultCountry.data && resultCountry.data.countries) {
         setcountries(resultCountry.data.countries);
+      }
+
+      const resultAlbums = await axios.get(`${apiLink}/playLists`);
+      if (resultAlbums && resultAlbums.data && resultAlbums.data.playLists) {
+        setAlbums(resultAlbums.data.playLists);
       }
     }
 
     loadData();
 
-    return () => {}
+    return () => { }
   }, [tabStatus])
 
-  function openNotification(placement: any){
+  function openNotification(placement: any) {
     notification.success({
       message: 'Success!',
       placement,
@@ -104,9 +112,8 @@ function SongAdmin({ tabStatus }: any) {
       const resultData = { ...results };
       resultData.song_url_image = base64Image;
       resultData.song_url_music = base64MP3;
-      resultData.song_id_playlist = '';
       resultData.created_at = moment().toISOString();
- 
+
       axios.post(`${apiLink}/songs`, { song: resultData, imageType: imageType, mp3Type: mp3Type }).then(result => {
         setIsSubmit(!isSubmit);
         setBase64('');
@@ -117,7 +124,14 @@ function SongAdmin({ tabStatus }: any) {
     }
 
   };
-
+  function contentPopOver(album: any) {
+    return (
+      <div>
+        <p>Country: {album.playList_country.country_name}</p>
+        <p>Type: {album.playList_category.category_name}</p>
+      </div>
+    )
+  }
   return (
     <div className={styles.app_category}>
       <Form
@@ -150,7 +164,7 @@ function SongAdmin({ tabStatus }: any) {
             rules={[{ required: true, message: 'Singer is not empty!' }]}
           >
             <Select mode="tags">
-              { singers }
+              {singers}
             </Select>
           </Form.Item>
         </div>
@@ -162,7 +176,23 @@ function SongAdmin({ tabStatus }: any) {
             rules={[{ required: true, message: 'Name is not empty!' }]}
           >
             <Select>
-              { countries && countries.map((c: countryType) => <Option key={c._id} value={c._id}>{c.country_name}</Option>) }
+              {countries && countries.map((c: countryType) => <Option key={c._id} value={c._id}>{c.country_name}</Option>)}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="song_id_playlist"
+            label="Album"
+            className={styles.control_item}
+            rules={[{ required: true, message: 'Name is not empty!' }]}
+          >
+            <Select>
+              {albums && albums.map((a: playListType) => {
+                return <Option key={a._id} value={a._id}>
+                  <Popover content={contentPopOver(a)} title="Title">
+                    {a.playList_name}
+                  </Popover>
+                </Option>
+              })}
             </Select>
           </Form.Item>
         </div>

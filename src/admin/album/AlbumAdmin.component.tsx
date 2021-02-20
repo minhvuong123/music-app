@@ -10,7 +10,7 @@ import {
 
 import UploadComponent from 'components/upload/Upload.component';
 
-import styles from './play-list.module.scss';
+import styles from './album-admin.module.scss';
 import { apiLink } from 'shared/const';
 import axios from 'axios';
 import moment from 'moment';

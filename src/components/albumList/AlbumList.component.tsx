@@ -10,7 +10,7 @@ import {
 // antd css
 import 'antd/dist/antd.css';
 
-import './list-show-reset.scss';
+import './album-list-reset.scss';
 
 // react slick css
 import Slider from "react-slick";
@@ -18,7 +18,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 
-function ListShow({ children, responsive, title }: any) {
+function AlbumList({ children, responsive, title }: any) {
 
   function NextArrow(props: any) {
     const { className, style, onClick } = props;
@@ -56,4 +56,4 @@ function ListShow({ children, responsive, title }: any) {
   );
 }
 
-export default ListShow;
+export default AlbumList;

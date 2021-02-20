@@ -11,10 +11,10 @@ import {
 import styles from './admin.module.scss';
 import CategoryAdmin from './category/CategoryAdmin.component';
 import SongAdmin from './song/SongAdmin.component';
-import PlayListAdmin from './playList/PlayList.component';
+import AlBumAdmin from './album/AlbumAdmin.component';
 import SingerAdmin from './singer/SingerAdmin.component';
 import CountryAdmin from './country/CountryAdmin.component';
-import PlayListShowAdmin from './playListShow/PlayListShowAdmin.component';
+import AlBumListAdmin from './albumList/AlbumListAdmin.component';
 
 
 const { TabPane } = Tabs;
@@ -50,11 +50,11 @@ function Admin() {
         visible={visible}
       >
         <Tabs defaultActiveKey={tabValue} onChange={tabChange}>
-        <TabPane tab="Create Play Lists" key="playListShows">
-            <PlayListShowAdmin tabStatus={tabStatus} />
+        <TabPane tab="Album List Title" key="playListShows">
+            <AlBumListAdmin tabStatus={tabStatus} />
           </TabPane>
-          <TabPane tab="Play Lists" key="playLists">
-            <PlayListAdmin tabStatus={tabStatus} />
+          <TabPane tab="Album List" key="playLists">
+            <AlBumAdmin tabStatus={tabStatus} />
           </TabPane>
           <TabPane tab="Songs" key="songs">
             <SongAdmin tabStatus={tabStatus} />

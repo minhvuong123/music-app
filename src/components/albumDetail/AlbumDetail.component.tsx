@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // ant
 import {
@@ -8,27 +8,43 @@ import {
   EllipsisOutlined
 } from '@ant-design/icons';
 
-import SongList from 'components/songList/SongList.component';
-
 // styles scss
 import styles from './album-detail.module.scss';
 
-import picture from 'images/100_nhac-viet.jpg';
+import { apiLink } from 'shared/const';
+import axios from 'axios';
+import { songType } from 'shared/types';
+import Song from 'components/song/Song.component';
 
 
-function AlbumDetail() {
+function AlbumDetail({ match }: any) {
+  const { name } = match.params;
+  const [album, setAlbum] = useState<any>({});
+  const [songs, setSongs] = useState<any>([]);
 
   useEffect(() => {
+    async function loadData() {
+      const resultAlbum = await axios.get(`${apiLink}/playLists/${name}`)
+      if (resultAlbum && resultAlbum.data && resultAlbum.data.playList) {
+        setAlbum(resultAlbum.data.playList);
+      }
 
+      const resultSong = await axios.get(`${apiLink}/songs/${resultAlbum.data.playList._id}`)
+      if (resultSong && resultSong.data && resultSong.data.songs) {
+        setSongs(resultSong.data.songs);
+      }
+    }
+    loadData();
     return () => { }
-  }, [])
-  return (
+  }, [name])
+
+  return album && Object.keys(album).length > 0 ? (
     <div className={styles.app_album}>
       <div className={styles.album_left}>
         <a href="/" className={styles.album_wrap}>
           <div className={styles.album_image}>
             <div className={styles.images}>
-              <img src={picture} alt="album" />
+              <img src={`${apiLink}/${album.playList_url_image}`} alt={album.playList_name} />
             </div>
             <div className={styles.opacity}></div>
             <div className={styles.play_btn}>
@@ -38,7 +54,7 @@ function AlbumDetail() {
         </a>
         <div className={styles.album_content}>
           <div className={styles.content_top}>
-            <h3 className={styles.content_name}>Top 100 Bài Hát Nhạc Trẻ Hay Nhất</h3>
+            <h3 className={styles.content_name}>{album.playList_name}</h3>
             <p className={styles.content_z}>Cập nhật: 19/02/2021</p>
             <p className={styles.content_z}>630,128 người yêu thích</p>
           </div>
@@ -55,10 +71,14 @@ function AlbumDetail() {
         </div>
       </div>
       <div className={styles.album_right}>
-        <SongList />
+        <div className={styles.app_song_list}>
+          {
+            songs && songs.map((s: songType) => <Song song={s} />)
+          }
+        </div>
       </div>
     </div>
-  );
+  ) : "";
 }
 
 export default AlbumDetail;

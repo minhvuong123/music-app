@@ -8,7 +8,7 @@ import styles from './main.module.scss';
 
 import axios from 'axios';
 import { apiLink } from 'shared/const';
-import ListShow from 'components/listShow/ListShow.component';
+import AlBumList from 'components/albumList/AlbumList.component';
 
 function MainComponent() {
   const [albums, setAlbums] = useState<any>([]);
@@ -38,7 +38,7 @@ function MainComponent() {
   ]
   return (
     <div className={styles.app_main}>
-      <ListShow 
+      <AlBumList 
         responsive={responsiveSlide} 
         title={albums[0] && albums[0].playList_listShow.playListShow_name}>
         <div>
@@ -51,7 +51,7 @@ function MainComponent() {
             )})
           }
         </div>
-      </ListShow>
+      </AlBumList>
     </div>
   );
 }
