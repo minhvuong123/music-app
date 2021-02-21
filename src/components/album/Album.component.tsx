@@ -23,9 +23,9 @@ function Album({ album }: any) {
   
   return (
     <div className={styles.block_list_container}>
-      <NavLink to={`/album/${album.playList_slug}`} className={styles.block_list}>
+      <NavLink to={`/album/${album.album_slug}`} className={styles.block_list}>
         <div className={styles.block_list_image}>
-          <img src={`${apiLink}/${album.playList_url_image}`} alt="music app"/>
+          <img src={`${apiLink}/${album.album_url_image}`} alt="music app"/>
         </div>
         <div className={styles.list_opacity}></div>
         <div className={styles.block_list_action}>
@@ -41,7 +41,7 @@ function Album({ album }: any) {
         </div>
       </NavLink>
       <div className={styles.block_list_name}>
-        <a href="/" title={album.playList_name}>{album.playList_name}</a>
+        <a href="/" title={album.album_name}>{album.album_name}</a>
       </div>
     </div>
   );

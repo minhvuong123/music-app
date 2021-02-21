@@ -10,7 +10,7 @@ import {
 import styles from './album-list-admin.module.scss';
 import axios from 'axios';
 import { apiLink } from 'shared/const';
-import { PlayListShowType } from 'shared/types';
+import { albumListType } from 'shared/types';
 
 import moment from 'moment';
 
@@ -26,11 +26,11 @@ function AlBumListAdmin({ tabStatus }: any) {
     });
   };
 
-  function onFinish(values: PlayListShowType) {
+  function onFinish(values: albumListType) {
     const resultData = {...values};
     resultData.created_at = moment().toISOString();
 
-    axios.post(`${apiLink}/playListShows`, { playListShow: resultData }).then(result => {
+    axios.post(`${apiLink}/albumList`, { albumList: resultData }).then(result => {
       form.resetFields();
       openNotification('topRight');
     })
@@ -41,14 +41,14 @@ function AlBumListAdmin({ tabStatus }: any) {
         form={form}
         layout="vertical"
         initialValues={{
-          playListShow_name: '',
+          albumList_name: '',
           created_at: ''
         }}
         onFinish={onFinish}
       >
         <div className={styles.control_layout}>
           <Form.Item
-            name="playListShow_name"
+            name="albumList_name"
             label="Name"
             className={styles.control_item}
             rules={[{ required: true, message: 'Name is not empty!' }]}

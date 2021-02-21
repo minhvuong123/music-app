@@ -14,8 +14,8 @@ function MainComponent() {
   const [albums, setAlbums] = useState<any>([]);
 
   useEffect(() => {
-    axios.get(`${apiLink}/playLists`).then(result => {
-      setAlbums(result.data.playLists);
+    axios.get(`${apiLink}/albums`).then(result => {
+      setAlbums(result.data.albums);
     })
     return () => {}
   }, [])
@@ -40,7 +40,7 @@ function MainComponent() {
     <div className={styles.app_main}>
       <AlBumList 
         responsive={responsiveSlide} 
-        title={albums[0] && albums[0].playList_listShow.playListShow_name}>
+        title={albums[0] && albums[0].album_listShow.album_name}>
         <div>
           {
             albums && albums.map((album: any) => { 

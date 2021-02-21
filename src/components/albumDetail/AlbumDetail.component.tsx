@@ -24,12 +24,12 @@ function AlbumDetail({ match }: any) {
 
   useEffect(() => {
     async function loadData() {
-      const resultAlbum = await axios.get(`${apiLink}/playLists/${name}`)
-      if (resultAlbum && resultAlbum.data && resultAlbum.data.playList) {
-        setAlbum(resultAlbum.data.playList);
+      const resultAlbum = await axios.get(`${apiLink}/albums/${name}`)
+      if (resultAlbum && resultAlbum.data && resultAlbum.data.album) {
+        setAlbum(resultAlbum.data.album);
       }
 
-      const resultSong = await axios.get(`${apiLink}/songs/${resultAlbum.data.playList._id}`)
+      const resultSong = await axios.get(`${apiLink}/songs/${resultAlbum.data.album._id}`)
       if (resultSong && resultSong.data && resultSong.data.songs) {
         setSongs(resultSong.data.songs);
       }
@@ -44,7 +44,7 @@ function AlbumDetail({ match }: any) {
         <a href="/" className={styles.album_wrap}>
           <div className={styles.album_image}>
             <div className={styles.images}>
-              <img src={`${apiLink}/${album.playList_url_image}`} alt={album.playList_name} />
+              <img src={`${apiLink}/${album.album_url_image}`} alt={album.album_name} />
             </div>
             <div className={styles.opacity}></div>
             <div className={styles.play_btn}>
@@ -54,7 +54,7 @@ function AlbumDetail({ match }: any) {
         </a>
         <div className={styles.album_content}>
           <div className={styles.content_top}>
-            <h3 className={styles.content_name}>{album.playList_name}</h3>
+            <h3 className={styles.content_name}>{album.album_name}</h3>
             <p className={styles.content_z}>Cập nhật: 19/02/2021</p>
             <p className={styles.content_z}>630,128 người yêu thích</p>
           </div>
@@ -73,7 +73,7 @@ function AlbumDetail({ match }: any) {
       <div className={styles.album_right}>
         <div className={styles.app_song_list}>
           {
-            songs && songs.map((s: songType) => <Song song={s} />)
+            songs && songs.map((s: songType) => <Song key={s._id} song={s} />)
           }
         </div>
       </div>

@@ -12,6 +12,7 @@ export interface UploadType {
 }
 
 export interface songType {
+  _id: string;
   song_name: string;
   song_singer: string; 
   song_url_image: string; 
@@ -20,13 +21,13 @@ export interface songType {
   created_at: string;
 }
 
-export interface playListType {
+export interface albumType {
   _id: string,
-  playList_name: string,
-  playList_category: string;
-  playList_country: string;
-  playList_url_image: string;
-  playList_listShow: string;
+  album_name: string,
+  album_category: string;
+  album_country: string;
+  album_url_image: string;
+  album_listShow: string;
   created_at: string;
 }
 
@@ -48,8 +49,8 @@ export interface singerType {
   created_at: string;
 }
 
-export interface PlayListShowType {
+export interface albumListType {
   _id: string;
-  playListShow_name: string;
+  albumList_name: string;
   created_at: string;
 }

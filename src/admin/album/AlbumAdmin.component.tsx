@@ -14,7 +14,7 @@ import styles from './album-admin.module.scss';
 import { apiLink } from 'shared/const';
 import axios from 'axios';
 import moment from 'moment';
-import { categoryType, countryType, PlayListShowType, playListType } from 'shared/types';
+import { albumType, categoryType, countryType, albumListType } from 'shared/types';
 
 const { Option } = Select;
 
@@ -22,7 +22,7 @@ function PlayListAdmin({ tabStatus }: any) {
   const [isSubmit, setIsSubmit] = useState(false);
   const [categories, setCategories] = useState([]);
   const [countries, setCountries] = useState([]);
-  const [listShows, setListShows] = useState([]);
+  const [albumList, setAlbumList] = useState([]);
   const [validateUploadImage, setValidateUploadImage] = useState<any>('');
   const [base64Image, setBase64] = useState('');
   const [imageType, setImageType] = useState('');
@@ -40,9 +40,9 @@ function PlayListAdmin({ tabStatus }: any) {
         setCountries(resultCountry.data.countries);
       }
 
-      const resultPlayListShow = await axios.get(`${apiLink}/playListShows`);
-      if (resultPlayListShow && resultPlayListShow.data && resultPlayListShow.data.playListShows) {
-        setListShows(resultPlayListShow.data.playListShows);
+      const resultAlbumList = await axios.get(`${apiLink}/albumList`);
+      if (resultAlbumList && resultAlbumList.data && resultAlbumList.data.albumList) {
+        setAlbumList(resultAlbumList.data.albumList);
       }
     }
 
@@ -69,12 +69,12 @@ function PlayListAdmin({ tabStatus }: any) {
     }
   }
 
-  function onFinish(values: playListType) {
+  function onFinish(values: albumType) {
     const resultData = {...values};
-    resultData.playList_url_image = base64Image;
+    resultData.album_url_image = base64Image;
     resultData.created_at = moment().toISOString();
     
-    axios.post(`${apiLink}/playLists`, { playList: resultData, imageType: imageType }).then(result => {
+    axios.post(`${apiLink}/albums`, { album: resultData, imageType: imageType }).then(result => {
       setIsSubmit(!isSubmit);
       form.resetFields();
       openNotification('topRight');
@@ -87,16 +87,16 @@ function PlayListAdmin({ tabStatus }: any) {
         form={form}
         layout="vertical"
         initialValues={{
-          playList_name: '',
-          playList_category: '',
-          playList_country: '',
+          album_name: '',
+          album_category: '',
+          album_country: '',
           created_at: ''
         }}
         onFinish={onFinish}
       >
         <div className={styles.control_layout}>
           <Form.Item
-            name="playList_name"
+            name="album_name"
             label="Name"
             className={styles.control_item}
             rules={[{ required: true, message: 'Name is not empty!' }]}
@@ -104,7 +104,7 @@ function PlayListAdmin({ tabStatus }: any) {
             <Input />
           </Form.Item>
           <Form.Item
-            name="playList_category"
+            name="album_category"
             label="Types"
             className={styles.control_item}
             rules={[{ required: true, message: 'Type is not empty!' }]}
@@ -116,7 +116,7 @@ function PlayListAdmin({ tabStatus }: any) {
         </div>
         <div className={styles.control_layout}>
           <Form.Item
-            name="playList_country"
+            name="album_country"
             label="Country"
             className={styles.control_item}
             rules={[{ required: true, message: 'Type is not empty!' }]}
@@ -126,13 +126,13 @@ function PlayListAdmin({ tabStatus }: any) {
             </Select>
           </Form.Item>
           <Form.Item
-            name="playList_listShow"
+            name="album_listShow"
             label="List Show"
             className={styles.control_item}
             rules={[{ required: true, message: 'List Show is not empty!' }]}
           >
             <Select>
-              { listShows && listShows.map((l: PlayListShowType) => <Option key={l._id} value={l._id}>{l.playListShow_name}</Option>) }
+              { albumList && albumList.map((a: albumListType) => <Option key={a._id} value={a._id}>{a.albumList_name}</Option>) }
             </Select>
           </Form.Item>
         </div>

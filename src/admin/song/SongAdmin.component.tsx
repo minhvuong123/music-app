@@ -14,7 +14,7 @@ import UploadComponent from 'components/upload/Upload.component';
 import './song-admin-reset.scss';
 import styles from './song-admin.module.scss';
 import { apiLink } from 'shared/const';
-import { countryType, playListType, singerType } from 'shared/types';
+import { countryType, albumType, singerType } from 'shared/types';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -50,9 +50,9 @@ function SongAdmin({ tabStatus }: any) {
         setcountries(resultCountry.data.countries);
       }
 
-      const resultAlbums = await axios.get(`${apiLink}/playLists`);
-      if (resultAlbums && resultAlbums.data && resultAlbums.data.playLists) {
-        setAlbums(resultAlbums.data.playLists);
+      const resultAlbums = await axios.get(`${apiLink}/albums`);
+      if (resultAlbums && resultAlbums.data && resultAlbums.data.albums) {
+        setAlbums(resultAlbums.data.albums);
       }
     }
 
@@ -127,8 +127,8 @@ function SongAdmin({ tabStatus }: any) {
   function contentPopOver(album: any) {
     return (
       <div>
-        <p>Country: {album.playList_country.country_name}</p>
-        <p>Type: {album.playList_category.category_name}</p>
+        <p>Country: {album.album_country.country_name}</p>
+        <p>Type: {album.album_category.category_name}</p>
       </div>
     )
   }
@@ -186,10 +186,10 @@ function SongAdmin({ tabStatus }: any) {
             rules={[{ required: true, message: 'Name is not empty!' }]}
           >
             <Select>
-              {albums && albums.map((a: playListType) => {
+              {albums && albums.map((a: albumType) => {
                 return <Option key={a._id} value={a._id}>
                   <Popover content={contentPopOver(a)} title="Title">
-                    {a.playList_name}
+                    {a.album_name}
                   </Popover>
                 </Option>
               })}
