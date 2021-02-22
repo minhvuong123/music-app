@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { loadSongs } from 'shared/redux/actions';
 
 // ant
 import {
@@ -17,10 +19,11 @@ import { songType } from 'shared/types';
 import Song from 'components/song/Song.component';
 
 
-function AlbumDetail({ match }: any) {
+
+function AlbumDetail({ match, songs, loadSongs }: any) {
   const { name } = match.params;
   const [album, setAlbum] = useState<any>({});
-  const [songs, setSongs] = useState<any>([]);
+  // const [songs, setSongs] = useState<any>([]);
 
   useEffect(() => {
     async function loadData() {
@@ -29,14 +32,15 @@ function AlbumDetail({ match }: any) {
         setAlbum(resultAlbum.data.album);
       }
 
-      const resultSong = await axios.get(`${apiLink}/songs/${resultAlbum.data.album._id}`)
-      if (resultSong && resultSong.data && resultSong.data.songs) {
-        setSongs(resultSong.data.songs);
-      }
+      loadSongs();
+      // const resultSong = await axios.get(`${apiLink}/songs/${resultAlbum.data.album._id}`)
+      // if (resultSong && resultSong.data && resultSong.data.songs) {
+      //   setSongs(resultSong.data.songs);
+      // }
     }
     loadData();
     return () => { }
-  }, [name])
+  }, [name, loadSongs])
 
   return album && Object.keys(album).length > 0 ? (
     <div className={styles.app_album}>
@@ -81,4 +85,18 @@ function AlbumDetail({ match }: any) {
   ) : "";
 }
 
-export default AlbumDetail;
+const mapStateToProps = ({ isLoading, songs, error }: any) => {
+  return {
+    isLoading, 
+    songs, 
+    error
+  }
+}
+
+const mapDispatchToProps = (dispatch : any) => {
+  return {
+    loadSongs: () => dispatch(loadSongs())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AlbumDetail as any);

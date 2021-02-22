@@ -1,0 +1,5 @@
+export const SONGS = {
+  LOAD: ' SONGS_LOAD',
+  LOAD_SUCCESS: ' SONGS_LOAD_SUCCESS',
+  LOAD_FAIL: ' SONGS_LOAD_FAIL'
+}
