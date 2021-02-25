@@ -54,3 +54,8 @@ export interface albumListType {
   albumList_name: string;
   created_at: string;
 }
+
+export interface playControlType {
+  song: songType;
+  songs: songType[];
+}

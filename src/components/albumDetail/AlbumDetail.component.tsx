@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { loadSongs } from 'shared/redux/actions';
+import { loadSongsAction, loadAlbumAction } from 'shared/redux/actions';
 
 // ant
 import {
@@ -14,33 +14,18 @@ import {
 import styles from './album-detail.module.scss';
 
 import { apiLink } from 'shared/const';
-import axios from 'axios';
 import { songType } from 'shared/types';
 import Song from 'components/song/Song.component';
 
 
 
-function AlbumDetail({ match, songs, loadSongs }: any) {
+function AlbumDetail({ match, songs, album, loadAlbumAction }: any) {
   const { name } = match.params;
-  const [album, setAlbum] = useState<any>({});
-  // const [songs, setSongs] = useState<any>([]);
 
   useEffect(() => {
-    async function loadData() {
-      const resultAlbum = await axios.get(`${apiLink}/albums/${name}`)
-      if (resultAlbum && resultAlbum.data && resultAlbum.data.album) {
-        setAlbum(resultAlbum.data.album);
-      }
-
-      loadSongs();
-      // const resultSong = await axios.get(`${apiLink}/songs/${resultAlbum.data.album._id}`)
-      // if (resultSong && resultSong.data && resultSong.data.songs) {
-      //   setSongs(resultSong.data.songs);
-      // }
-    }
-    loadData();
+    loadAlbumAction(name);
     return () => { }
-  }, [name, loadSongs])
+  }, [name, loadAlbumAction])
 
   return album && Object.keys(album).length > 0 ? (
     <div className={styles.app_album}>
@@ -85,17 +70,19 @@ function AlbumDetail({ match, songs, loadSongs }: any) {
   ) : "";
 }
 
-const mapStateToProps = ({ isLoading, songs, error }: any) => {
+const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
   return {
     isLoading, 
     songs, 
+    album,
     error
   }
 }
 
 const mapDispatchToProps = (dispatch : any) => {
   return {
-    loadSongs: () => dispatch(loadSongs())
+    loadAlbumAction: (name: string) => dispatch(loadAlbumAction(name)),
+    loadSongsAction: () => dispatch(loadSongsAction())
   }
 }
 

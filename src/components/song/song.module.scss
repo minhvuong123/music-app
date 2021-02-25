@@ -79,7 +79,7 @@
     }
   }
 
-  &:hover{
+  &:hover, &.active{
     background-color:#ffffff1a;
     .app_media{
       .media_left{

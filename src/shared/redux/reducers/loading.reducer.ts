@@ -5,7 +5,6 @@ export default function loadingReducer(state = false, action: any) {
     case SONGS.LOAD: 
       return true
     case SONGS.LOAD_SUCCESS: 
-    case SONGS.LOAD_FAIL: 
       return false
     default:
       return state;
