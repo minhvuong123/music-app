@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { loadSongAction } from 'shared/redux/actions';
+import { loadSongAction, setPlayAction } from 'shared/redux/actions';
 
 // ant
 import {
@@ -16,23 +16,28 @@ import styles from './song.module.scss';
 import { apiLink } from 'shared/const';
 import { convertSingers } from 'shared/converter';
 
-function Song({ song, songSaga, loadSongAction }: any) {
-  const [play, setPlay] = useState(false);
+function Song({ song, songSaga, loadSongAction, playStatus, setPlayAction }: any) {
   const [isChosen, setIsChosen] = useState(false);
-
-  useEffect(()=> {
-    if(song._id === songSaga._id) {
+  
+  useEffect(() => {
+    if (song._id === songSaga._id) {
       setIsChosen(true);
-      setPlay(p => !p);
     } else {
       setIsChosen(false);
-      setPlay(false);
     }
   }, [song, songSaga])
 
-  function handlePlaySong(){
-    loadSongAction(song);
+  function handlePlaySong() {
+    if (song._id !== songSaga._id) {
+      loadSongAction(song);
+      setPlayAction(!playStatus);
+    }
+    else {
+      setPlayAction(!playStatus);
+    }
   }
+
+
   return (
     <div className={[styles.app_song, `${isChosen ? styles.active : ''}`].join(' ')}>
       <div className={styles.app_media}>
@@ -44,7 +49,7 @@ function Song({ song, songSaga, loadSongAction }: any) {
             <div className={styles.opacity}></div>
             <div className={styles.play_btn}>
               {
-                isChosen && play ? <LoadingOutlined /> : <CaretRightOutlined />
+                isChosen && playStatus ? <LoadingOutlined /> : <CaretRightOutlined />
               }
             </div>
           </div>
@@ -67,15 +72,17 @@ function Song({ song, songSaga, loadSongAction }: any) {
   )
 }
 
-const mapStateToProps = ({ song }: any) => {
+const mapStateToProps = ({ song, play }: any) => {
   return {
-    songSaga: song
+    songSaga: song,
+    playStatus: play
   }
 }
 
-const mapDispatchToProps = (dispatch : any) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     loadSongAction: (song: any) => dispatch(loadSongAction(song)),
+    setPlayAction: (status: boolean) => dispatch(setPlayAction(status)),
   }
 }
 

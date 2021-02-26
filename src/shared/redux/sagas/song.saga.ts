@@ -4,7 +4,7 @@ import { SONG } from 'shared/redux/const';
 import { notifyError, setSongAction } from '../actions';
 
 
-function* handleSongLoad({ song }: any) {
+function* handleSongLoad({ song }: any): any {
   try {
     yield put(setSongAction(song));
   } catch (error) {

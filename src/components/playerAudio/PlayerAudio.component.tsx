@@ -17,18 +17,17 @@ import { Tooltip, Popover } from 'antd';
 import 'antd/dist/antd.css';
 import styles from './player-audio.module.scss';
 
-// images
-import music from 'images/music.jpg';
-
 // interface
 import { Audio } from 'shared/types';
+import { apiLink } from 'shared/const';
 
 
-function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
+
+function PlayerAudio({ song, audioSrc, playStatus, playFunc, endFunc, next, previous }: Audio) {
   const audioRef = useRef({} as HTMLAudioElement);
   const progressRef = useRef({} as HTMLDivElement);
 
-  const [playStatus, setPlayStatus] = useState(false);
+  // const [playStatus, setPlayStatus] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [durationTime, setDurationTime] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -37,9 +36,10 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
     const audio = audioRef.current;
     const audioID = document.getElementById('audio') as any; // just get duration time of audio
 
-    if (audioSrc) {
+    if (audioSrc && playStatus) {
       audio.play();
-      setPlayStatus(status);
+    } else {
+      audio.pause();
     }
 
     audio.addEventListener("loadeddata", () => {
@@ -55,7 +55,7 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
       progressRef.current.style.width = percentage + '%';
 
       if (audio.currentTime === audio.duration) {
-        setPlayStatus(false);
+        endFunc();
       }
     }, false);
 
@@ -63,18 +63,17 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
       audio.addEventListener("loadeddata", () => { }, false);
       audio.removeEventListener('timeupdate', () => { }, false);
     }
-  }, [audioSrc, status])
+  }, [audioSrc, playStatus, endFunc])
 
   function playAudio(): void {
     const audio = audioRef.current;
     if (audioSrc) {
       if (!playStatus) {
         audio.play();
-        setPlayStatus(true);
       } else {
         audio.pause();
-        setPlayStatus(false);
       }
+      playFunc(!playStatus);
     }
   }
 
@@ -122,7 +121,10 @@ function PlayerAudio({ audioSrc, status, next, previous }: Audio) {
           <div className={styles.media_left}>
             <a href="/">
               <div className={[styles.media_left_circle, `${playStatus ? styles.spin : ''}`].join(' ')}>
-                <img src={music} alt="music" />
+                {
+                  song && song.song_url_image 
+                  && <img src={`${apiLink}/${song.song_url_image}`} alt="music" />
+                }
               </div>
             </a>
           </div>

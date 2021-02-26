@@ -14,3 +14,5 @@ export const ALBUM = {
 }
 
 export const ERROR = "ERROR";
+
+export const PLAY = "PLAY";

@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 // components
 import PlayerAudio from 'components/playerAudio/PlayerAudio.component';
 import { connect } from 'react-redux';
-import { playControlType, songType } from 'shared/types';
+import { songType } from 'shared/types';
 import { apiLink } from 'shared/const';
+import { loadSongAction, setPlayAction } from 'shared/redux/actions';
 
 
-function PlayControl({song, songs}: playControlType) {
+function PlayControl({song, songs, loadSongAction, play, setPlayAction}: any) {
   const [index, setIndex] = useState(-1);
-  const [statusPlay, setStatusPlay] = useState(false);
   const [audioUrl, setAudioUrl] = useState('');
 
   useEffect(() => {
@@ -18,47 +18,76 @@ function PlayControl({song, songs}: playControlType) {
       setIndex(indexSong);
       if (songs[indexSong] && songs[indexSong].song_url_music) {
         setAudioUrl(`${apiLink}/${songs[indexSong].song_url_music}`);
-        setStatusPlay(true);
+        setPlayAction(true);
       } else {
         setAudioUrl("");
-        setStatusPlay(false);
+        setPlayAction(false);
       }
     }
     return () => { }
-  }, [song, songs])
+  }, [song, songs, setPlayAction])
 
   function nextFunc() {
-    if (index >= songs.length - 1) {
-      setIndex(songs.length - 1);
-      setAudioUrl(`${apiLink}/${songs[songs.length - 1].song_url_music}`);
-    } else {
-      setIndex(index + 1);
-      setAudioUrl(`${apiLink}/${songs[index + 1].song_url_music}`);
+    let songIndex;
+    if (songs.length > 0) {
+      if (index >= songs.length - 1) {
+        songIndex = songs.length - 1;
+      } else {
+        songIndex = index + 1;
+      }
+      loadSongAction(songs[songIndex]);
+      setPlayAction(true);
     }
-    setStatusPlay(true);
   }
 
   function previousFunc() {
-    if (index <= 0) {
-      setIndex(0);
-      setAudioUrl(`${apiLink}/${songs[0].song_url_music}`);
-    } else {
-      setIndex(index - 1);
-      setAudioUrl(`${apiLink}/${songs[index - 1].song_url_music}`);
+    let songIndex;
+    if (songs.length > 0) {
+      if (index <= 0) {
+        songIndex = 0;
+      } else {
+        songIndex = index - 1;
+      }
+      loadSongAction(songs[songIndex]);
+      setPlayAction(true);
     }
-    setStatusPlay(true);
+  }
+
+  function playFunc(statusPlay: boolean) {
+    setPlayAction(statusPlay);
+  }
+
+  function endFunc() {
+    // when duration = currentTime
+    setPlayAction(false);
   }
 
   return (
-    <PlayerAudio audioSrc={audioUrl} status={statusPlay} next={nextFunc} previous={previousFunc} />
+    <PlayerAudio 
+      song={song}
+      audioSrc={audioUrl} 
+      playStatus={play} 
+      playFunc={playFunc}
+      endFunc={endFunc}
+      next={nextFunc} 
+      previous={previousFunc} 
+    />
   );
 }
 
-const mapStateToProps = ({ song, songs }: any) => {
+const mapStateToProps = ({ song, songs, play }: any) => {
   return {
     songs,
-    song
+    song,
+    play
   }
 }
 
-export default connect(mapStateToProps, null)(PlayControl);
+const mapDispatchToProps = (dispatch : any) => {
+  return {
+    loadSongAction: (song: any) => dispatch(loadSongAction(song)),
+    setPlayAction: (status: boolean) => dispatch(setPlayAction(status))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayControl);
