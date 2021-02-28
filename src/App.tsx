@@ -12,6 +12,7 @@ import styles from './app.module.scss';
 import Routes, { RenderRoutes } from 'routes/routes';
 import PlayControl from 'components/playerControl/PlayControl.component';
 import { songType } from 'shared/types';
+import PlayList from 'components/playList/PlayList.component';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             </div>
           </div>
         </div>
+        <PlayList />
         <PlayControl song={{} as songType} songs={[]} />
       </div>
   );

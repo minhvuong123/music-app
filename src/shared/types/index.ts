@@ -2,6 +2,7 @@ export interface Audio {
   song: any;
   audioSrc: string;
   playStatus: boolean;
+  playListStatus: boolean;
   playFunc: Function;
   endFunc: Function;
   next: Function;

@@ -13,6 +13,10 @@ export const ALBUM = {
   LOAD_SUCCESS: 'ALBUM_LOAD_SUCCESS',
 }
 
+export const STATUS = {
+  PLAY_LIST_STATUS: 'PLAY_LIST_STATUS'
+}
+
 export const ERROR = "ERROR";
 
 export const PLAY = "PLAY";

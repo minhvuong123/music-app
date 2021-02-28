@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 
 // ant design
 import {
@@ -12,20 +13,25 @@ import {
 } from '@ant-design/icons';
 import { Tooltip, Popover } from 'antd';
 
+// react icon
+import { IoMdVolumeHigh } from "react-icons/io";
+import { BsMusicNoteList } from "react-icons/bs";
+
 
 // styles
 import 'antd/dist/antd.css';
 import styles from './player-audio.module.scss';
 
 // interface
-import { Audio } from 'shared/types';
 import { apiLink } from 'shared/const';
+import { convertSingers, formatNumberToTime } from 'shared/converter';
+import { setPlayListStatus } from 'shared/redux/actions';
 
 
-
-function PlayerAudio({ song, audioSrc, playStatus, playFunc, endFunc, next, previous }: Audio) {
+function PlayerAudio({ song, audioSrc, playStatus, playListStatus, setPlayListStatus, playFunc, endFunc, next, previous }: any) {
   const audioRef = useRef({} as HTMLAudioElement);
   const progressRef = useRef({} as HTMLDivElement);
+  const progressRef_volume = useRef({} as HTMLDivElement);
 
   // const [playStatus, setPlayStatus] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -53,7 +59,7 @@ function PlayerAudio({ song, audioSrc, playStatus, playFunc, endFunc, next, prev
       setCurrentTime(Math.floor(audio.currentTime));
       const percentage = audio.currentTime / audio.duration * 100;
       progressRef.current.style.width = percentage + '%';
-
+      console.log(audioRef.current.volume);
       if (audio.currentTime === audio.duration) {
         endFunc();
       }
@@ -75,14 +81,6 @@ function PlayerAudio({ song, audioSrc, playStatus, playFunc, endFunc, next, prev
       }
       playFunc(!playStatus);
     }
-  }
-
-  function formatNumberToTime(number: number): string {
-    const date = new Date(0);
-    date.setSeconds(number); // specify value for SECONDS here
-
-    const timeString = date.toISOString().substr(11, 8);
-    return timeString;
   }
 
   function nextSong() {
@@ -109,9 +107,26 @@ function PlayerAudio({ song, audioSrc, playStatus, playFunc, endFunc, next, prev
     }
   }
 
+  function handleProgressVolume(e: any) {
+    e.stopPropagation();
+    const boundingClient = e.target.getBoundingClientRect();
+    const percentage = (e.clientX - boundingClient.left) / boundingClient.width * 100;
+    if (percentage < 0) {
+      progressRef_volume.current.style.width = 0 + '%';
+      audioRef.current.volume = 0;
+    } else {
+      progressRef_volume.current.style.width = percentage + '%';
+      audioRef.current.volume = percentage / 100;
+    }
+  }
+
   function handleVisibleChange(visible: boolean) {
     setVisible(visible);
   };
+
+  function handlePlayListStatus() {
+    setPlayListStatus(!playListStatus);
+  }
 
   return (
     <div className={styles.player_control}>
@@ -122,7 +137,7 @@ function PlayerAudio({ song, audioSrc, playStatus, playFunc, endFunc, next, prev
             <a href="/">
               <div className={[styles.media_left_circle, `${playStatus ? styles.spin : ''}`].join(' ')}>
                 {
-                  song && song.song_url_image 
+                  song && song.song_url_image
                   && <img src={`${apiLink}/${song.song_url_image}`} alt="music" />
                 }
               </div>
@@ -130,10 +145,22 @@ function PlayerAudio({ song, audioSrc, playStatus, playFunc, endFunc, next, prev
           </div>
           <div className={styles.media_content}>
             <div className={styles.song_info}>
-              <a href="/">Thích rồi đấy</a>
+              <a href="/">
+                {
+                  song && song.song_url_image
+                    ? song.song_name
+                    : "..."
+                }
+              </a>
             </div>
             <div className={styles.singer_name}>
-              <a href="/">Suni Hạ Linh</a>
+              <a href="/">
+                {
+                  song && song.song_url_image
+                    ? convertSingers(song.song_singer)
+                    : "..."
+                }
+              </a>
             </div>
           </div>
           <div className={styles.media_right}>
@@ -196,11 +223,43 @@ function PlayerAudio({ song, audioSrc, playStatus, playFunc, endFunc, next, prev
       </div>
       <div className={styles.player_control_right}>
         <div className={styles.control_right_btn}>
-          <span></span>
+          <div className={styles.btn_volume}>
+            <Tooltip placement="top" color="#383737" title="Danh sách phát">
+              <span className={styles.volume}>
+                <IoMdVolumeHigh />
+              </span>
+            </Tooltip>
+            <div className={styles.progress_volume}>
+              <div className={styles.progress}>
+                <div onClick={handleProgressVolume} className={styles.progress_absolute_volume}></div>
+                <div ref={progressRef_volume} className={styles.progress_run}></div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.line}></div>
+          <div onClick={handlePlayListStatus} className={styles.btn_music_list}>
+            <Tooltip placement="top" color="#383737" title="Danh sách phát">
+              <span className={styles.volume}>
+                <BsMusicNoteList />
+              </span>
+            </Tooltip>
+          </div>
         </div>
       </div>
     </div >
   );
 }
 
-export default PlayerAudio;
+const mapStateToProps = ({ status }: any) => {
+  return {
+    playListStatus: status.playListStatus
+  }
+}
+
+const mapDispatchToProps = (dispatch : any) => {
+  return {
+    setPlayListStatus: (status: boolean) => dispatch(setPlayListStatus(status))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerAudio);

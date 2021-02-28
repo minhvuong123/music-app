@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { loadSongAction, setPlayAction } from 'shared/redux/actions';
 
-// ant
+// ant design
 import {
   CaretRightOutlined,
   EllipsisOutlined,
@@ -10,15 +9,16 @@ import {
   LoadingOutlined
 } from '@ant-design/icons';
 
-// scss
-import styles from './song.module.scss';
-
+import { loadSongAction, setPlayAction } from 'shared/redux/actions';
 import { apiLink } from 'shared/const';
-import { convertSingers, formatNumberToTime } from 'shared/converter';
+import { convertSingers } from 'shared/converter'
 
-function Song({ song, songSaga, loadSongAction, playStatus, setPlayAction }: any) {
+// styles scss
+import styles from './play-list-song.module.scss';
+
+function PlayListSong({ song, songSaga, loadSongAction, playStatus, setPlayAction}: any) {
   const [isChosen, setIsChosen] = useState(false);
-  
+
   useEffect(() => {
     if (song._id === songSaga._id) {
       setIsChosen(true);
@@ -58,9 +58,6 @@ function Song({ song, songSaga, loadSongAction, playStatus, setPlayAction }: any
             <div className={styles.singer_name}>{convertSingers(song.song_singer)}</div>
           </div>
         </div>
-        <div className={styles.media_content}>
-          <div className={styles.duration}>{formatNumberToTime(song.song_duration)}</div>
-        </div>
         <div className={styles.media_right}>
           <div className={styles.actions}>
             <div className={styles.action_btn}><HeartOutlined /></div>
@@ -69,7 +66,7 @@ function Song({ song, songSaga, loadSongAction, playStatus, setPlayAction }: any
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 const mapStateToProps = ({ song, play }: any) => {
@@ -86,4 +83,4 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Song);
+export default connect(mapStateToProps, mapDispatchToProps)(PlayListSong);

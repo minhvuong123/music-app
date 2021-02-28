@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 // components
 import PlayerAudio from 'components/playerAudio/PlayerAudio.component';
-import { connect } from 'react-redux';
+
 import { songType } from 'shared/types';
 import { apiLink } from 'shared/const';
 import { loadSongAction, setPlayAction } from 'shared/redux/actions';
