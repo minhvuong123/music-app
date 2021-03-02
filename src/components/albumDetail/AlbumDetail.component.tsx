@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { loadSongsAction, loadAlbumAction } from 'shared/redux/actions';
+import { loadAlbumAction } from 'shared/redux/actions';
 
 // ant
 import {
@@ -81,8 +81,7 @@ const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
 
 const mapDispatchToProps = (dispatch : any) => {
   return {
-    loadAlbumAction: (name: string) => dispatch(loadAlbumAction(name)),
-    loadSongsAction: () => dispatch(loadSongsAction())
+    loadAlbumAction: (name: string) => dispatch(loadAlbumAction(name))
   }
 }
 

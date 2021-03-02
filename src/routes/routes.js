@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import MainComponent from 'components/main/Main.component';
 import AlbumDetail from 'components/albumDetail/AlbumDetail.component';
+import Personal from 'components/personal/Personal.component';
 
 const RouteWithSubRoutes = (route) => {
   return (
@@ -41,6 +42,12 @@ const Routes = [
     keyPath: '/album/:name',
     exact: true,
     component: AlbumDetail
+  },
+  {
+    path: '/my-music',
+    keyPath: '/my-music',
+    exact: true,
+    component: Personal
   }
 ]
 
