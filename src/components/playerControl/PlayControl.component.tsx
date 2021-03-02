@@ -63,7 +63,7 @@ function PlayControl({song, songs, loadSongAction, play, setPlayAction}: any) {
     setPlayAction(false);
   }
 
-  return (
+  return song && Object.keys(song).length > 0 && (
     <PlayerAudio 
       song={song}
       audioSrc={audioUrl} 

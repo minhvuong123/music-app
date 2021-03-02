@@ -1,10 +1,13 @@
 .app{
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .app_layout{
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .app_content_wrap{

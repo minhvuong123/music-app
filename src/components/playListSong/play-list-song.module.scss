@@ -8,7 +8,7 @@
     color: #fff;
     width: 100%;
     .media_left{
-      width: 100%;
+      width: 79%;
       display: flex;
       .media_thumb{
         min-width: 4rem;
@@ -50,6 +50,7 @@
       .card_info{
         display: inline-block;
         flex-grow: 1;
+        overflow: hidden;
         .song_name{
           white-space: nowrap;
           text-overflow: ellipsis;
@@ -103,6 +104,19 @@
       }
       .media_right{
         display: inline-block;
+      }
+    }
+  }
+
+  &.active{
+    background-color:#7200a1;
+    .app_media{
+      .media_left{
+        .card_info{
+          .singer_name{
+            color: #fff
+          }
+        }
       }
     }
   }

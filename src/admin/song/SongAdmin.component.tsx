@@ -14,7 +14,7 @@ import UploadComponent from 'components/upload/Upload.component';
 import './song-admin-reset.scss';
 import styles from './song-admin.module.scss';
 import { apiLink } from 'shared/const';
-import { countryType, albumType, singerType } from 'shared/types';
+import { countryType, albumType } from 'shared/types';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -22,13 +22,8 @@ const { Option } = Select;
 
 function SongAdmin({ tabStatus }: any) {
   const [isSubmit, setIsSubmit] = useState(false);
-  const [base64Image, setBase64] = useState('');
-  const [imageType, setImageType] = useState('');
   const [base64MP3, setBase64MP3] = useState('');
-  const [mp3Type, setMp3Type] = useState('');
-  const [validateUploadImage, setValidateUploadImage] = useState<any>('');
   const [validateUploadMP3, setValidateUploadMP3] = useState<any>('');
-  const [singers, setSingers] = useState<any>([]);
   const [countries, setcountries] = useState<any>([]);
   const [albums, setAlbums] = useState<any>([]);
   const [form] = Form.useForm();
@@ -36,15 +31,6 @@ function SongAdmin({ tabStatus }: any) {
   useEffect(() => {
 
     async function loadData() {
-      const resultSinger = await axios.get(`${apiLink}/singers`);
-      if (resultSinger && resultSinger.data && resultSinger.data.singers) {
-        const singerResult = [] as any;
-        resultSinger.data.singers.forEach((singer: singerType) => {
-          singerResult.push(<Option key={singer._id} value={singer._id}>{singer.singer_name}</Option>);
-        })
-        setSingers(singerResult);
-      }
-
       const resultCountry = await axios.get(`${apiLink}/countries`);
       if (resultCountry && resultCountry.data && resultCountry.data.countries) {
         setcountries(resultCountry.data.countries);
@@ -69,19 +55,8 @@ function SongAdmin({ tabStatus }: any) {
     });
   };
 
-  function handleChangeImage(base64Result: string, type: string) {
-    setBase64(base64Result);
-    setImageType(type);
-    if (!base64Result) {
-      setValidateUploadImage('Images is not empty!');
-    } else {
-      setValidateUploadImage('');
-    }
-  }
-
   function handleChangeMP3(base64Result: string, type: string) {
     setBase64MP3(base64Result);
-    setMp3Type(type);
     if (!base64Result) {
       setValidateUploadMP3('MP3 is not empty!');
     } else {
@@ -91,13 +66,6 @@ function SongAdmin({ tabStatus }: any) {
 
   function onFinish(results: any) {
     results['errorFields'] = [];
-    if (!base64Image) {
-      results['errorFields'].push({
-        errors: ["Images is not empty!"],
-        name: ["song_url_image"]
-      });
-      setValidateUploadImage('Images is not empty!');
-    }
     if (!base64MP3) {
       results['errorFields'].push({
         errors: ["MP3 is not empty!"],
@@ -110,13 +78,11 @@ function SongAdmin({ tabStatus }: any) {
     }
     if (!results.errorFields) {
       const resultData = { ...results };
-      resultData.song_url_image = base64Image;
       resultData.song_url_music = base64MP3;
       resultData.created_at = moment().toISOString();
 
-      axios.post(`${apiLink}/songs`, { song: resultData, imageType: imageType, mp3Type: mp3Type }).then(result => {
+      axios.post(`${apiLink}/songs`, { song: resultData }).then(result => {
         setIsSubmit(!isSubmit);
-        setBase64('');
         setBase64MP3('');
         form.resetFields();
         openNotification('topRight');
@@ -150,36 +116,6 @@ function SongAdmin({ tabStatus }: any) {
       >
         <div className={styles.control_layout}>
           <Form.Item
-            name="song_name"
-            label="Name"
-            className={styles.control_item}
-            rules={[{ required: true, message: 'Name is not empty!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="song_singer"
-            label="Singer"
-            className={styles.control_item}
-            rules={[{ required: true, message: 'Singer is not empty!' }]}
-          >
-            <Select mode="tags">
-              {singers}
-            </Select>
-          </Form.Item>
-        </div>
-        <div className={styles.control_layout}>
-          <Form.Item
-            name="song_country"
-            label="Country"
-            className={styles.control_item}
-            rules={[{ required: true, message: 'Name is not empty!' }]}
-          >
-            <Select>
-              {countries && countries.map((c: countryType) => <Option key={c._id} value={c._id}>{c.country_name}</Option>)}
-            </Select>
-          </Form.Item>
-          <Form.Item
             name="song_id_playlist"
             label="Album"
             className={styles.control_item}
@@ -195,16 +131,18 @@ function SongAdmin({ tabStatus }: any) {
               })}
             </Select>
           </Form.Item>
+          <Form.Item
+            name="song_country"
+            label="Country"
+            className={styles.control_item}
+            rules={[{ required: true, message: 'Name is not empty!' }]}
+          >
+            <Select>
+              {countries && countries.map((c: countryType) => <Option key={c._id} value={c._id}>{c.country_name}</Option>)}
+            </Select>
+          </Form.Item>
         </div>
         <div className={styles.control_layout}>
-          <Form.Item label="* Image" className={styles.control_item}>
-            <UploadComponent
-              limit={1}
-              isSubmit={isSubmit}
-              handleChangeImage={handleChangeImage}
-            />
-            {validateUploadImage ? <span style={{ color: 'red' }}>{validateUploadImage}</span> : null}
-          </Form.Item>
           <Form.Item label="* MP3" className={styles.control_item}>
             <UploadComponent
               limit={1}

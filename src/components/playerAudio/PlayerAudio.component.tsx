@@ -52,6 +52,7 @@ function PlayerAudio({ song, audioSrc, playStatus, playListStatus, setPlayListSt
       // init value
       setDurationTime(Math.floor(audioID.duration));
       setCurrentTime(Math.floor(audio.currentTime));
+      progressRef_volume.current.style.width = 100 + '%';
     });
 
     audio.addEventListener('timeupdate', () => {
@@ -59,7 +60,7 @@ function PlayerAudio({ song, audioSrc, playStatus, playListStatus, setPlayListSt
       setCurrentTime(Math.floor(audio.currentTime));
       const percentage = audio.currentTime / audio.duration * 100;
       progressRef.current.style.width = percentage + '%';
-      console.log(audioRef.current.volume);
+
       if (audio.currentTime === audio.duration) {
         endFunc();
       }
