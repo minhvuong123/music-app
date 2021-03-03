@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 // ant
 import {
@@ -16,9 +17,11 @@ import {
 import styles from './header.module.scss';
 import SongAdmin from 'admin/song/SongAdmin.component';
 import Admin from 'admin/Admin.component';
+import { setLoginStatus } from 'shared/redux/actions';
+import LoginComponent from 'components/login/Login.component';
 
 
-function Header() {
+function Header({ setLoginStatus }: any) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
 
@@ -60,10 +63,19 @@ function Header() {
             <SongAdmin />
           </Modal>
         </div>
-        <div className={styles.user}><UserOutlined /></div>
+        <div onClick={() => setLoginStatus(true)} className={styles.user}>
+          <UserOutlined />
+        </div>
+        <LoginComponent />
       </div>
     </div>
   );
 }
 
-export default Header;
+const mapDispatchToProps = (dispatch : any) => {
+  return {
+    setLoginStatus: (status: boolean) => dispatch(setLoginStatus(status))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Header);

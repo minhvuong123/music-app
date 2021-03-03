@@ -14,7 +14,8 @@ export const ALBUM = {
 }
 
 export const STATUS = {
-  PLAY_LIST_STATUS: 'PLAY_LIST_STATUS'
+  PLAY_LIST_STATUS: 'PLAY_LIST_STATUS',
+  LOGIN: 'LOGIN_STATUS'
 }
 
 export const ERROR = "ERROR";

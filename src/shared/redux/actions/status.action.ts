@@ -6,3 +6,10 @@ export function setPlayListStatus(status: boolean) {
     status
   }
 } 
+
+export function setLoginStatus(status: boolean) {
+  return {
+    type: STATUS.LOGIN,
+    status
+  }
+} 
