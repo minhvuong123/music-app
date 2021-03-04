@@ -10,6 +10,8 @@ export interface Audio {
 }
 
 export interface UploadType {
+  listType: any;
+  showUploadList: boolean;
   limit: number;
   isSubmit: boolean;
   handleChangeImage: Function;

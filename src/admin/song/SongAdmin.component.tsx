@@ -107,7 +107,7 @@ function SongAdmin({ tabStatus }: any) {
           song_singer: [],
           song_url_image: '',
           song_url_music: '',
-          song_id_playlist: '',
+          song_id_albums: '',
           created_at: ''
         }}
         onFinish={onFinish}
@@ -115,7 +115,7 @@ function SongAdmin({ tabStatus }: any) {
       >
         <div className={styles.control_layout}>
           <Form.Item
-            name="song_id_playlist"
+            name="song_id_albums"
             label="Album"
             className={styles.control_item}
             rules={[{ required: true, message: 'Name is not empty!' }]}
@@ -144,6 +144,8 @@ function SongAdmin({ tabStatus }: any) {
         <div className={styles.control_layout}>
           <Form.Item label="* MP3" className={styles.control_item}>
             <UploadComponent
+              listType='picture-card'
+              showUploadList={true}
               limit={1}
               isSubmit={isSubmit}
               handleChangeImage={handleChangeMP3}

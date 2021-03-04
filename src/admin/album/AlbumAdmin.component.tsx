@@ -139,6 +139,8 @@ function PlayListAdmin({ tabStatus }: any) {
         <div className={styles.control_layout}>
           <Form.Item label="* Image" className={styles.control_item}>
             <UploadComponent
+              listType='picture-card'
+              showUploadList={true}
               limit={1}
               isSubmit={isSubmit}
               handleChangeImage={handleChangeImage}

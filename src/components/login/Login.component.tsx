@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'antd';
+import axios from 'axios';
+import { apiLink } from 'shared/const';
+import _ from 'lodash';
 import { setLoginStatus } from 'shared/redux/actions';
 
 // ant
@@ -11,12 +14,21 @@ import {
 
 
 import styles from './login.module.scss';
+import moment from 'moment';
+
+
 
 function LoginComponent({ loginStatus, setLoginStatus }: any) {
   const [form] = Form.useForm();
 
-  function onFinish(results: any) {
-
+  function onFinish(values: any) {
+    console.log(values);
+    const resultData = _.cloneDeepWith(values);
+    resultData.created_at = moment().toISOString();
+    axios.post(`${apiLink}/users/login`, { user: resultData }).then(result => {
+      localStorage.setItem('token', result.data.token);
+      setLoginStatus(false);
+    });
   };
   return (
     <>
@@ -30,25 +42,22 @@ function LoginComponent({ loginStatus, setLoginStatus }: any) {
           form={form}
           layout="vertical"
           initialValues={{
-            song_name: '',
-            song_singer: [],
-            song_url_image: '',
-            song_url_music: '',
-            song_id_playlist: '',
+            user_email: '',
+            user_password: '',
             created_at: ''
           }}
           onFinish={onFinish}
           onFinishFailed={onFinish}
         >
           <Form.Item
-            name="username"
+            name="user_email"
             label="Tên đăng nhập"
             rules={[{ required: true, message: 'Name is not empty!' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name="password"
+            name="user_password"
             label="Mật khẩu"
             rules={[{ required: true, message: 'Name is not empty!' }]}
           >

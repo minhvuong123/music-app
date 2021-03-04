@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { UploadType } from 'shared/types';
-import _ from 'lodash';
 
-function UploadComponent({ limit, isSubmit, handleChangeImage }: UploadType) {
+import styles from './upload.module.scss';
+
+import {
+  UploadOutlined
+} from '@ant-design/icons';
+
+function UploadComponent({ listType, showUploadList, limit, isSubmit, handleChangeImage }: UploadType) {
   const [fileListCom, setFileListCom] = useState<any>([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState();
@@ -69,12 +74,21 @@ function UploadComponent({ limit, isSubmit, handleChangeImage }: UploadType) {
     <React.Fragment>
       <Upload
         customRequest={handleRequest}
-        listType="picture-card"
+        listType={listType}
+        showUploadList={showUploadList}
         fileList={fileListCom}
         onPreview={handlePreview}
         onChange={handleChange}
+        className={styles.app_upload}
       >
-        {!limit || limit < 0 || (fileListCom && fileListCom.length < limit) ? uploadButton : null}
+        {
+          listType !== 'text' 
+          ? !limit || limit < 0 || (fileListCom && fileListCom.length < limit) ? uploadButton : null
+          : <div className={styles.upload_btn}>
+            <UploadOutlined />
+          </div> 
+        }
+
       </Upload>
       <Modal
         visible={previewVisible}

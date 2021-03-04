@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
 
-// ant
-import {
-  Modal,
-} from 'antd';
 
 import {
   RightOutlined,
@@ -15,24 +13,45 @@ import {
 } from '@ant-design/icons';
 
 import styles from './header.module.scss';
-import SongAdmin from 'admin/song/SongAdmin.component';
 import Admin from 'admin/Admin.component';
 import { setLoginStatus } from 'shared/redux/actions';
 import LoginComponent from 'components/login/Login.component';
+import UploadComponent from 'components/upload/Upload.component';
+import { apiLink } from 'shared/const';
+import moment from 'moment';
+import axios from 'axios';
 
 
-function Header({ setLoginStatus }: any) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
+function Header({ history, setLoginStatus }: any) {
+  const token = localStorage.getItem('token') as string;
+  const [isSubmit] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-    setIsSubmit(!isSubmit);
-  };
+  function handleUser() {
+    jwt.verify(token, 'kiwi', function (err, decoded) {
+      if (!err) {
+        history.push('/my-music');
+      } else {
+        setLoginStatus(true);
+      }
+    });
+  }
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  function handleChangeMP3(base64Result: string, type: string) {
+    jwt.verify(token, 'kiwi', function (err, decoded) {
+      if (!err) {
+        console.log(decoded);
+      }
+    });
+    const resultData = {
+      created_at: moment().toISOString(),
+      song_country: "",
+      song_id_albums: "",
+      song_url_music: base64Result
+    }
+    axios.post(`${apiLink}/songs`, { song: resultData }).then(result => {
+
+    })
+  }
 
   return (
     <div className={styles.header_app}>
@@ -53,17 +72,21 @@ function Header({ setLoginStatus }: any) {
           <Admin />
         </div>
         <div className={styles.upload}>
-          <div className={styles.upload_btn} onClick={showModal}><UploadOutlined /></div>
-          <Modal
-            title="Upload song"
-            visible={isModalVisible}
-            onCancel={handleCancel}
-            footer={null}
-          >
-            <SongAdmin />
-          </Modal>
+          {
+            token
+              ? <UploadComponent
+                listType='text'
+                showUploadList={false}
+                limit={1}
+                isSubmit={isSubmit}
+                handleChangeImage={handleChangeMP3}
+              />
+              : <div className={styles.upload_btn}>
+                <UploadOutlined />
+              </div>
+          }
         </div>
-        <div onClick={() => setLoginStatus(true)} className={styles.user}>
+        <div onClick={handleUser} className={styles.user}>
           <UserOutlined />
         </div>
         <LoginComponent />
@@ -72,10 +95,10 @@ function Header({ setLoginStatus }: any) {
   );
 }
 
-const mapDispatchToProps = (dispatch : any) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     setLoginStatus: (status: boolean) => dispatch(setLoginStatus(status))
   }
 }
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(null, mapDispatchToProps)(withRouter(Header));
