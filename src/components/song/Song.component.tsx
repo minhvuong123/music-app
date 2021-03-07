@@ -30,7 +30,7 @@ function Song({ song, songSaga, loadSongAction, playStatus, setPlayAction }: any
   function handlePlaySong() {
     if (song._id !== songSaga._id) {
       loadSongAction(song);
-      setPlayAction(!playStatus);
+      setPlayAction(true);
     }
     else {
       setPlayAction(!playStatus);

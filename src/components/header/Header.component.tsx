@@ -37,20 +37,20 @@ function Header({ history, setLoginStatus }: any) {
   }
 
   function handleChangeMP3(base64Result: string, type: string) {
-    jwt.verify(token, 'kiwi', function (err, decoded) {
+    jwt.verify(token, 'kiwi', function (err, decoded: any) {
       if (!err) {
-        console.log(decoded);
+        const resultData = {
+          created_at: moment().toISOString(),
+          song_country: "",
+          song_id_albums: "",
+          song_url_music: base64Result,
+          song_user_id: decoded._doc._id
+        }
+        axios.post(`${apiLink}/songs`, { song: resultData }).then(result => {
+          // handle to success message
+        })
       }
     });
-    const resultData = {
-      created_at: moment().toISOString(),
-      song_country: "",
-      song_id_albums: "",
-      song_url_music: base64Result
-    }
-    axios.post(`${apiLink}/songs`, { song: resultData }).then(result => {
-
-    })
   }
 
   return (

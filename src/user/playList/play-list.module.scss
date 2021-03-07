@@ -1,0 +1,14 @@
+.user_play_list{
+  display: flex;
+  min-height: 206px;
+  .album_item{
+    width: 20%;
+    @media screen and (max-width: 1024px) {
+      width: 25%;
+    }
+  }
+}
+
+.margin_left_20{
+  margin-left: 20px;
+}
