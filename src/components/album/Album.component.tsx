@@ -14,6 +14,7 @@ import { Tooltip } from 'antd';
 import styles from './album.module.scss';
 import { apiLink } from 'shared/const';
 
+import album_default from 'images/album_default.png';
 
 function Album({ album }: any) {
   const token = localStorage.getItem('token') as string;
@@ -40,7 +41,9 @@ function Album({ album }: any) {
           ? <div className={styles.block_list_image}>
             <img src={`${apiLink}/${album.album_url_image}`} alt="music app" />
           </div>
-          : <div className={styles.block_list_image}> </div>
+          : <div className={styles.block_list_image}>
+            <img src={album_default} alt=""/>
+          </div>
         }
         <div className={styles.list_opacity}></div>
         <div className={styles.block_list_action}>

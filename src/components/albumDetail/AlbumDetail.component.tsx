@@ -16,7 +16,7 @@ import styles from './album-detail.module.scss';
 import { apiLink } from 'shared/const';
 import { songType } from 'shared/types';
 import Song from 'components/song/Song.component';
-
+import album_default from 'images/album_default.png';
 
 
 function AlbumDetail({ match, songs, album, loadAlbumAction }: any) {
@@ -33,7 +33,12 @@ function AlbumDetail({ match, songs, album, loadAlbumAction }: any) {
         <a href="/" className={styles.album_wrap}>
           <div className={styles.album_image}>
             <div className={styles.images}>
-              <img src={`${apiLink}/${album.album_url_image}`} alt={album.album_name} />
+              
+              {
+                album.album_url_image
+                  ? <img src={`${apiLink}/${album.album_url_image}`} alt={album.album_name} />
+                  : <img src={album_default} alt={album.album_name} />
+              }
             </div>
             <div className={styles.opacity}></div>
             <div className={styles.play_btn}>
@@ -72,14 +77,14 @@ function AlbumDetail({ match, songs, album, loadAlbumAction }: any) {
 
 const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
   return {
-    isLoading, 
-    songs, 
+    isLoading,
+    songs,
     album,
     error
   }
 }
 
-const mapDispatchToProps = (dispatch : any) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     loadAlbumAction: (name: string) => dispatch(loadAlbumAction(name))
   }

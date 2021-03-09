@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { UploadType } from 'shared/types';
 
 import styles from './upload.module.scss';
 
-import {
-  UploadOutlined
-} from '@ant-design/icons';
-
-function UploadComponent({ listType, showUploadList, limit, isSubmit, handleChangeImage }: UploadType) {
+function UploadComponent({ listType, showUploadList, limit, isSubmit, handleChangeImage, children }: any) {
   const [fileListCom, setFileListCom] = useState<any>([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState();
@@ -84,9 +79,7 @@ function UploadComponent({ listType, showUploadList, limit, isSubmit, handleChan
         {
           listType !== 'text' 
           ? !limit || limit < 0 || (fileListCom && fileListCom.length < limit) ? uploadButton : null
-          : <div className={styles.upload_btn}>
-            <UploadOutlined />
-          </div> 
+          : children
         }
 
       </Upload>

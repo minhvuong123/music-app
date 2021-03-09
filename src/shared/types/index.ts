@@ -15,6 +15,7 @@ export interface UploadType {
   limit: number;
   isSubmit: boolean;
   handleChangeImage: Function;
+  children: any;
 }
 
 export interface songType {

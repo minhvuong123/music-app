@@ -12,13 +12,16 @@ import {
 
 // scss
 import styles from './song.module.scss';
-
 import { apiLink } from 'shared/const';
 import { convertSingers, formatNumberToTime } from 'shared/converter';
+import { Popover } from 'antd';
+import { AiOutlinePlus, AiOutlineRight } from "react-icons/ai";
+import { BsMusicNoteList } from "react-icons/bs";
 
-function Song({ song, songSaga, loadSongAction, playStatus, setPlayAction }: any) {
+function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction }: any) {
   const [isChosen, setIsChosen] = useState(false);
-  
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
     if (song._id === songSaga._id) {
       setIsChosen(true);
@@ -37,6 +40,37 @@ function Song({ song, songSaga, loadSongAction, playStatus, setPlayAction }: any
     }
   }
 
+  function handleVisibleChange(visible: boolean) {
+    setVisible(visible);
+  };
+
+  function content() {
+    return (
+      <div className={styles.song_more}>
+        <div className={styles.song_info}>
+          <div className={styles.song_image}>
+            <img src={`${apiLink}/${song.song_url_image}`} alt=""/>
+          </div>
+          <div className={styles.song_text}>
+            <span className={styles.song_name}>{song.song_name}</span>
+            <span className={styles.singer_name}>{convertSingers(song.song_singer)}</span>
+          </div>
+        </div>
+        <div className={styles.action_list}>
+          <div className={styles.action_item}>
+            <span><AiOutlinePlus /> Thêm vào play list </span> <AiOutlineRight />
+            <div className={styles.item_pop_up}>
+              <div className={styles.play_list}>
+                {
+                  albums && albums.map((album: any) => <span key={album._id} className={styles.list_item}><BsMusicNoteList/> {album.album_name}</span>)
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  };
 
   return (
     <div className={[styles.app_song, `${isChosen ? styles.active : ''}`].join(' ')}>
@@ -64,7 +98,16 @@ function Song({ song, songSaga, loadSongAction, playStatus, setPlayAction }: any
         <div className={styles.media_right}>
           <div className={styles.actions}>
             <div className={styles.action_btn}><HeartOutlined /></div>
-            <div className={styles.action_btn}><EllipsisOutlined /></div>
+            <div className={styles.action_btn}>
+              <Popover
+                className={styles.more_action}
+                content={content}
+                placement="leftTop"
+                trigger="click"
+                visible={visible}
+                onVisibleChange={handleVisibleChange}
+              ><EllipsisOutlined /></Popover>
+            </div>
           </div>
         </div>
       </div>

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 
-
 import {
   RightOutlined,
   LeftOutlined,
@@ -80,7 +79,11 @@ function Header({ history, setLoginStatus }: any) {
                 limit={1}
                 isSubmit={isSubmit}
                 handleChangeImage={handleChangeMP3}
-              />
+              >
+                <div className={styles.upload_btn}>
+                  <UploadOutlined />
+                </div>
+              </UploadComponent>
               : <div className={styles.upload_btn}>
                 <UploadOutlined />
               </div>
