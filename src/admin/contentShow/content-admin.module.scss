@@ -1,0 +1,59 @@
+.app_content{
+  display: flex;
+  .content_left{
+    width: 50%;
+    .title{
+      text-align: center;
+      color: #fff;
+    }
+    .albums{
+      .albums_item{
+        cursor: pointer;
+        font-size: 15px;
+        padding: .5rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        .btn_add{
+          opacity: 0;
+        }
+        &:hover{
+          background-color: #5a1eae;
+          .btn_add{
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  .line{
+    width: 2px;
+    background-color: #c662ef;
+    margin: 0 15px;
+  }
+  .content_right{
+    width: 50%;
+    .title{
+      text-align: center;
+      color: #fff;
+    }
+    .available{
+      .avaible_item{
+        cursor: pointer;
+        font-size: 15px;
+        padding: .5rem 1rem;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        .btn_add{
+          opacity: 0;
+        }
+        &:hover{
+          background-color: #5a1eae;
+          .btn_add{
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}

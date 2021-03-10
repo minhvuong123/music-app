@@ -15,13 +15,14 @@ import AlBumAdmin from './album/AlbumAdmin.component';
 import SingerAdmin from './singer/SingerAdmin.component';
 import CountryAdmin from './country/CountryAdmin.component';
 import AlBumListAdmin from './albumList/AlbumListAdmin.component';
+import ContentAdmin from './contentShow/ContentAdmin.component';
 
 
 const { TabPane } = Tabs;
 
 function Admin() {
   const [visible, setVisible] = useState(false);
-  const [tabValue, setTabValue] = useState('playListShows');
+  const [tabValue, setTabValue] = useState('content');
   const [tabStatus, setTabStatus] = useState(false);
 
   function showDrawer() {
@@ -46,14 +47,18 @@ function Admin() {
         title="Admin Management"
         placement="right"
         width="70%"
+        className="admin_drawer"
         onClose={onClose}
         visible={visible}
       >
-        <Tabs defaultActiveKey={tabValue} onChange={tabChange}>
-        <TabPane tab="Album List Title" key="playListShows">
+        <Tabs className="admin_tabs" defaultActiveKey={tabValue} onChange={tabChange}>
+          <TabPane tab="Content" key="content">
+            <ContentAdmin tabStatus={tabStatus} />
+          </TabPane>
+          <TabPane tab="Albums Title" key="playListShows">
             <AlBumListAdmin tabStatus={tabStatus} />
           </TabPane>
-          <TabPane tab="Album List" key="playLists">
+          <TabPane tab="Albums" key="playLists">
             <AlBumAdmin tabStatus={tabStatus} />
           </TabPane>
           <TabPane tab="Songs" key="songs">

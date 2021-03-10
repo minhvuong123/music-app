@@ -21,3 +21,25 @@ body {
 .ant-popover-inner-content{
   padding: 0;
 }
+
+.admin_drawer{
+  .ant-drawer-content{
+    background-color: #2a213a;
+  }
+}
+
+.admin_tabs{
+  color: #fff;
+  .ant-tabs-tab{
+    &:hover{
+      color: #c662ef;
+    }
+  }
+  .ant-tabs-ink-bar{
+    background: #c662ef;
+  }
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+    color: #c662ef
+  }
+}
+
