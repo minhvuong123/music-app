@@ -11,13 +11,23 @@ import { apiLink } from 'shared/const';
 import AlBumList from 'components/albumList/AlbumList.component';
 
 function MainComponent() {
-  const [albums, setAlbums] = useState<any>([]);
+  const [albumsTitle, setAlbumsTitle] = useState<any>([]);
 
   useEffect(() => {
-    axios.get(`${apiLink}/albums`).then(result => {
-      setAlbums(result.data.albums);
-    })
-    return () => {}
+    async function loadData() {
+      const resultAlbumsTitle = await axios.get(`${apiLink}/albumList/status/${true}`);
+
+      for (const [index, AlbumTitle] of resultAlbumsTitle.data.albumList.entries()) {
+        const albums = await await axios.get(`${apiLink}/albums/albumlist/${AlbumTitle._id}`);
+        resultAlbumsTitle.data.albumList[index].albums = albums.data.albums;
+      }
+
+      setAlbumsTitle(resultAlbumsTitle.data.albumList);
+    }
+
+    loadData();
+
+    return () => { }
   }, [])
 
   const responsiveSlide = [
@@ -38,20 +48,29 @@ function MainComponent() {
   ]
   return (
     <div className={styles.app_main}>
-      <AlBumList 
-        responsive={responsiveSlide} 
-        title={albums[0] && albums[0].album_listShow.album_name}>
-        <div>
-          {
-            albums && albums.map((album: any) => { 
-              return (
-                <div key={album._id} className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-                  <Album album={album} /> 
-                </div>
-            )})
-          }
-        </div>
-      </AlBumList>
+      {
+        albumsTitle
+        && albumsTitle.map((albumTitle: any) => (
+          <div className={styles.margin_top_30}>
+            <AlBumList
+              key={albumTitle._id}
+              responsive={responsiveSlide}
+              title={albumTitle.albumList_name}>
+              <div>
+                {
+                  albumTitle.albums.map((album: any) => {
+                    return (
+                      <div key={album._id} className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+                        <Album album={album} />
+                      </div>
+                    )
+                  })
+                }
+              </div>
+            </AlBumList>
+          </div>
+        ))
+      }
     </div>
   );
 }
