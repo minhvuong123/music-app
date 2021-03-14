@@ -17,7 +17,7 @@ function SideBar() {
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebar_logo}>
-
+        <NavLink to="/">Home</NavLink>
       </div>
       <div className={[styles.sidebar_list, styles.margin_bottom_20].join(' ')}>
         <NavLink to="/my-music" className={styles.sidebar_list_item}>

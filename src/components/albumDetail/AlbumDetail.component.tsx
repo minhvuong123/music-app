@@ -19,13 +19,13 @@ import Song from 'components/song/Song.component';
 import album_default from 'images/album_default.png';
 
 
-function AlbumDetail({ match, songs, album, loadAlbumAction }: any) {
-  const { name } = match.params;
+function AlbumDetail({ location, songs, album, loadAlbumAction }: any) {
+  const { albumId } = location.state;
 
   useEffect(() => {
-    loadAlbumAction(name);
+    loadAlbumAction(albumId);
     return () => { }
-  }, [name, loadAlbumAction])
+  }, [albumId, loadAlbumAction])
 
   return album && Object.keys(album).length > 0 ? (
     <div className={styles.app_album}>
@@ -33,10 +33,9 @@ function AlbumDetail({ match, songs, album, loadAlbumAction }: any) {
         <a href="/" className={styles.album_wrap}>
           <div className={styles.album_image}>
             <div className={styles.images}>
-              
               {
-                album.album_url_image
-                  ? <img src={`${apiLink}/${album.album_url_image}`} alt={album.album_name} />
+                album.album_url_image || songs.length > 0
+                  ? <img src={`${apiLink}/${album.album_url_image || songs[0].song_url_image}`} alt={album.album_name} />
                   : <img src={album_default} alt={album.album_name} />
               }
             </div>
@@ -86,7 +85,7 @@ const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    loadAlbumAction: (name: string) => dispatch(loadAlbumAction(name))
+    loadAlbumAction: (albumId: string) => dispatch(loadAlbumAction(albumId))
   }
 }
 

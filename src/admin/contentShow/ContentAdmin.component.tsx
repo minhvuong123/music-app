@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { apiLink } from 'shared/const';
 import axios from 'axios';
 
@@ -7,8 +8,9 @@ import { AiOutlinePlus, AiOutlineLine } from "react-icons/ai";
 // scss
 import styles from './content-admin.module.scss';
 import _ from 'lodash';
+import { setContentChangeStatus } from 'shared/redux/actions';
 
-function ContentAdmin({ tabStatus }: any) {
+function ContentAdmin({ tabStatus, contentStatus, setContentChangeStatus }: any) {
   const [albumsDisable, setAlbumsDisable] = useState<any>([]);
   const [albumsEnable, setAlbumsEnable] = useState<any>([]);
   const [status, setStatus] = useState<any>(false);
@@ -62,6 +64,7 @@ function ContentAdmin({ tabStatus }: any) {
 
     axios.patch(`${apiLink}/albumList/status`, { albums: payLoad }).then(result => {
       // handle to success message
+      setContentChangeStatus(!contentStatus);
     })
   }
 
@@ -113,4 +116,16 @@ function ContentAdmin({ tabStatus }: any) {
   );
 }
 
-export default ContentAdmin;
+const mapStateToProps = ({ status }: any) => {
+  return {
+    contentStatus: status.contentStatus
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setContentChangeStatus: (status: boolean) => dispatch(setContentChangeStatus(status))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContentAdmin);

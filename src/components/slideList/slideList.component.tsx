@@ -10,7 +10,7 @@ import {
 // antd css
 import 'antd/dist/antd.css';
 
-import './album-list-reset.scss';
+import './slide-list-reset.scss';
 
 // react slick css
 import Slider from "react-slick";
@@ -18,7 +18,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 
-function AlbumList({ children, responsive, title }: any) {
+function SlideList({ children, title, slideSetting }: any) {
 
   function NextArrow(props: any) {
     const { className, style, onClick } = props;
@@ -37,18 +37,20 @@ function AlbumList({ children, responsive, title }: any) {
     );
   }
 
-  const settings = {
+  let settings = {
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 1,
     infinite: false,
     nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    responsive: responsive
+    prevArrow: <PrevArrow />
   };
+
+  settings = {...settings, ...slideSetting};
+
   return (
     <>
-      <h3 style={{fontSize: 18, color: '#fff'}}>{ title }</h3>
+      { title ? <h3 style={{fontSize: 18, color: '#fff'}}>{ title }</h3> : "" }
       <Slider {...settings}>
         { children.props.children }
       </Slider>
@@ -56,4 +58,4 @@ function AlbumList({ children, responsive, title }: any) {
   );
 }
 
-export default AlbumList;
+export default SlideList;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 // components
 import Album from 'components/album/Album.component';
@@ -8,9 +9,9 @@ import styles from './main.module.scss';
 
 import axios from 'axios';
 import { apiLink } from 'shared/const';
-import AlBumList from 'components/albumList/AlbumList.component';
+import SlideList from 'components/slideList/slideList.component';
 
-function MainComponent() {
+function MainComponent({ contentStatus }: any) {
   const [albumsTitle, setAlbumsTitle] = useState<any>([]);
 
   useEffect(() => {
@@ -28,33 +29,34 @@ function MainComponent() {
     loadData();
 
     return () => { }
-  }, [])
+  }, [contentStatus])
 
-  const responsiveSlide = [
-    {
-      breakpoint: 1300,
-      settings: {
-        slidesToShow: 5,
-        slidesToScroll: 1
+  const settings = {
+    responsive: [
+      {
+        breakpoint: 1300,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 1224,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1
+        }
       }
-    },
-    {
-      breakpoint: 1224,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 1
-      }
-    }
-  ]
+    ]
+  };
   return (
     <div className={styles.app_main}>
       {
         albumsTitle
         && albumsTitle.map((albumTitle: any) => (
-          <div className={styles.margin_top_30}>
-            <AlBumList
-              key={albumTitle._id}
-              responsive={responsiveSlide}
+          <div key={albumTitle._id} className={styles.margin_top_30}>
+            <SlideList
+              slideSetting={settings}
               title={albumTitle.albumList_name}>
               <div>
                 {
@@ -67,7 +69,7 @@ function MainComponent() {
                   })
                 }
               </div>
-            </AlBumList>
+            </SlideList>
           </div>
         ))
       }
@@ -75,4 +77,10 @@ function MainComponent() {
   );
 }
 
-export default MainComponent;
+const mapStateToProps = ({ status }: any) => {
+  return {
+    contentStatus: status.contentStatus
+  }
+}
+
+export default connect(mapStateToProps, null)(MainComponent);

@@ -1,9 +1,9 @@
 import { ALBUM } from 'shared/redux/const';
 
-export function loadAlbumAction(name: string) {
+export function loadAlbumAction(albumId: string) {
   return {
     type: ALBUM.LOAD,
-    name
+    albumId
   }
 } 
 

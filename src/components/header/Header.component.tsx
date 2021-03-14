@@ -52,11 +52,19 @@ function Header({ history, setLoginStatus }: any) {
     });
   }
 
+  function goBack() {
+    window.history.go(-1);
+  }
+
+  function goForward() {
+    window.history.go(1);
+  }
+
   return (
     <div className={styles.header_app}>
       <div className={styles.arrow}>
-        <div className={styles.arrow_left}><LeftOutlined /></div>
-        <div className={styles.arrow_right}><RightOutlined /></div>
+        <div onClick={goBack} className={styles.arrow_left}><LeftOutlined /></div>
+        <div onClick={goForward} className={styles.arrow_right}><RightOutlined /></div>
       </div>
       <div className={styles.header_search}>
         <div className={styles.search_icon}>

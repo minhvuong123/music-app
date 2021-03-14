@@ -9,9 +9,9 @@ import { getAlbumApi, getSongsApi } from 'shared/api';
 import { notifyError } from '../actions/error.action';
 
 
-function* handleAlbumLoad({ name }: any): any {
+function* handleAlbumLoad({ albumId }: any): any {
   try {
-    const album = yield call(getAlbumApi, name);
+    const album = yield call(getAlbumApi, albumId);
     yield put(setAlbumAction(album));
 
     const songs = yield call(getSongsApi, album._id);

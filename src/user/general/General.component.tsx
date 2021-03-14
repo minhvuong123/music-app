@@ -16,11 +16,9 @@ function UserGeneral() {
   return (
     <div className={styles.user_general}>
       <div className={styles.general_song}>
-        <h3><a href="/">Bài Hát</a></h3>
         <UserSongs />
       </div>
       <div className={styles.general_album}>
-        <h3><a href="/">Album</a></h3>
         <UserPlayList />
       </div>
     </div>

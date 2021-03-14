@@ -17,8 +17,9 @@ import { convertSingers, formatNumberToTime } from 'shared/converter';
 import { Popover } from 'antd';
 import { AiOutlinePlus, AiOutlineRight } from "react-icons/ai";
 import { BsMusicNoteList } from "react-icons/bs";
+import axios from 'axios';
 
-function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction }: any) {
+function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction, callBackPlaySong }: any) {
   const [isChosen, setIsChosen] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -34,6 +35,7 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     if (song._id !== songSaga._id) {
       loadSongAction(song);
       setPlayAction(true);
+      callBackPlaySong();
     }
     else {
       setPlayAction(!playStatus);
@@ -44,12 +46,22 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     setVisible(visible);
   };
 
+  function handleAddSongToAlbum(albumId: string, songId: string) {
+    const payLoad = {
+      _id: songId,
+      song_id_albums: albumId
+    }
+    axios.patch(`${apiLink}/songs`, {song: payLoad}).then(result => {
+      // handle to message success
+    })
+  }
+
   function content() {
     return (
       <div className={styles.song_more}>
         <div className={styles.song_info}>
           <div className={styles.song_image}>
-            <img src={`${apiLink}/${song.song_url_image}`} alt=""/>
+            <img src={`${apiLink}/${song.song_url_image}`} alt="" />
           </div>
           <div className={styles.song_text}>
             <span className={styles.song_name}>{song.song_name}</span>
@@ -62,7 +74,11 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
             <div className={styles.item_pop_up}>
               <div className={styles.play_list}>
                 {
-                  albums && albums.map((album: any) => <span key={album._id} className={styles.list_item}><BsMusicNoteList/> {album.album_name}</span>)
+                  albums && albums.map((album: any) => (
+                    <span key={album._id} onClick={() => handleAddSongToAlbum(album._id, song._id)} className={styles.list_item}>
+                      <BsMusicNoteList /> {album.album_name}
+                    </span>
+                  ))
                 }
               </div>
             </div>

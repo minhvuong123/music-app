@@ -4,7 +4,7 @@
     font-size: 20px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     .songs_action{
       .action_upload{
         .upload_btn{
@@ -34,7 +34,16 @@
     border-radius: .5rem;
     margin-bottom: 10px;
   }
+}
+
+.song_content{
+  display: flex;
+  .song_slide{
+    width: 240px;
+  }
   .songs_container{
+    margin-left: 10px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     .songs_action{

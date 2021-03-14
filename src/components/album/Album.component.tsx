@@ -15,18 +15,24 @@ import styles from './album.module.scss';
 import { apiLink } from 'shared/const';
 
 import album_default from 'images/album_default.png';
+import axios from 'axios';
 
 function Album({ album }: any) {
   const token = localStorage.getItem('token') as string;
+  const [song, setSong] = useState<any>({});
   const [user, setUser] = useState(null);
   
   useEffect(() => {
     jwt.verify(token, 'kiwi', async function (err, decoded: any) {
       if (!err) {
         setUser(decoded._doc);
+        axios.get(`${apiLink}/songs/albums/${album._id}`).then(result => {
+          // handle to message success
+          setSong(result.data.song);
+        })
       }
     });
-  }, [token])
+  }, [album, token])
 
   function playSong(e: any) {
     e.preventDefault();
@@ -35,11 +41,14 @@ function Album({ album }: any) {
 
   return (
     <div className={styles.block_list_container}>
-      <NavLink to={`/album/${album.album_slug}`} className={styles.block_list}>
+      <NavLink to={{
+        pathname: `/album/${album.album_slug}`,
+        state: { albumId: album._id }
+      }} className={styles.block_list}>
         {
-          album.album_url_image
+          album.album_url_image || Object.keys(song).length > 0
           ? <div className={styles.block_list_image}>
-            <img src={`${apiLink}/${album.album_url_image}`} alt="music app" />
+            <img src={`${apiLink}/${album.album_url_image || song.song_url_image}`} alt="music app" />
           </div>
           : <div className={styles.block_list_image}>
             <img src={album_default} alt=""/>

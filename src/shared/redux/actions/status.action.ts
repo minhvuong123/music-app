@@ -13,3 +13,10 @@ export function setLoginStatus(status: boolean) {
     status
   }
 } 
+
+export function setContentChangeStatus(status: boolean) {
+  return {
+    type: STATUS.CONTENT_CHANGE,
+    status
+  }
+} 

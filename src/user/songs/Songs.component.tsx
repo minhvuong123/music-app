@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
 
 // styles scss
@@ -13,8 +14,10 @@ import {
   UploadOutlined
 } from '@ant-design/icons';
 import moment from 'moment';
+import { setSongsAction } from 'shared/redux/actions';
+import SlideList from 'components/slideList/slideList.component';
 
-function UserSongs() {
+function UserSongs({ setSongsAction }: any) {
   const token = localStorage.getItem('token') as string;
   const [isSubmit] = useState(false);
   const [songs, setSongs] = useState([]);
@@ -49,6 +52,22 @@ function UserSongs() {
     });
   }
 
+  function callBackPlaySong() {
+    setSongsAction(songs);
+  }
+
+  const settings = {
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    fade: true,
+    infinite: true,
+    nextArrow: false,
+    prevArrow: false,
+    responsive: false,
+    autoplay: true,
+  };
+
   return (
     <div className={styles.user_songs}>
       <div className={styles.songs_title}>
@@ -70,17 +89,41 @@ function UserSongs() {
           </div>
         </div>
       </div>
-      <div className={styles.song_uploaded}>
-        <span>Đã tải lên: 1/200</span>
-        <div className={styles.progress}></div>
-      </div>
-      <div className={styles.songs_container}>
-        {
-          songs && songs.map((s: songType) => <Song key={s._id} song={s} albums={albums} />)
-        }
+      <div className={styles.song_content_container}>
+        <div className={styles.song_uploaded}>
+          <span>Đã tải lên: {songs.length}/200</span>
+          <div className={styles.progress}></div>
+        </div>
+        <div className={styles.song_content}>
+          <div className={styles.song_slide}>
+            <SlideList slideSetting={settings}>
+              <div>
+                {
+                  songs && songs.map((song: songType) => (
+                    <div key={song._id} style={{ width: 100 }}>
+                      <img src={`${apiLink}/${song.song_url_image}`} alt="music app" />
+                    </div>
+                  ))
+                }
+              </div>
+            </SlideList>
+          </div>
+          <div className={styles.songs_container}>
+            {
+              songs && songs.map((song: songType) => <Song key={song._id} song={song} albums={albums} callBackPlaySong={callBackPlaySong} />)
+            }
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default UserSongs;
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setSongsAction: (name: string) => dispatch(setSongsAction(name))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(UserSongs);

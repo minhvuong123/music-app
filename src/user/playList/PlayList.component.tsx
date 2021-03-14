@@ -54,17 +54,20 @@ function UserPlayList() {
         resultData.album_user_id = decoded._doc._id;
         resultData.album_category = '';
         resultData.album_listShow = '';
-        resultData.album_url_image ='';
+        resultData.album_url_image = '';
         resultData.album_country = '';
 
-        axios.post(`${apiLink}/albums`, { album: resultData}).then(result => {
-          console.log(result);
+        axios.post(`${apiLink}/albums`, { album: resultData }).then(result => {
+          // handle to message success
         });
       }
     });
   };
   return (
     <div>
+      <div className={styles.title}>
+        <span>Albums</span>
+      </div>
       <div className={styles.user_play_list}>
         <div onClick={showModal} className={[styles.album_empty, styles.album_item].join(' ')}>
           <span><AiOutlinePlus /></span>
