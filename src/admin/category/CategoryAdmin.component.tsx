@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // ant
 import {
@@ -13,9 +13,14 @@ import { apiLink } from 'shared/const';
 import { categoryType } from 'shared/types';
 
 import moment from 'moment';
+import UploadComponent from 'components/upload/Upload.component';
 
 
 function Category({ tabStatus }: any) {
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [validateUploadImage, setValidateUploadImage] = useState<any>('');
+  const [base64Image, setBase64] = useState('');
+  const [imageType, setImageType] = useState('');
   const [form] = Form.useForm();
 
   function openNotification(placement: any){
@@ -26,11 +31,22 @@ function Category({ tabStatus }: any) {
     });
   };
 
-  function onFinish(values: categoryType) {
+  function handleChangeImage(base64Result: string, type: string) {
+    setBase64(base64Result);
+    setImageType(type);
+    if (!base64Result) {
+      setValidateUploadImage('Images is not empty!');
+    } else {
+      setValidateUploadImage('');
+    }
+  }
+
+  function onFinish(values: any) {
     const resultData = {...values};
+    resultData.category_url_image = base64Image;
     resultData.created_at = moment().toISOString();
 
-    axios.post(`${apiLink}/categories`, { category: resultData }).then(result => {
+    axios.post(`${apiLink}/categories`, { category: resultData, imageType: imageType }).then(result => {
       form.resetFields();
       openNotification('topRight');
     })
@@ -55,6 +71,16 @@ function Category({ tabStatus }: any) {
             rules={[{ required: true, message: 'Name is not empty!' }]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item label="* Image" className={styles.control_item}>
+            <UploadComponent
+              listType='picture-card'
+              showUploadList={true}
+              limit={1}
+              isSubmit={isSubmit}
+              handleChangeImage={handleChangeImage}
+            />
+            {validateUploadImage ? <span style={{ color: 'red' }}>{validateUploadImage}</span> : null}
           </Form.Item>
         </div>
         <div>

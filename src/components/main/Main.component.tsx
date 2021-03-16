@@ -10,6 +10,7 @@ import styles from './main.module.scss';
 import axios from 'axios';
 import { apiLink } from 'shared/const';
 import SlideList from 'components/slideList/slideList.component';
+import CategoryAlbum from 'components/category/category.component';
 
 function MainComponent({ contentStatus }: any) {
   const [albumsTitle, setAlbumsTitle] = useState<any>([]);
@@ -19,8 +20,14 @@ function MainComponent({ contentStatus }: any) {
       const resultAlbumsTitle = await axios.get(`${apiLink}/albumList/status/${true}`);
 
       for (const [index, AlbumTitle] of resultAlbumsTitle.data.albumList.entries()) {
-        const albums = await await axios.get(`${apiLink}/albums/albumlist/${AlbumTitle._id}`);
-        resultAlbumsTitle.data.albumList[index].albums = albums.data.albums;
+        if(AlbumTitle.albumList_slug === 'The-Loai') {
+          const categories = await axios.get(`${apiLink}/categories`);
+          resultAlbumsTitle.data.albumList[index].albums = [];
+          resultAlbumsTitle.data.albumList[index].categories = categories.data.categories;
+        } else {
+          const albums = await axios.get(`${apiLink}/albums/albumlist/${AlbumTitle._id}`);
+          resultAlbumsTitle.data.albumList[index].albums = albums.data.albums;
+        }
       }
 
       setAlbumsTitle(resultAlbumsTitle.data.albumList);
@@ -60,10 +67,18 @@ function MainComponent({ contentStatus }: any) {
               title={albumTitle.albumList_name}>
               <div>
                 {
-                  albumTitle.albums.map((album: any) => {
+                  albumTitle.albumList_slug !== 'The-Loai'
+                   ? albumTitle.albums.map((album: any) => {
+                      return (
+                        <div key={album._id} className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+                          <Album album={album} />
+                        </div>
+                      )
+                    })
+                  : albumTitle.categories.map((category: any) => {
                     return (
-                      <div key={album._id} className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-                        <Album album={album} />
+                      <div key={category._id} className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
+                        <CategoryAlbum category={category} />
                       </div>
                     )
                   })

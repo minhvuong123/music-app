@@ -47,6 +47,7 @@ export interface categoryType {
 export interface countryType {
   _id: string;
   country_name: string;
+  category_url_image: string;
   created_at: string;
 }
 

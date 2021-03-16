@@ -119,7 +119,6 @@ function PlayListAdmin({ tabStatus }: any) {
             name="album_country"
             label="Country"
             className={styles.control_item}
-            rules={[{ required: true, message: 'Type is not empty!' }]}
           >
             <Select>
               { countries && countries.map((c: countryType) => <Option key={c._id} value={c._id}>{c.country_name}</Option>) }
@@ -129,7 +128,6 @@ function PlayListAdmin({ tabStatus }: any) {
             name="album_listShow"
             label="List Show"
             className={styles.control_item}
-            rules={[{ required: true, message: 'List Show is not empty!' }]}
           >
             <Select>
               { albumList && albumList.map((a: albumListType) => <Option key={a._id} value={a._id}>{a.albumList_name}</Option>) }
