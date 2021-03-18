@@ -8,7 +8,7 @@
     color: #fff;
     width: 100%;
     .media_left{
-      width: 79%;
+      flex-grow: 1;
       display: flex;
       .media_thumb{
         min-width: 4rem;

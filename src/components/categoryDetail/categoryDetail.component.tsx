@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import jwt from 'jsonwebtoken';
+import { connect } from 'react-redux';
 
 // styles
 import styles from './category-detail.module.scss';
@@ -7,18 +7,35 @@ import SlideList from 'components/slideList/slideList.component';
 import axios from 'axios';
 import { apiLink } from 'shared/const';
 import Album from 'components/album/Album.component';
+import PlayListSong from 'components/playListSong/PlayListSong.component';
+import { setSongsAction } from 'shared/redux/actions';
 
-function CategoryAlbumDetail({ location }: any) {
+function CategoryAlbumDetail({ location, setSongsAction }: any) {
   const { categoryId } = location.state;
   const [albums, setAlbums] = useState<any>([]);
+  const [songs, setSongs] = useState<any>([]);
 
   useEffect(() => {
-    axios.get(`${apiLink}/albums/category/${categoryId}`).then(result => {
-      if (result && result.data.albums) {
-        setAlbums(result.data.albums);
+    async function loadData() {
+      const resultAlbums = await axios.get(`${apiLink}/albums/category/${categoryId}`);
+      if (resultAlbums && resultAlbums.data.albums) {
+        setAlbums(resultAlbums.data.albums);
       }
-    })
-  }, [])
+
+      const resultSongs = await axios.get(`${apiLink}/songs/category/${categoryId}`);
+      if (resultSongs && resultSongs.data.songs) {
+        setSongs(resultSongs.data.songs);
+      }
+    }
+
+
+    loadData();
+
+  }, [categoryId])
+
+  function callBackPlaySong() {
+    setSongsAction(songs);
+  }
 
   const settings = {
     responsive: [
@@ -59,24 +76,27 @@ function CategoryAlbumDetail({ location }: any) {
         </SlideList>
       </div>
       <div className={styles.album_block}>
-        <SlideList
-          slideSetting={settings}
-          title="Albums">
-          <div>
-            {
-              albums && albums.map((album: any) => {
-                return (
-                  <div key={album._id} className={[styles.padding_left_10, styles.padding_right_10].join(' ')}>
-                    <Album album={album} />
-                  </div>
-                )
-              })
-            }
-          </div>
-        </SlideList>
+        <h3 className={styles.title}>Hot Songs</h3>
+        <div className={styles.block_container}>
+          {
+            songs
+            && songs.map((s: any) => (
+              <div key={s._id} className={styles.block_item}>
+                <PlayListSong song={s} callBackPlaySong={callBackPlaySong}/>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   );
 }
 
-export default CategoryAlbumDetail;
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setSongsAction: (songs: string) => dispatch(setSongsAction(songs))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CategoryAlbumDetail);

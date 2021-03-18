@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 // components
 import SideBar from 'components/sidebar/SideBar.component';
@@ -15,10 +16,10 @@ import { songType } from 'shared/types';
 import PlayList from 'components/playList/PlayList.component';
 
 
-function App() {
+function App({ song }:any) {
   return (
       <div className={styles.app}>
-        <div className={styles.app_layout}>
+        <div className={[styles.app_layout, `${Object.keys(song).length > 0 ? 'has-play' : ''}`].join(' ')}>
           <SideBar />
           <div className={styles.app_content_wrap}>
             <Header />
@@ -33,4 +34,10 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = ({ song }: any) => {
+  return {
+    song
+  }
+}
+
+export default connect(mapStateToProps, null)(App);

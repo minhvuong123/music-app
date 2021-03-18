@@ -17,13 +17,16 @@ import { apiLink } from 'shared/const';
 import { songType } from 'shared/types';
 import Song from 'components/song/Song.component';
 import album_default from 'images/album_default.png';
+import axios from 'axios';
 
 
 function AlbumDetail({ location, songs, album, loadAlbumAction }: any) {
   const { albumId } = location.state;
 
   useEffect(() => {
-    loadAlbumAction(albumId);
+    axios.patch(`${apiLink}/albums/view/${albumId}`).then(result => {
+      loadAlbumAction(albumId);
+    });
     return () => { }
   }, [albumId, loadAlbumAction])
 

@@ -4,9 +4,14 @@ import { NavLink } from 'react-router-dom';
 // antd
 import {
   HeartOutlined,
-  RightOutlined,
-  UserOutlined
+  RightOutlined
 } from '@ant-design/icons';
+
+
+import { 
+  SiApplemusic, 
+  SiCircle
+} from "react-icons/si";
 
 // styles
 import styles from './side-bar.module.scss';
@@ -21,11 +26,11 @@ function SideBar() {
       </div>
       <div className={[styles.sidebar_list, styles.margin_bottom_20].join(' ')}>
         <NavLink to="/my-music" className={styles.sidebar_list_item}>
-          <span className={styles.list_item_icon}><UserOutlined /></span>
+          <span className={styles.list_item_icon}><SiApplemusic /></span>
           <span className={styles.list_item_text}>Cá nhân</span>
         </NavLink>
         <a href="/" className={styles.sidebar_list_item}>
-          <span className={styles.list_item_icon}><HeartOutlined /></span>
+          <span className={styles.list_item_icon}><SiCircle /></span>
           <span className={styles.list_item_text}>Khám phá</span>
         </a>
         <a href="/" className={styles.sidebar_list_item}>

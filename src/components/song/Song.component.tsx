@@ -56,6 +56,17 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     })
   }
 
+  function removeFromUser(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    const payload = {
+      _id: song._id,
+      song_user_id: '',
+      song_id_albums: ''
+    }
+    axios.patch(`${apiLink}/songs`, { song: payload }).then(result => {})
+  }
+
   function content() {
     return (
       <div className={styles.song_more}>
@@ -113,7 +124,12 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
         </div>
         <div className={styles.media_right}>
           <div className={styles.actions}>
-            <div className={styles.action_btn}><HeartOutlined /></div>
+            {
+              song && song._id
+              ? <div onClick={removeFromUser} className={[styles.action_btn, styles.fillSVG].join(' ')}><HeartOutlined /></div>
+              : <div className={styles.action_btn}><HeartOutlined /></div>
+            }
+            
             <div className={styles.action_btn}>
               <Popover
                 className={styles.more_action}

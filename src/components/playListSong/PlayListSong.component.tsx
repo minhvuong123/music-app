@@ -15,8 +15,9 @@ import { convertSingers } from 'shared/converter'
 
 // styles scss
 import styles from './play-list-song.module.scss';
+import axios from 'axios';
 
-function PlayListSong({ song, songSaga, loadSongAction, playStatus, setPlayAction}: any) {
+function PlayListSong({ song, songSaga, loadSongAction, playStatus, setPlayAction, callBackPlaySong}: any) {
   const [isChosen, setIsChosen] = useState(false);
 
   useEffect(() => {
@@ -30,7 +31,11 @@ function PlayListSong({ song, songSaga, loadSongAction, playStatus, setPlayActio
   function handlePlaySong() {
     if (song._id !== songSaga._id) {
       loadSongAction(song);
-      setPlayAction(!playStatus);
+      setPlayAction(true);
+      axios.patch(`${apiLink}/songs/view/${song._id}`).then(result => {
+        callBackPlaySong();
+      });
+
     }
     else {
       setPlayAction(!playStatus);

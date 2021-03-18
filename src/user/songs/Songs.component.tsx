@@ -122,7 +122,7 @@ function UserSongs({ setSongsAction }: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setSongsAction: (name: string) => dispatch(setSongsAction(name))
+    setSongsAction: (songs: any) => dispatch(setSongsAction(songs))
   }
 }
 

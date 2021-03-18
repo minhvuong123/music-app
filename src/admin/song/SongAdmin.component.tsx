@@ -13,7 +13,7 @@ import UploadComponent from 'components/upload/Upload.component';
 import './song-admin-reset.scss';
 import styles from './song-admin.module.scss';
 import { apiLink } from 'shared/const';
-import { countryType, albumType } from 'shared/types';
+import { countryType, albumType, categoryType } from 'shared/types';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -25,6 +25,7 @@ function SongAdmin({ tabStatus }: any) {
   const [validateUploadMP3, setValidateUploadMP3] = useState<any>('');
   const [countries, setcountries] = useState<any>([]);
   const [albums, setAlbums] = useState<any>([]);
+  const [categories, setCategories] = useState([]);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -38,6 +39,11 @@ function SongAdmin({ tabStatus }: any) {
       const resultAlbums = await axios.get(`${apiLink}/albums`);
       if (resultAlbums && resultAlbums.data && resultAlbums.data.albums) {
         setAlbums(resultAlbums.data.albums);
+      }
+
+      const resultCategory = await axios.get(`${apiLink}/categories`);
+      if (resultCategory && resultCategory.data && resultCategory.data.categories) {
+        setCategories(resultCategory.data.categories);
       }
     }
 
@@ -88,7 +94,7 @@ function SongAdmin({ tabStatus }: any) {
       })
     }
   };
-  
+
   function contentPopOver(album: any) {
     return (
       <div>
@@ -108,6 +114,7 @@ function SongAdmin({ tabStatus }: any) {
           song_url_image: '',
           song_url_music: '',
           song_id_albums: '',
+          song_category: '',
           created_at: ''
         }}
         onFinish={onFinish}
@@ -118,7 +125,6 @@ function SongAdmin({ tabStatus }: any) {
             name="song_id_albums"
             label="Album"
             className={styles.control_item}
-            rules={[{ required: true, message: 'Name is not empty!' }]}
           >
             <Select>
               {albums && albums.map((a: albumType) => {
@@ -134,7 +140,6 @@ function SongAdmin({ tabStatus }: any) {
             name="song_country"
             label="Country"
             className={styles.control_item}
-            rules={[{ required: true, message: 'Name is not empty!' }]}
           >
             <Select>
               {countries && countries.map((c: countryType) => <Option key={c._id} value={c._id}>{c.country_name}</Option>)}
@@ -142,6 +147,16 @@ function SongAdmin({ tabStatus }: any) {
           </Form.Item>
         </div>
         <div className={styles.control_layout}>
+          <Form.Item
+            name="song_category"
+            label="Types"
+            className={styles.control_item}
+            rules={[{ required: true, message: 'Type is not empty!' }]}
+          >
+            <Select>
+              {categories && categories.map((c: categoryType) => <Option key={c._id} value={c._id}>{c.category_name}</Option>)}
+            </Select>
+          </Form.Item>
           <Form.Item label="* MP3" className={styles.control_item}>
             <UploadComponent
               listType='picture-card'
