@@ -8,7 +8,7 @@ import {
   notification
 } from 'antd';
 
-import UploadComponent from 'components/upload/Upload.component';
+import UploadComponent from 'shared/components/upload/Upload.component';
 
 import styles from './album-admin.module.scss';
 import { apiLink } from 'shared/const';

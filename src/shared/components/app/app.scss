@@ -1,0 +1,42 @@
+.app{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  &__layout{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    .content{
+      width: 100%;
+      background-color: #170f23;
+      overflow-y: auto;
+      position: relative;
+      &::-webkit-scrollbar-track
+      {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #170f23;
+      }
+    
+      &::-webkit-scrollbar
+      {
+        width: 6px;
+        background-color: #170f23;
+      }
+    
+      &::-webkit-scrollbar-thumb
+      {
+        background-color: #ffffff4d;
+      }
+
+      &__routes{
+        align-self: flex-start;
+        padding: 0 3rem;
+        width: 100%;
+        margin-top: 7rem;
+        @media screen and (max-width: 1024px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

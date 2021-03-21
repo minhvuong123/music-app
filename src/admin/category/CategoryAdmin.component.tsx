@@ -13,7 +13,7 @@ import { apiLink } from 'shared/const';
 import { categoryType } from 'shared/types';
 
 import moment from 'moment';
-import UploadComponent from 'components/upload/Upload.component';
+import UploadComponent from 'shared/components/upload/Upload.component';
 
 
 function Category({ tabStatus }: any) {

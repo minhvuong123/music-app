@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
 // styles scss
-import styles from './general.module.scss';
+import './general.scss';
 
-import UserPlayList from 'user/playList/PlayList.component';
-import UserSongs from 'user/songs/Songs.component';
+import UserAlbums from 'user/albums/AlbumsUser.component';
+import UserSongs from 'user/songs/SongsUser.component';
 
 
 function UserGeneral() {
@@ -14,12 +14,12 @@ function UserGeneral() {
   }, []);
 
   return (
-    <div className={styles.user_general}>
-      <div className={styles.general_song}>
+    <div className="user__general">
+      <div className="general__song">
         <UserSongs />
       </div>
-      <div className={styles.general_album}>
-        <UserPlayList />
+      <div className="general__album">
+        <UserAlbums />
       </div>
     </div>
   );

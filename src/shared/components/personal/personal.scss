@@ -1,0 +1,10 @@
+.personal__container{
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  flex-direction: column;
+  .user__page{
+    color: #fff;
+    width: 100%;
+  }
+}

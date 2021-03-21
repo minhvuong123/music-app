@@ -1,0 +1,42 @@
+.play__drawer{
+  width: 320px !important;
+  height: calc(100% - 88px);
+  .ant-drawer-content-wrapper{
+    .ant-drawer-content{
+      background-color: #120822;
+    }
+    .ant-drawer-body{
+      padding: .5rem;
+    }
+  }
+}
+
+.continue{
+  display: flex;
+  flex-direction: column;
+  color: #a0a0a0;
+  padding: 1rem 0 .5rem 0;
+  .title{
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: none;
+    margin-bottom: 0;
+    color: #fff;
+  }
+  .subtitle{
+    display: flex;
+    color: #a0a0a0;
+    font-size: 14px;
+    a{
+      display: inline-block;
+      margin-left: 5px;
+      max-width: 230px;
+      overflow: hidden;
+      white-space: pre;
+      text-overflow: ellipsis;
+      font-size: inherit;
+      font-weight: 500;
+      color: #c662ef;
+    }
+  }
+}

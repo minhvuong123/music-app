@@ -1,0 +1,15 @@
+.category__detail{
+  .block{
+    &__title{
+      font-size: 18px;
+      color: #fff;
+    }
+    &__container{
+      display: flex;
+      flex-wrap: wrap;
+      .item{
+        width: 33.33333%;
+      }
+    }
+  }
+}

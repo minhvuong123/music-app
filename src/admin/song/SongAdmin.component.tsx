@@ -8,7 +8,7 @@ import {
   Popover
 } from 'antd';
 
-import UploadComponent from 'components/upload/Upload.component';
+import UploadComponent from 'shared/components/upload/Upload.component';
 
 import './song-admin-reset.scss';
 import styles from './song-admin.module.scss';

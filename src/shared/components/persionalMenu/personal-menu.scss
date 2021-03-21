@@ -1,0 +1,28 @@
+.personal__nav{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 auto;
+  background-color: #ffffff1a;
+  padding: 3px;
+  border-radius: 15px;
+  list-style: none;
+  li{
+    color: #fff;
+    border-radius: 15px;
+    padding: 0;
+    font-size: 12px;
+    line-height: 1;
+    &.active{
+      box-shadow: 0 1px 3px 0 #00000012;
+      background-color: #ffffff4d;
+    }
+    a{
+      display: block;
+      padding: 7px 25px;
+      color: #fff;
+    }
+  }
+}

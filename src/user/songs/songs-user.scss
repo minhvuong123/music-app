@@ -1,0 +1,64 @@
+.user__songs {
+  color: #fff;
+  .songs__title {
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    .actions {
+      .actions__upload {
+        .upload__comp {
+          background-color: unset;
+          width: unset;
+          height: unset;
+          border-radius: unset;
+          border: unset;
+          &:hover {
+            border: unset;
+          }
+        }
+        .upload__btn {
+          font-size: 13px;
+          color: #fff;
+          cursor: pointer;
+          background-color: #ffffff33;
+          border-color: transparent;
+          border-width: 0.1rem;
+          border-style: solid;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: border-color 0.3s ease-in-out;
+          padding: 0.5rem 1.5rem;
+          border-radius: 20px;
+          &:hover {
+            border-color: #c662ef;
+          }
+        }
+      }
+    }
+  }
+  .song__container {
+    .song__uploaded {
+      background-color: #ffffff1a;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 10px;
+    }
+    .song__content {
+      display: flex;
+      .song__slide {
+        width: 240px;
+      }
+      .songs__container {
+        margin-left: 10px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        .songs_action {
+          display: flex;
+        }
+      }
+    }
+  }
+}

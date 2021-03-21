@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import MainComponent from 'components/main/Main.component';
-import AlbumDetail from 'components/albumDetail/AlbumDetail.component';
-import Personal from 'components/personal/Personal.component';
-import CategoryAlbumDetail from 'components/categoryDetail/categoryDetail.component';
+import MainComponent from 'shared/components/main/Main.component';
+import AlbumDetail from 'shared/components/albumDetail/AlbumDetail.component';
+import Personal from 'shared/components/personal/Personal.component';
+import CategoryAlbumDetail from 'shared/components/categoryDetail/categoryDetail.component';
 
 const RouteWithSubRoutes = (route) => {
   return (
