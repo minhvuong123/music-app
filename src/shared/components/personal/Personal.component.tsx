@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PersonalMenu from 'shared/components/persionalMenu/PersonalMenu.component';
+import PersonalMenu from 'shared/components/personalMenu/PersonalMenu.component';
 import UserGeneral from 'user/general/General.component';
 import UserSongs from 'user/songs/SongsUser.component';
 import UserPlayList from 'user/albums/AlbumsUser.component';

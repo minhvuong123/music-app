@@ -1,15 +1,20 @@
-.category__detail{
-  .block{
-    &__title{
+.category__detail {
+  .block {
+    &__title {
       font-size: 18px;
       color: #fff;
+      margin-top: 20px;
     }
-    &__container{
+    &__container {
       display: flex;
       flex-wrap: wrap;
-      .item{
+      .item {
         width: 33.33333%;
       }
+    }
+    .slick-arrow.slick-next,
+    .slick-arrow.slick-prev {
+      top: -25px;
     }
   }
 }

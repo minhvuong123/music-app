@@ -74,7 +74,7 @@ function Album({ album }: any) {
         <div className="block__opacity"></div>
         <div className="block__actions">
           {
-            album && album._id
+            album && album.album_user_id
               ? <Tooltip placement="top" color="#383737" title="Xóa khỏi thư viện">
                 <div onClick={removeFromAlbum} className="block__icon block__icon--svg"><HeartOutlined /></div>
               </Tooltip>

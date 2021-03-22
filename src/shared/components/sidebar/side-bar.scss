@@ -4,28 +4,27 @@
   background-color: #2a213a;
   min-width: 22rem;
   height: 100%;
-  transition: width .3s ease-in-out;
+  transition: width 0.3s ease-in-out;
   position: relative;
   @media screen and (max-width: 1024px) {
     min-width: 10rem;
   }
-  &__logo{
-
+  &__logo {
   }
-  .line{
+  .line {
     background-color: #ffffff1a;
-    height: .1rem;
+    height: 0.1rem;
     margin: 0 2rem;
   }
-  &__list{
+  &__list {
     display: flex;
     flex-direction: column;
-    .item{
+    .item {
       font-size: 1.5rem;
       color: #fff;
       padding: 1rem 2rem;
       cursor: pointer;
-      &:hover{
+      &:hover {
         background-color: #ffffff1a;
       }
       @media screen and (max-width: 1024px) {
@@ -33,26 +32,28 @@
         padding: 1rem 3rem;
       }
 
-      &__icon{
-        
+      &__icon {
       }
 
-      &__text{
+      &__text {
         padding-left: 1rem;
         @media screen and (max-width: 1024px) {
           display: none;
         }
       }
     }
+    .item.active{
+      background-color: #ffffff1a;
+    }
   }
 
-  .extend{
+  .extend {
     padding: 0 2rem;
     position: absolute;
     bottom: 2rem;
     width: 100%;
     display: flex;
-    &__icon{
+    &__icon {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -70,12 +71,11 @@
   }
 }
 
-
 // scss common
-.margin_bottom_20{
+.margin_bottom_20 {
   margin-bottom: 2rem;
 }
 
-.margin_top_20{
+.margin_top_20 {
   margin-top: 2rem;
 }

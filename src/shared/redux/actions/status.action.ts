@@ -20,3 +20,10 @@ export function setContentChangeStatus(status: boolean) {
     status
   }
 } 
+
+export function setMenuName(name: string) {
+  return {
+    type: STATUS.MENU_NAME,
+    name
+  }
+} 

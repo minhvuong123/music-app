@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 // antd
@@ -7,11 +8,13 @@ import { BsMusicNoteBeamed } from "react-icons/bs";
 import { CgTikcode } from "react-icons/cg";
 import { SiApplemusic, SiCircle } from "react-icons/si";
 
+// assets
+import { setMenuName } from 'shared/redux/actions';
+
 // styles
 import './side-bar.scss';
 
-
-function SideBar() {
+function SideBar({ setMenuName }: any) {
   return (
     <div className="sidebar">
       <div className="sidebar__logo">
@@ -22,25 +25,21 @@ function SideBar() {
           <span className="item__icon"><SiApplemusic /></span>
           <span className="item__text">Cá nhân</span>
         </NavLink>
-        <a href="/" className="item">
+        <NavLink to="/kham-pha" className="item">
           <span className="item__icon"><SiCircle /></span>
           <span className="item__text">Khám phá</span>
-        </a>
-        <a href="/" className="item">
-          <span className="item__icon"><HeartOutlined /></span>
-          <span className="item__text">Theo dõi</span>
-        </a>
+        </NavLink>
       </div>
       <div className="line"></div>
       <div className="sidebar__list mt__20">
-        <a href="/" className="item">
+        <NavLink to="/moi-phat-hanh" className="item">
           <span className="item__icon"><BsMusicNoteBeamed /></span>
           <span className="item__text">Nhạc mới</span>
-        </a>
-        <a href="/" className="item">
+        </NavLink>
+        <NavLink to="/category" className="item">
           <span className="item__icon"><CgTikcode /></span>
           <span className="item__text">Thể loại</span>
-        </a>
+        </NavLink>
       </div>
       <div className="extend">
         <span className="extend__icon">
@@ -51,4 +50,19 @@ function SideBar() {
   );
 }
 
-export default SideBar;
+const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
+  return {
+    isLoading,
+    songs,
+    album,
+    error
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setMenuName: (name: string) => dispatch(setMenuName(name))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

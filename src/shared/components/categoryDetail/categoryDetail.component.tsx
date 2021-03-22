@@ -63,10 +63,10 @@ function CategoryAlbumDetail({ location, setSongsAction }: any) {
   return (
     <div className="category__detail">
       <div className="block">
+        <h3 className="block__title">Nổi Bật</h3>
         <SlideList
-          slideSetting={settings}
-          title="Nổi Bật">
-          <div>
+          slideSetting={settings}>
+          <div className="mt__20">
             {
               albums && albums.map((album: any) => {
                 return (
