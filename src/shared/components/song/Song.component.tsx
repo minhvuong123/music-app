@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import jwt from 'jsonwebtoken';
 
 // ant
 import {
@@ -8,8 +9,7 @@ import {
   HeartOutlined,
   LoadingOutlined
 } from '@ant-design/icons';
-
-import { Popover } from 'antd';
+import { Popover, Tooltip } from 'antd';
 import { AiOutlinePlus, AiOutlineRight } from "react-icons/ai";
 import { BsMusicNoteList } from "react-icons/bs";
 
@@ -23,16 +23,23 @@ import { loadSongAction, setPlayAction } from 'shared/redux/actions';
 import './song.scss';
 
 function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction, callBackPlaySong }: any) {
+  const token = localStorage.getItem('token') as string;
   const [isChosen, setIsChosen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [user, setUser] = useState<any>({});
 
   useEffect(() => {
+    jwt.verify(token, 'kiwi', async function (err, decoded: any) {
+      if (!err) {
+        setUser(decoded._doc);
+      }
+    });
     if (song._id === songSaga._id) {
       setIsChosen(true);
     } else {
       setIsChosen(false);
     }
-  }, [song, songSaga])
+  }, [song, songSaga, token])
 
   function handlePlaySong() {
     if (song._id !== songSaga._id) {
@@ -54,7 +61,7 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
       _id: songId,
       song_id_albums: albumId
     }
-    axios.patch(`${apiLink}/songs`, {song: payLoad}).then(result => {
+    axios.patch(`${apiLink}/songs`, { song: payLoad }).then(result => {
       // handle to message success
     })
   }
@@ -66,6 +73,16 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
       _id: song._id,
       song_user_id: '',
       song_id_albums: ''
+    }
+    axios.patch(`${apiLink}/songs`, { song: payload }).then(result => { })
+  }
+
+  function addToUser(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    const payload = {
+      _id: song._id,
+      song_user_id: user._id
     }
     axios.patch(`${apiLink}/songs`, { song: payload }).then(result => {})
   }
@@ -128,11 +145,15 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
         <div className="media__right">
           <div className="actions">
             {
-              song && song._id
-              ? <div onClick={removeFromUser} className="action__btn action__btn--svg"><HeartOutlined /></div>
-              : <div className="action__btn"><HeartOutlined /></div>
+              song && song.song_user_id
+                ? <Tooltip placement="top" color="#383737" title="Xóa khỏi thư viện">
+                  <div onClick={removeFromUser} className="action__btn action__btn--svg"><HeartOutlined /></div>
+                </Tooltip>
+                : <Tooltip placement="top" color="#383737" title="Thêm vào thư viện">
+                  <div onClick={addToUser} className="action__btn"><HeartOutlined /></div>
+                </Tooltip>
             }
-            
+
             <div className="action__btn">
               <Popover
                 content={content}

@@ -2,7 +2,7 @@ import axios from "axios";
 import { apiLink } from "shared/const";
 
 export async function getSongsApi(albumId: string) {;
-  const response = await axios.get(`${apiLink}/songs/${albumId}`);
+  const response = await axios.get(`${apiLink}/songs/album/${albumId}`);
   const data = response.data.songs;
 
   return data;

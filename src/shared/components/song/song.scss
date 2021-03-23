@@ -86,13 +86,13 @@
 
   &:hover, &.active{
     background-color:#ffffff1a;
-    .app_media{
-      .media_left{
-        .media_thumb{
-          .opacity{
+    .media{
+      .media__left{
+        .thumb{
+          .thumb__opacity{
             opacity: 1;
           }
-          .play_btn{
+          .thumb__btn{
             opacity: 1;
           }
         }
@@ -151,7 +151,7 @@
       }
       &:hover{
         background-color: #ffffff1a;
-        .item_pop_up{
+        .popup{
           display: inline-block;
         }
       }
