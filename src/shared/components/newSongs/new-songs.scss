@@ -1,0 +1,49 @@
+.new__songs {
+  .new__title {
+    font-size: 40px;
+    h3 {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      .new__btn{
+        margin-left: 5px;
+        width: 40px;
+        height: 40px;
+        background-color: #7200a1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        font-size: 25px;
+        padding-left: 5px;
+        cursor: pointer;
+        &:hover{
+          filter: brightness(.9);
+        }
+      }
+    }
+  }
+  .song__number {
+    -webkit-text-stroke: 1px #fff;
+    font-size: 32px;
+    font-weight: 900;
+    width: 60px;
+    text-align: center;
+  }
+
+  .number__1 {
+    -webkit-text-stroke: 1px #4a90e2;
+  }
+
+  .number__2 {
+    -webkit-text-stroke: 1px #50e3c2;
+  }
+
+  .number__3 {
+    -webkit-text-stroke: 1px #e35050;
+  }
+
+  .song__content {
+    flex-grow: 1;
+  }
+}

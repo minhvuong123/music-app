@@ -145,7 +145,7 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
         <div className="media__right">
           <div className="actions">
             {
-              song && song.song_user_id
+              song && song.song_user_id === user._id
                 ? <Tooltip placement="top" color="#383737" title="Xóa khỏi thư viện">
                   <div onClick={removeFromUser} className="action__btn action__btn--svg"><HeartOutlined /></div>
                 </Tooltip>

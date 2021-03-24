@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
 
+// ant
+import {
+  CaretRightOutlined
+} from '@ant-design/icons';
+
 // components
 import Song from 'shared/components/song/Song.component';
 
@@ -9,12 +14,12 @@ import Song from 'shared/components/song/Song.component';
 import { songType } from 'shared/types';
 import axios from 'axios';
 import { apiLink } from 'shared/const';
-import { setSongsAction } from 'shared/redux/actions';
+import { loadSongAction, setSongsAction } from 'shared/redux/actions';
 
 // styles scss
-// import './main.scss';
+import './new-songs.scss';
 
-function NewSongsComponent({ setSongsAction }: any) {
+function NewSongsComponent({ setSongsAction, loadSongAction }: any) {
   const token = localStorage.getItem('token') as string;
   const [songs, setSongs] = useState<any>([]);
   const [albums, setAlbums] = useState([]);
@@ -25,9 +30,9 @@ function NewSongsComponent({ setSongsAction }: any) {
         if (!err) {
           const resultSongs = await axios.get(`${apiLink}/songs/new`);
           setSongs(resultSongs.data.songs);
-    
+
           const resultAlbums = await axios.get(`${apiLink}/albums/user/${decoded._doc._id}`);
-            setAlbums(resultAlbums.data.albums);
+          setAlbums(resultAlbums.data.albums);
         }
       });
     }
@@ -35,16 +40,36 @@ function NewSongsComponent({ setSongsAction }: any) {
     loadData();
 
     return () => { }
-  }, [])
+  }, [token])
 
   function callBackPlaySong() {
     setSongsAction(songs);
   }
 
+  function playAll(){
+    loadSongAction(songs[0]);
+    setSongsAction(songs);
+  }
+
   return (
     <div className="new__songs">
+      <div className="new__title">
+        <h3>
+          Mới Phát Hành
+          <div onClick={playAll} className="new__btn">
+            <CaretRightOutlined />
+          </div>
+        </h3>
+      </div>
       {
-        songs && songs.map((s: songType) => <Song key={s._id} song={s} albums={albums} callBackPlaySong={callBackPlaySong} />)
+        songs && songs.map((s: songType, index: number) => (
+          <div key={s._id} className="d-flex">
+            <span className={`song__number ${index === 0 ? "number__1" : index === 1 ? "number__2" : index === 2 ? "number__3" : ""}`}>{index + 1}</span>
+            <div className="song__content">
+              <Song song={s} albums={albums} callBackPlaySong={callBackPlaySong} />
+            </div>
+          </div>
+        ))
       }
     </div>
   );
@@ -52,6 +77,7 @@ function NewSongsComponent({ setSongsAction }: any) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    loadSongAction: (song: any) => dispatch(loadSongAction(song)),
     setSongsAction: (songs: any) => dispatch(setSongsAction(songs))
   }
 }
