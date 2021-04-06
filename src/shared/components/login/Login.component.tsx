@@ -43,6 +43,7 @@ function LoginComponent({ loginStatus, setLoginStatus }: any) {
         <Form
           form={form}
           layout="vertical"
+          className="login__form"
           initialValues={{
             user_email: '',
             user_password: '',
@@ -66,8 +67,8 @@ function LoginComponent({ loginStatus, setLoginStatus }: any) {
             <Input />
           </Form.Item>
           <div>
-            <button type="submit" className="upload__btn">Confirm</button>
-            <a href="/" className="ml__10">Quên mật khẩu?</a>
+            <button type="submit" className="login__btn">Đăng Nhập</button>
+            <a href="/" className="ml__10 forgot">Quên mật khẩu?</a>
           </div>
         </Form>
       </Modal>

@@ -65,6 +65,10 @@ function Header({ history, setLoginStatus }: any) {
     window.history.go(1);
   }
 
+  function redirectLogin(){
+    setLoginStatus(true);
+  }
+
   return (
     <div className="header__container">
       <div className="arrow">
@@ -97,7 +101,7 @@ function Header({ history, setLoginStatus }: any) {
                   <UploadOutlined />
                 </div>
               </UploadComponent>
-              : <div className="upload__btn">
+              : <div onClick={redirectLogin} className="upload__btn">
                 <UploadOutlined />
               </div>
           }

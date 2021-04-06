@@ -45,7 +45,7 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     if (song._id !== songSaga._id) {
       loadSongAction(song);
       setPlayAction(true);
-      callBackPlaySong();
+      callBackPlaySong() && callBackPlaySong();
     }
     else {
       setPlayAction(!playStatus);

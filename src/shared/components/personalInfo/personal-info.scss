@@ -1,0 +1,34 @@
+.personal__info{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .info__avatar{
+    width: 100px;
+    height: 101px;
+    border-radius: 50%;
+    background-color: #cdd5e2;
+    color: #ebeff8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+  }
+  .info__name{
+    font-size: 25px;
+    color: #fff;
+    margin-top: 10px;
+  }
+  .info__btn{
+    position: absolute;
+    right: 0;
+    background-color: #432275;
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    &:hover{
+      background-color: #57289f;
+    }
+  }
+}

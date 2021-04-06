@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
 
 // antd
 import { HeartOutlined, RightOutlined } from '@ant-design/icons';
@@ -9,19 +10,36 @@ import { CgTikcode } from "react-icons/cg";
 import { SiApplemusic, SiCircle } from "react-icons/si";
 
 // assets
-import { setMenuName } from 'shared/redux/actions';
+import { setLoginStatus, setMenuName } from 'shared/redux/actions';
 
 // styles
 import './side-bar.scss';
 
-function SideBar({ setMenuName }: any) {
+function SideBar({ setMenuName, setLoginStatus }: any) {
+  const token = localStorage.getItem('token') as string;
+  const [user, setUser] = useState({} as any);
+
+  useEffect(() => {
+    jwt.verify(token, 'kiwi', function (err, decoded: any) {
+      if (!err) {
+       setUser(decoded._doc);
+      }
+    });
+  }, [token])
+
+  function authenticate(e: any) {
+    if (Object.keys(user).length <= 0) {
+      e.preventDefault();
+      setLoginStatus(true);
+    }
+  }
   return (
     <div className="sidebar">
       <div className="sidebar__logo">
         <NavLink to="/">Home</NavLink>
       </div>
       <div className="sidebar__list mb__20">
-        <NavLink to="/my-music" className="item">
+        <NavLink to="/my-music" onClick={authenticate} className="item">
           <span className="item__icon"><SiApplemusic /></span>
           <span className="item__text">Cá nhân</span>
         </NavLink>
@@ -61,7 +79,8 @@ const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setMenuName: (name: string) => dispatch(setMenuName(name))
+    setMenuName: (name: string) => dispatch(setMenuName(name)),
+    setLoginStatus: (status: boolean) => dispatch(setLoginStatus(status))
   }
 }
 
