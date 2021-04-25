@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import jwt from 'jsonwebtoken';
+import { withRouter } from 'react-router-dom';
+
 import PersonalMenu from 'shared/components/personalMenu/PersonalMenu.component';
 import UserGeneral from 'user/general/General.component';
 import UserSongs from 'user/songs/SongsUser.component';
@@ -8,8 +11,17 @@ import PersonalInfo from '../personalInfo/PersonalInfo.component';
 // styles scss
 import './personal.scss';
 
-function Personal({ songs }: any) {
+function Personal({ history }: any) {
+  const token = localStorage.getItem('token') as string;
   const [page, setPage] = useState(<UserGeneral />);
+
+  useEffect(() => {
+    jwt.verify(token, 'kiwi', function (err, decoded: any) {
+      if (err) {
+        history.push('/');
+      }
+    });
+  }, [token, history])
 
   function getMenu(value: string) {
     switch (value) {
@@ -39,4 +51,4 @@ function Personal({ songs }: any) {
 }
 
 
-export default Personal;
+export default withRouter(Personal);

@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 
 // antd
-import { HeartOutlined, RightOutlined } from '@ant-design/icons';
+import { RightOutlined } from '@ant-design/icons';
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { CgTikcode } from "react-icons/cg";
 import { SiApplemusic, SiCircle } from "react-icons/si";
 
 // assets
-import { setLoginStatus, setMenuName } from 'shared/redux/actions';
+import { setMenuName } from 'shared/redux/actions';
 
 // styles
 import './side-bar.scss';
 
-function SideBar({ setMenuName, setLoginStatus }: any) {
+function SideBar({ setMenuName, history }: any) {
   const token = localStorage.getItem('token') as string;
   const [user, setUser] = useState({} as any);
 
@@ -30,7 +30,7 @@ function SideBar({ setMenuName, setLoginStatus }: any) {
   function authenticate(e: any) {
     if (Object.keys(user).length <= 0) {
       e.preventDefault();
-      setLoginStatus(true);
+      history.push('login');
     }
   }
   return (
@@ -79,9 +79,8 @@ const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setMenuName: (name: string) => dispatch(setMenuName(name)),
-    setLoginStatus: (status: boolean) => dispatch(setLoginStatus(status))
+    setMenuName: (name: string) => dispatch(setMenuName(name))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideBar);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SideBar));

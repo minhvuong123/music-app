@@ -7,6 +7,8 @@ import Personal from 'shared/components/personal/Personal.component';
 import CategoryAlbumDetail from 'shared/components/categoryDetail/categoryDetail.component';
 import HubComponent from 'shared/components/hub/Hub.component';
 import NewSongsComponent from 'shared/components/newSongs/NewSongs.component';
+import RegisterComponent from 'shared/components/register/Register.component';
+import LoginComponent from 'shared/components/login/Login.component';
 
 const RouteWithSubRoutes = (route) => {
   return (
@@ -75,6 +77,18 @@ const Routes = [
     keyPath: '/category/:name',
     exact: true,
     component: CategoryAlbumDetail
+  },
+  {
+    path: '/register',
+    keyPath: '/register',
+    exact: true,
+    component: RegisterComponent
+  },
+  {
+    path: '/login',
+    keyPath: '/login',
+    exact: true,
+    component: LoginComponent
   }
 ]
 

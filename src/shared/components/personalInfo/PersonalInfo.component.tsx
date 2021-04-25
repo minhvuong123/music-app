@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import jwt from 'jsonwebtoken';
+import { withRouter } from 'react-router-dom';
 
 // icon
 import { FaUserAlt } from "react-icons/fa";
@@ -9,7 +10,7 @@ import './personal-info.scss';
 import { apiLink } from 'shared/const';
 
 
-function PersonalInfo() {
+function PersonalInfo({ history } : any) {
   const token = localStorage.getItem('token') as string;
   const [user, setUser] = useState({} as any);
 
@@ -23,6 +24,7 @@ function PersonalInfo() {
 
   function logout() {
     localStorage.setItem('token', '');
+    history.push('/');
   }
 
   return (
@@ -50,4 +52,4 @@ function PersonalInfo() {
 }
 
 
-export default PersonalInfo;
+export default withRouter(PersonalInfo);

@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 
 // components
-import LoginComponent from 'shared/components/login/Login.component';
 import UploadComponent from 'shared/components/upload/Upload.component';
 import Admin from 'admin/Admin.component';
 
 // assets
-import { setLoginStatus } from 'shared/redux/actions';
 import { apiLink } from 'shared/const';
 import moment from 'moment';
 import axios from 'axios';
@@ -26,16 +23,25 @@ import {
 // scss
 import './header.scss';
 
-function Header({ history, setLoginStatus }: any) {
+function Header({ history }: any) {
   const token = localStorage.getItem('token') as string;
+  const [user, setUser] = useState(undefined) as any;
   const [isSubmit] = useState(false);
+
+  useEffect(() => {
+    jwt.verify(token, 'kiwi', function (err, decoded: any) {
+      if (!err) {
+        setUser(decoded._doc);
+      }
+    });
+  }, [token])
 
   function handleUser() {
     jwt.verify(token, 'kiwi', function (err, decoded) {
       if (!err) {
         history.push('/my-music');
       } else {
-        setLoginStatus(true);
+        history.push('/login');
       }
     });
   }
@@ -65,8 +71,8 @@ function Header({ history, setLoginStatus }: any) {
     window.history.go(1);
   }
 
-  function redirectLogin(){
-    setLoginStatus(true);
+  function redirectLogin() {
+    history.push('/login');
   }
 
   return (
@@ -84,12 +90,16 @@ function Header({ history, setLoginStatus }: any) {
         </div>
       </div>
       <div className="right">
-        <div className="right__admin">
-          <Admin />
-        </div>
+        {
+          user && user.user_role === 'admin'
+          && <div className="right__admin">
+            <Admin />
+          </div>
+        }
+
         <div className="right__upload">
           {
-            token
+             user
               ? <UploadComponent
                 listType='text'
                 showUploadList={false}
@@ -109,16 +119,9 @@ function Header({ history, setLoginStatus }: any) {
         <div onClick={handleUser} className="user">
           <UserOutlined />
         </div>
-        <LoginComponent />
       </div>
     </div>
   );
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setLoginStatus: (status: boolean) => dispatch(setLoginStatus(status))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(withRouter(Header));
+export default withRouter(Header);

@@ -13,32 +13,27 @@ import {
 } from 'antd';
 
 // scss
-import './login.scss';
+import './register.scss';
 
-function LoginComponent({ history }: any) {
+function RegisterComponent({ history }: any) {
   const [form] = Form.useForm();
 
   function onFinish(values: any) {
     const resultData = _.cloneDeepWith(values);
     resultData.created_at = moment().toISOString();
-    axios.post(`${apiLink}/users/login`, { user: resultData }).then(result => {
-      localStorage.setItem('token', result.data.token);
-      history.push('/');
+    axios.post(`${apiLink}/users/register`, { user: resultData }).then(result => {
+      history.push('/login');
     });
   };
-
-  function register(event: any) {
-    event.preventDefault();
-    history.push('/register');
-  }
   return (
-    <div className="login__container">
+    <div className="register__container">
       <Form
         form={form}
         layout="vertical"
-        className="login__form"
+        className="register__form"
         initialValues={{
           user_email: '',
+          user_phone: '',
           user_password: '',
           created_at: ''
         }}
@@ -53,6 +48,13 @@ function LoginComponent({ history }: any) {
           <Input />
         </Form.Item>
         <Form.Item
+          name="user_phone"
+          label="Số điện thoại"
+          rules={[{ required: true, message: 'Name is not empty!' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
           name="user_password"
           label="Mật khẩu"
           rules={[{ required: true, message: 'Name is not empty!' }]}
@@ -60,11 +62,7 @@ function LoginComponent({ history }: any) {
           <Input />
         </Form.Item>
         <div className="d-flex">
-          <button type="submit" className="login__btn">Đăng Nhập</button>
-          <div>
-            <a href="/" className="ml__10 d-block purple">Quên mật khẩu?</a>
-            <a href="/" onClick={register} className="ml__10 d-block purple">Đăng ký</a>
-          </div>
+          <button type="submit" className="register__btn">Đăng Ký</button>
         </div>
       </Form>
     </div>
@@ -72,4 +70,4 @@ function LoginComponent({ history }: any) {
 }
 
 
-export default LoginComponent;
+export default RegisterComponent;

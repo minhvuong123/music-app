@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import jwt from 'jsonwebtoken';
 
 // ant
 import {
@@ -22,19 +21,12 @@ import './new-songs.scss';
 function NewSongsComponent({ setSongsAction, loadSongAction }: any) {
   const token = localStorage.getItem('token') as string;
   const [songs, setSongs] = useState<any>([]);
-  const [albums, setAlbums] = useState([]);
+  const [albums] = useState([]);
 
   useEffect(() => {
     async function loadData() {
-      jwt.verify(token, 'kiwi', async function (err, decoded: any) {
-        if (!err) {
-          const resultSongs = await axios.get(`${apiLink}/songs/new`);
-          setSongs(resultSongs.data.songs);
-
-          const resultAlbums = await axios.get(`${apiLink}/albums/user/${decoded._doc._id}`);
-          setAlbums(resultAlbums.data.albums);
-        }
-      });
+      const resultSongs = await axios.get(`${apiLink}/songs/new`);
+      setSongs(resultSongs.data.songs);
     }
 
     loadData();
@@ -46,7 +38,7 @@ function NewSongsComponent({ setSongsAction, loadSongAction }: any) {
     setSongsAction(songs);
   }
 
-  function playAll(){
+  function playAll() {
     loadSongAction(songs[0]);
     setSongsAction(songs);
   }
