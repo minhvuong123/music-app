@@ -18,9 +18,10 @@ import { songType } from 'shared/types';
 import Song from 'shared/components/song/Song.component';
 import album_default from 'images/album_default.png';
 import axios from 'axios';
+import { setSongsAction } from 'shared/redux/actions';
 
 
-function AlbumDetail({ location, songs, album, loadAlbumAction }: any) {
+function AlbumDetail({ location, songs, album, loadAlbumAction, setSongsAction }: any) {
   const { albumId } = location.state;
 
   useEffect(() => {
@@ -29,6 +30,10 @@ function AlbumDetail({ location, songs, album, loadAlbumAction }: any) {
     });
     return () => { }
   }, [albumId, loadAlbumAction])
+  
+  function callBackPlaySong() {
+    setSongsAction(songs);
+  }
 
   return album && Object.keys(album).length > 0 ? (
     <div className="album">
@@ -67,7 +72,7 @@ function AlbumDetail({ location, songs, album, loadAlbumAction }: any) {
       <div className="album__right">
         <div className="album__songs">
           {
-            songs && songs.map((s: songType) => <Song key={s._id} song={s} />)
+            songs && songs.map((s: songType) => <Song key={s._id} song={s} callBackPlaySong={callBackPlaySong} />)
           }
         </div>
       </div>
@@ -86,7 +91,8 @@ const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    loadAlbumAction: (albumId: string) => dispatch(loadAlbumAction(albumId))
+    loadAlbumAction: (albumId: string) => dispatch(loadAlbumAction(albumId)),
+    setSongsAction: (songs: any) => dispatch(setSongsAction(songs))
   }
 }
 

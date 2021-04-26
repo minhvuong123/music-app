@@ -22,7 +22,9 @@ const { Option } = Select;
 function SongAdmin({ tabStatus }: any) {
   const [isSubmit, setIsSubmit] = useState(false);
   const [base64MP3, setBase64MP3] = useState('');
+  const [base64Image, setBase64Image] = useState('');
   const [validateUploadMP3, setValidateUploadMP3] = useState<any>('');
+  const [validateUploadImage, setValidateUploadImage] = useState<any>('');
   const [countries, setcountries] = useState<any>([]);
   const [albums, setAlbums] = useState<any>([]);
   const [categories, setCategories] = useState([]);
@@ -69,6 +71,15 @@ function SongAdmin({ tabStatus }: any) {
     }
   }
 
+  function handleChangeImage(base64Result: string, type: string) {
+    setBase64Image(base64Result);
+    if (!base64Result) {
+      setValidateUploadImage('Image is not empty!');
+    } else {
+      setValidateUploadImage('');
+    }
+  }
+
   function onFinish(results: any) {
     results['errorFields'] = [];
     if (!base64MP3) {
@@ -78,17 +89,26 @@ function SongAdmin({ tabStatus }: any) {
       });
       setValidateUploadMP3('MP3 is not empty!');
     }
+    if (!base64Image) {
+      results['errorFields'].push({
+        errors: ["Image is not empty!"],
+        name: ["song_url_image"]
+      });
+      setValidateUploadMP3('Image is not empty!');
+    }
     if (results.errorFields && results.errorFields.length === 0) {
       delete results['errorFields'];
     }
     if (!results.errorFields) {
       const resultData = { ...results };
       resultData.song_url_music = base64MP3;
+      resultData.song_url_image = base64Image;
       resultData.created_at = moment().toISOString();
 
       axios.post(`${apiLink}/songs`, { song: resultData }).then(result => {
         setIsSubmit(!isSubmit);
         setBase64MP3('');
+        setBase64Image('');
         form.resetFields();
         openNotification('topRight');
       })
@@ -147,6 +167,16 @@ function SongAdmin({ tabStatus }: any) {
           </Form.Item>
         </div>
         <div className={styles.control_layout}>
+          <Form.Item label="* Image" className={styles.control_item}>
+            <UploadComponent
+              listType='picture-card'
+              showUploadList={true}
+              limit={1}
+              isSubmit={isSubmit}
+              handleChangeImage={handleChangeImage}
+            />
+            {validateUploadMP3 ? <span style={{ color: 'red' }}>{validateUploadImage}</span> : null}
+          </Form.Item>
           <Form.Item
             name="song_category"
             label="Types"
@@ -157,6 +187,9 @@ function SongAdmin({ tabStatus }: any) {
               {categories && categories.map((c: categoryType) => <Option key={c._id} value={c._id}>{c.category_name}</Option>)}
             </Select>
           </Form.Item>
+
+        </div>
+        <div className={styles.control_layout}>
           <Form.Item label="* MP3" className={styles.control_item}>
             <UploadComponent
               listType='picture-card'
