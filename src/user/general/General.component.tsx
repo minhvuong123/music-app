@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 // styles scss
 import './general.scss';
 
-import UserAlbums from 'user/albums/AlbumsUser.component';
-import UserSongs from 'user/songs/SongsUser.component';
+import UserAlbums from 'user/albums/user-albums.component';
+import UserSongs from 'user/songs/user-songs.component';
 
 
 function UserGeneral() {

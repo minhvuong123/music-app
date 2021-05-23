@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import MainComponent from 'shared/components/main/Main.component';
-import AlbumDetail from 'shared/components/albumDetail/AlbumDetail.component';
-import Personal from 'shared/components/personal/Personal.component';
+import MainComponent from 'shared/components/main/main.component';
+import AlbumDetail from 'shared/components/albumDetail/album-detail.component';
+import Personal from 'shared/components/personal/personal.component';
 import CategoryAlbumDetail from 'shared/components/categoryDetail/categoryDetail.component';
-import HubComponent from 'shared/components/hub/Hub.component';
-import NewSongsComponent from 'shared/components/newSongs/NewSongs.component';
-import RegisterComponent from 'shared/components/register/Register.component';
-import LoginComponent from 'shared/components/login/Login.component';
+import HubComponent from 'shared/components/hub/hub.component';
+import NewSongsComponent from 'shared/components/newSongs/new-songs.component';
+import RegisterComponent from 'shared/components/register/register.component';
+import LoginComponent from 'shared/components/login/login.component';
 
 const RouteWithSubRoutes = (route) => {
   return (

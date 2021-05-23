@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 
@@ -16,8 +16,9 @@ import { apiLink } from 'shared/const';
 
 import album_default from 'images/album_default.png';
 import axios from 'axios';
+import { ComponentModel } from 'shared/model';
 
-function Album({ album }: any) {
+function Album({ album }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [song, setSong] = useState<any>({});
   const [user, setUser] = useState<any>({});
@@ -26,7 +27,7 @@ function Album({ album }: any) {
     jwt.verify(token, 'kiwi', async function (err, decoded: any) {
       if (!err) {
         setUser(decoded._doc);
-        axios.get(`${apiLink}/songs/albums/${album._id}`).then(result => {
+        axios.get(`${apiLink}/songs/albums/${album!._id}`).then(result => {
           // handle to message success
           if(result && result.data && result.data.song){
             setSong(result.data.song);
@@ -40,7 +41,7 @@ function Album({ album }: any) {
     e.preventDefault();
     e.stopPropagation();
     const payload = {
-      _id: album._id,
+      _id: album!._id,
       album_user_id: user._id
     }
     axios.patch(`${apiLink}/albums`, { album: payload }).then(result => {})
@@ -50,7 +51,7 @@ function Album({ album }: any) {
     e.preventDefault();
     e.stopPropagation();
     const payload = {
-      _id: album._id,
+      _id: album!._id,
       album_user_id: ''
     }
     axios.patch(`${apiLink}/albums`, { album: payload }).then(result => {})
@@ -59,13 +60,13 @@ function Album({ album }: any) {
   return (
     <div className="block__container">
       <NavLink to={{
-        pathname: `/album/${album.album_slug}`,
-        state: { albumId: album._id }
+        pathname: `/album/${album!.album_slug}`,
+        state: { albumId: album!._id }
       }} className="block">
         {
-          album.album_url_image || Object.keys(song).length > 0
+          album!.album_url_image || Object.keys(song).length > 0
             ? <div className="block__image">
-              <img src={`${apiLink}/${album.album_url_image || song.song_url_image}`} alt="music app" />
+              <img src={`${apiLink}/${album!.album_url_image || song.song_url_image}`} alt="music app" />
             </div>
             : <div className="block__image">
               <img src={album_default} alt="" />
@@ -91,7 +92,7 @@ function Album({ album }: any) {
         </div>
       </NavLink>
       <div className="block__name">
-        <a href="/" title={album.album_name}>{album.album_name}</a>
+        <a href="/" title={album!.album_name}>{album!.album_name}</a>
       </div>
     </div>
   );

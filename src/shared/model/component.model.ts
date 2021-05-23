@@ -1,0 +1,40 @@
+import { AlbumModel } from "./album.model";
+import { CategoryModel } from "./category.model";
+import { SongModel } from "./song.model";
+
+export interface ComponentModel {
+  tabStatus?: boolean;
+  contentStatus?: boolean;
+  setContentChangeStatus?: Function | any;
+  album?: AlbumModel;
+  location?: any;
+  songs?: SongModel[] | any;
+  loadAlbumAction?: Function | any;
+  setSongsAction?: Function | any;
+  song?: SongModel | any;
+  category?: CategoryModel | any;
+  history?: any;
+  loadSongAction?: Function | any;
+  getMenu?: Function | any;
+  playListStatus?: Function | any;
+  setPlayListStatus?: Function | any;
+  setPlayAction?: Function | any;
+  callBackPlaySong?: Function | any;
+  playFunc?: Function | any;
+  endFunc?: Function | any;
+  next?: Function | any;
+  audioSrc?: string | any;
+  previous?: Function | any;
+  songSaga?: SongModel[] | any;
+  playStatus?: boolean;
+  play?: boolean;
+  children?: any;
+  title?: string;
+  slideSetting?: any;
+  albums?: AlbumModel[];
+  listType?: string | any;
+  showUploadList?: boolean;
+  limit?: number;
+  isSubmit?: boolean;
+  handleChangeImage?: Function | any;
+}

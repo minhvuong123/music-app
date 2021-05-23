@@ -2,16 +2,17 @@ import { useEffect, useState } from 'react';
 import jwt from 'jsonwebtoken';
 import { withRouter } from 'react-router-dom';
 
-import PersonalMenu from 'shared/components/personalMenu/PersonalMenu.component';
-import UserGeneral from 'user/general/General.component';
-import UserSongs from 'user/songs/SongsUser.component';
-import UserPlayList from 'user/albums/AlbumsUser.component';
-import PersonalInfo from '../personalInfo/PersonalInfo.component';
+import PersonalMenu from 'shared/components/personal-menu/personal-menu.component';
+import UserGeneral from 'user/general/general.component';
+import UserSongs from 'user/songs/user-songs.component';
+import UserPlayList from 'user/albums/user-albums.component';
+import PersonalInfo from '../personal-info/personal-info.component';
 
 // styles scss
 import './personal.scss';
+import { ComponentModel } from 'shared/model';
 
-function Personal({ history }: any) {
+function Personal({ history }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [page, setPage] = useState(<UserGeneral />);
 

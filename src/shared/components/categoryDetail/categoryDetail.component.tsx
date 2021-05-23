@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 // components
-import SlideList from 'shared/components/slideList/slideList.component';
-import Album from 'shared/components/album/Album.component';
-import PlayListSong from 'shared/components/playListSong/PlayListSong.component';
+import Album from 'shared/components/album/album.component';
+import SlideList from 'shared/components/slide-list/slide-list.component';
+import PlayListSong from 'shared/components/play-songs/play-songs.component';
 
 // assets
 import axios from 'axios';
@@ -13,8 +13,9 @@ import { setSongsAction } from 'shared/redux/actions';
 
 // styles
 import './category-detail.scss';
+import { ComponentModel } from 'shared/model';
 
-function CategoryAlbumDetail({ location, setSongsAction }: any) {
+function CategoryAlbumDetail({ location, setSongsAction }: ComponentModel) {
   const { categoryId } = location.state;
   const [albums, setAlbums] = useState<any>([]);
   const [songs, setSongs] = useState<any>([]);

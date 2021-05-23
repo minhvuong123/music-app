@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from 'react';
+
 import { NavLink } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
 
 // styles
 import './category.scss';
 import { apiLink } from 'shared/const';
+import { ComponentModel } from 'shared/model';
 
-function CategoryAlbum({ category }: any) {
-  const token = localStorage.getItem('token') as string;
-  const [user, setUser] = useState(null);
-  
-  useEffect(() => {
-    jwt.verify(token, 'kiwi', async function (err, decoded: any) {
-      if (!err) {
-        setUser(decoded._doc);
-      }
-    });
-  }, [category, token])
-
+function CategoryAlbum({ category }: ComponentModel) {
   return (
     <div className="cateogory__container">
       <NavLink to={{

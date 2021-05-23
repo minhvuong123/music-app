@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
 
@@ -21,8 +21,9 @@ import { loadSongAction, setPlayAction } from 'shared/redux/actions';
 
 // scss
 import './song.scss';
+import { ComponentModel } from 'shared/model';
 
-function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction, callBackPlaySong }: any) {
+function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction, callBackPlaySong }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [isChosen, setIsChosen] = useState(false);
   const [visible, setVisible] = useState(false);

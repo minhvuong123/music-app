@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 
 // components
-import UploadComponent from 'shared/components/upload/Upload.component';
-import Admin from 'admin/Admin.component';
+import UploadComponent from 'shared/components/upload/upload.component';
+import Admin from 'admin/admin-routes.component';
 
 // assets
 import { apiLink } from 'shared/const';
@@ -22,8 +22,9 @@ import {
 
 // scss
 import './header.scss';
+import { ComponentModel } from 'shared/model';
 
-function Header({ history }: any) {
+function Header({ history }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [user, setUser] = useState(undefined) as any;
   const [isSubmit] = useState(false);

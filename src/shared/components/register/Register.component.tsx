@@ -1,4 +1,3 @@
-import React from 'react';
 
 // assets
 import moment from 'moment';
@@ -14,8 +13,9 @@ import {
 
 // scss
 import './register.scss';
+import { ComponentModel } from 'shared/model';
 
-function RegisterComponent({ history }: any) {
+function RegisterComponent({ history }: ComponentModel) {
   const [form] = Form.useForm();
 
   function onFinish(values: any) {

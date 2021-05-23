@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 // components
-import Album from 'shared/components/album/Album.component';
-import SlideList from 'shared/components/slideList/slideList.component';
+import Album from 'shared/components/album/album.component';
+import SlideList from 'shared/components/slide-list/slide-list.component';
 import CategoryAlbum from 'shared/components/category/category.component';
 
 // assets
@@ -13,8 +13,9 @@ import { apiLink } from 'shared/const';
 
 // styles scss
 import './main.scss';
+import { ComponentModel } from 'shared/model';
 
-function MainComponent({ contentStatus }: any) {
+function MainComponent({ contentStatus }: ComponentModel) {
   const [albumsTitle, setAlbumsTitle] = useState<any>([]);
 
   useEffect(() => {

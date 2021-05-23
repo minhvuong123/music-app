@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './upload.scss';
+import { ComponentModel } from 'shared/model';
 
-function UploadComponent({ listType, showUploadList, limit, isSubmit, handleChangeImage, children }: any) {
+function UploadComponent({ listType, showUploadList, limit, isSubmit, handleChangeImage, children }: ComponentModel) {
   const [fileListCom, setFileListCom] = useState<any>([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState();
@@ -66,7 +67,7 @@ function UploadComponent({ listType, showUploadList, limit, isSubmit, handleChan
   );
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Upload
         customRequest={handleRequest}
         listType={listType}
@@ -91,7 +92,7 @@ function UploadComponent({ listType, showUploadList, limit, isSubmit, handleChan
       >
         <img alt="example" style={{ width: '100%' }} src={previewImage} />
       </Modal>
-    </React.Fragment>
+    </Fragment>
   )
 }
 

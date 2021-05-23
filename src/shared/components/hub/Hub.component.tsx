@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // components
-import SlideList from 'shared/components/slideList/slideList.component';
-import Album from 'shared/components/album/Album.component';
+import Album from 'shared/components/album/album.component';
+import SlideList from 'shared/components/slide-list/slide-list.component';
 
 // icons
 import { RightOutlined } from '@ant-design/icons';
@@ -14,9 +14,10 @@ import axios from 'axios';
 // styles
 import './hub.scss';
 import { NavLink } from 'react-router-dom';
+import { ComponentModel } from 'shared/model';
 
 
-function HubComponent({ category }: any) {
+function HubComponent({ category }: ComponentModel) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
