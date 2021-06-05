@@ -5,7 +5,7 @@ import MainComponent from 'shared/components/main/main.component';
 import AlbumDetail from 'shared/components/albumDetail/album-detail.component';
 import Personal from 'shared/components/personal/personal.component';
 import CategoryAlbumDetail from 'shared/components/categoryDetail/categoryDetail.component';
-import HubComponent from 'shared/components/hub/hub.component';
+import CategoriesComponent from 'shared/components/categories/categories.component';
 import NewSongsComponent from 'shared/components/newSongs/new-songs.component';
 import RegisterComponent from 'shared/components/register/register.component';
 import LoginComponent from 'shared/components/login/login.component';
@@ -64,7 +64,7 @@ const Routes = [
     path: '/category',
     keyPath: '/category',
     exact: true,
-    component: HubComponent
+    component: CategoriesComponent
   },
   {
     path: '/moi-phat-hanh',

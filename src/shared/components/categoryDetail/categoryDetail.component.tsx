@@ -13,7 +13,7 @@ import { setSongsAction } from 'shared/redux/actions';
 
 // styles
 import './category-detail.scss';
-import { ComponentModel } from 'shared/model';
+import { ComponentModel, SongModel } from 'shared/model';
 
 function CategoryAlbumDetail({ location, setSongsAction }: ComponentModel) {
   const { categoryId } = location.state;
@@ -35,7 +35,7 @@ function CategoryAlbumDetail({ location, setSongsAction }: ComponentModel) {
 
 
     loadData();
-
+    return () => {}
   }, [categoryId])
 
   function callBackPlaySong() {
@@ -100,7 +100,7 @@ function CategoryAlbumDetail({ location, setSongsAction }: ComponentModel) {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setSongsAction: (songs: string) => dispatch(setSongsAction(songs))
+    setSongsAction: (songs: SongModel[]) => dispatch(setSongsAction(songs))
   }
 }
 

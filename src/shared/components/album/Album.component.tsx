@@ -18,7 +18,7 @@ import album_default from 'images/album_default.png';
 import axios from 'axios';
 import { ComponentModel } from 'shared/model';
 
-function Album({ album }: ComponentModel) {
+function Album({ album, updateAlbum }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [song, setSong] = useState<any>({});
   const [user, setUser] = useState<any>({});
@@ -32,9 +32,11 @@ function Album({ album }: ComponentModel) {
           if(result && result.data && result.data.song){
             setSong(result.data.song);
           }
+          return null;
         })
       }
     });
+    return () => {}
   }, [album, token])
 
   function addToAlbum(e: any) {
@@ -44,7 +46,10 @@ function Album({ album }: ComponentModel) {
       _id: album!._id,
       album_user_id: user._id
     }
-    axios.patch(`${apiLink}/albums`, { album: payload }).then(result => {})
+    axios.patch(`${apiLink}/albums`, { album: payload }).then(result => { 
+      updateAlbum && updateAlbum({ album_user_id: payload.album_user_id });
+      return null 
+    })
   }
 
   function removeFromAlbum(e: any) {
@@ -54,7 +59,10 @@ function Album({ album }: ComponentModel) {
       _id: album!._id,
       album_user_id: ''
     }
-    axios.patch(`${apiLink}/albums`, { album: payload }).then(result => {})
+    axios.patch(`${apiLink}/albums`, { album: payload }).then(result => { 
+      updateAlbum && updateAlbum({ album_user_id: payload.album_user_id });
+      return null 
+    })
   }
 
   return (
@@ -83,7 +91,7 @@ function Album({ album }: ComponentModel) {
                 <div onClick={addToAlbum} className="block__icon"><HeartOutlined /></div>
               </Tooltip>
           }
-          <div className="block__icon list__icon--play">
+          <div className="block__icon block__icon--play">
             <PlayCircleOutlined />
           </div>
           <Tooltip placement="top" color="#383737" title="Khác">

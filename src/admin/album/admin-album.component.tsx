@@ -78,6 +78,7 @@ function AdminAlbum({ tabStatus }: ComponentModel) {
       setIsSubmit(!isSubmit);
       form.resetFields();
       openNotification('topRight');
+      return null;
     })
   }
 

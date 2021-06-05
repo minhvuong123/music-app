@@ -1,6 +1,7 @@
 export const SONGS = {
   LOAD: 'SONGS_LOAD',
   LOAD_SUCCESS: 'SONGS_LOAD_SUCCESS',
+  UPDATE: 'UPDATE'
 }
 
 export const SONG = {
@@ -11,6 +12,7 @@ export const SONG = {
 export const ALBUM = {
   LOAD: 'ALBUM_LOAD',
   LOAD_SUCCESS: 'ALBUM_LOAD_SUCCESS',
+  UPDATE: 'UPDATE'
 }
 
 export const STATUS = {

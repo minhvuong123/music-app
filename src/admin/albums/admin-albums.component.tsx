@@ -32,6 +32,7 @@ function AdminAlbums({ tabStatus }: ComponentModel) {
     axios.post(`${apiLink}/albumList`, { albumList: resultData }).then(result => {
       form.resetFields();
       openNotification('topRight');
+      return null;
     })
   }
   return (

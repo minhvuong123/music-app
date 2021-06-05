@@ -25,7 +25,7 @@ function PlayControl({song, songs, loadSongAction, play, setPlayAction}: Compone
       }
     }
     return () => { }
-  }, [song, songs, setPlayAction])
+  }, [song, setPlayAction])
 
   function nextFunc() {
     let songIndex;

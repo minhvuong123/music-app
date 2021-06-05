@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { loadAlbumAction } from 'shared/redux/actions';
+import { loadAlbumAction, loadSongAction, setPlayAction } from 'shared/redux/actions';
 
 // ant
 import {
   PlayCircleOutlined,
   CaretRightOutlined,
   HeartOutlined,
-  EllipsisOutlined
+  EllipsisOutlined,
+  LoadingOutlined
 } from '@ant-design/icons';
 
 // styles scss
@@ -19,14 +20,16 @@ import album_default from 'images/album_default.png';
 import axios from 'axios';
 import { setSongsAction } from 'shared/redux/actions';
 import { ComponentModel, SongModel } from 'shared/model';
+import _ from 'lodash';
 
 
-function AlbumDetail({ location, songs, album, loadAlbumAction, setSongsAction }: ComponentModel) {
+function AlbumDetail({ location, playStatus, setPlayAction, loadSongAction, songs, song, album, loadAlbumAction, setSongsAction }: ComponentModel) {
   const { albumId } = location.state;
 
   useEffect(() => {
     axios.patch(`${apiLink}/albums/view/${albumId}`).then(result => {
       loadAlbumAction(albumId);
+      return null;
     });
     return () => { }
   }, [albumId, loadAlbumAction])
@@ -35,10 +38,26 @@ function AlbumDetail({ location, songs, album, loadAlbumAction, setSongsAction }
     setSongsAction(songs);
   }
 
+  function playAll() {
+    if (!_.isEmpty(songs)) {
+      loadSongAction(songs[0]);
+      setSongsAction(songs);
+    }
+  }
+
+  function handlePlaySong(e: any) {
+    e.preventDefault();
+    if (Object.keys(song).length > 0) {
+      setPlayAction(!playStatus);
+    } else {
+      loadSongAction(songs[0]);
+    }
+  }
+
   return album && Object.keys(album).length > 0 ? (
     <div className="album">
       <div className="album__left">
-        <a href="/" className="block_container">
+        <a href="/" onClick={handlePlaySong} className="block_container">
           <div className="block">
             <div className="block__image">
               {
@@ -47,8 +66,10 @@ function AlbumDetail({ location, songs, album, loadAlbumAction, setSongsAction }
                   : <img src={album_default} alt={album.album_name} />
               }
             </div>
-            <div className="block__opacity"></div>
-            <div className="block__btn"><PlayCircleOutlined /></div>
+           <div className={`block__opacity ${playStatus ? "isPlay" : ""}`}></div>
+            <div className={`block__btn ${playStatus ? "isPlay" : ""}`}> 
+              {playStatus ? <LoadingOutlined /> : <PlayCircleOutlined />}
+            </div>
           </div>
         </a>
         <div className="content__container">
@@ -58,9 +79,9 @@ function AlbumDetail({ location, songs, album, loadAlbumAction, setSongsAction }
             <p className="view">630,128 người yêu thích</p>
           </div>
           <div className="content__actions">
-            <div className="content__btn">
+            <div className={`content__btn ${_.isEmpty(songs) ? "disabled" : ""}`}>
               <span className="icon"><CaretRightOutlined /></span>
-              <span className="text">Phát Ngẫu Nhiên</span>
+              <span className="text" onClick={playAll}>Phát Ngẫu Nhiên</span>
             </div>
             <div className="content__level">
               <span className="level__item"><HeartOutlined /></span>
@@ -80,10 +101,12 @@ function AlbumDetail({ location, songs, album, loadAlbumAction, setSongsAction }
   ) : "";
 }
 
-const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
+const mapStateToProps = ({ isLoading, play, songs, song, album, error }: any) => {
   return {
     isLoading,
+    playStatus: play,
     songs,
+    song,
     album,
     error
   }
@@ -92,7 +115,9 @@ const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     loadAlbumAction: (albumId: string) => dispatch(loadAlbumAction(albumId)),
-    setSongsAction: (songs: any) => dispatch(setSongsAction(songs))
+    loadSongAction: (song: any) => dispatch(loadSongAction(song)),
+    setSongsAction: (songs: any) => dispatch(setSongsAction(songs)),
+    setPlayAction: (status: boolean) => dispatch(setPlayAction(status)),
   }
 }
 

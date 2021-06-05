@@ -66,11 +66,12 @@ function AdminContent({ tabStatus, contentStatus, setContentChangeStatus }: Comp
     axios.patch(`${apiLink}/albumList/status`, { albums: payLoad }).then(result => {
       // handle to success message
       setContentChangeStatus(!contentStatus);
+      return null;
     })
   }
 
   return (
-    <div className="app_content">
+    <div className="admin_content">
       <div className="content_container">
         <div className="content_left">
           <h3 className="title">Display Albums</h3>

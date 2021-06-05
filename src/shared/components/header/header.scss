@@ -29,18 +29,31 @@
     background-color: #fff;
     border-radius: 2rem;
     overflow: hidden;
+    align-items: center;
     &__icon{
       padding: 1rem 1rem 1rem 2rem;
     }
     &__input{
       flex-grow: 1;
-      input{
+      .ant-select{
+        width: 100%;
         padding: 1rem;
         width: 100%;
         box-shadow: unset;
         border: unset;
-        &:focus{
-          outline: unset;
+        padding: unset;
+        .ant-select-selector{
+          border: unset;
+        }
+        &:hover{
+          .ant-select-selector{
+            border-color: unset !important;
+            border-right-width: unset !important;
+            box-shadow: unset !important;
+            &:focus {
+              border-color: unset;
+            }
+          }
         }
       }
     }

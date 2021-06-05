@@ -17,22 +17,25 @@ import { loadSongAction, setSongsAction } from 'shared/redux/actions';
 // styles scss
 import './new-songs.scss';
 import { ComponentModel, SongModel } from 'shared/model';
+import _ from 'lodash';
 
-function NewSongsComponent({ setSongsAction, loadSongAction }: ComponentModel) {
+function NewSongsComponent({ setSongsAction, loadSongAction, songs }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
-  const [songs, setSongs] = useState<any>([]);
   const [albums] = useState([]);
 
   useEffect(() => {
     async function loadData() {
       const resultSongs = await axios.get(`${apiLink}/songs/new`);
-      setSongs(resultSongs.data.songs);
+      setSongsAction(resultSongs.data.songs);
+      return null;
     }
 
-    loadData();
+    if (_.isEmpty(songs)) {
+      loadData();
+    }
 
-    return () => { }
-  }, [token])
+      return () => { }
+    }, [token, songs, setSongsAction])
 
   function callBackPlaySong() {
     setSongsAction(songs);
@@ -67,6 +70,12 @@ function NewSongsComponent({ setSongsAction, loadSongAction }: ComponentModel) {
   );
 }
 
+const mapStateToProps = ({ songs }: any) => {
+  return {
+    songs
+  }
+}
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     loadSongAction: (song: any) => dispatch(loadSongAction(song)),
@@ -74,4 +83,4 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(NewSongsComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(NewSongsComponent);

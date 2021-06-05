@@ -16,6 +16,7 @@ import './user-albums.scss';
 import { Form, Input, Modal } from 'antd';
 import { AiOutlinePlus } from "react-icons/ai";
 import Album from 'shared/components/album/album.component';
+import CategoryAlbumComponent from 'shared/components/category-album/category-album.component';
 
 
 function UserPlayList() {
@@ -59,6 +60,7 @@ function UserPlayList() {
 
         axios.post(`${apiLink}/albums`, { album: resultData }).then(result => {
           // handle to message success
+          return null;
         });
       }
     });
@@ -77,7 +79,7 @@ function UserPlayList() {
           albums && albums.map((album: any) => {
             return (
               <div key={album._id} className="item ml__20">
-                <Album album={album} />
+               <CategoryAlbumComponent key={album._id} album={album} />
               </div>
             )
           })

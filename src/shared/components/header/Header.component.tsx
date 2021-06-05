@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
+import { AutoComplete } from 'antd';
 
 // components
 import UploadComponent from 'shared/components/upload/upload.component';
@@ -59,6 +60,7 @@ function Header({ history }: ComponentModel) {
         }
         axios.post(`${apiLink}/songs`, { song: resultData }).then(result => {
           // handle to success message
+          return null;
         })
       }
     });
@@ -76,6 +78,32 @@ function Header({ history }: ComponentModel) {
     history.push('/login');
   }
 
+  function onSelect(data: string) {
+    console.log('onSelect', data);
+  };
+
+  const options1 = [
+    {
+      label: "label 1",
+      value: "value 1"
+    },
+    {
+      label: "label 2",
+      value: "value 2"
+    },
+    {
+      label: "label 3",
+      value: "value 3"
+    }
+  ]
+
+  const [options, setOptions] = useState<[]>(options1 as any);
+  function onSearch(searchText: string) {
+   console.log(searchText);
+   const result = options1.filter(option => option.label.includes(searchText));
+   setOptions(result as any);
+  };
+
   return (
     <div className="header__container">
       <div className="arrow">
@@ -87,7 +115,12 @@ function Header({ history }: ComponentModel) {
           <SearchOutlined />
         </div>
         <div className="search__input">
-          <input type="text" placeholder="Nhập tên bài hát, Nghệ sĩ hoặc MV..." />
+          <AutoComplete
+            options={options}
+            onSelect={onSelect}
+            onSearch={onSearch}
+            placeholder="Nhập tên bài hát, Nghệ sĩ hoặc MV..."
+          />
         </div>
       </div>
       <div className="right">

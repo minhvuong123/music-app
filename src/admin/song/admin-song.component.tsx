@@ -110,6 +110,7 @@ function AdminSong({ tabStatus }: ComponentModel) {
         setBase64Image('');
         form.resetFields();
         openNotification('topRight');
+        return null;
       })
     }
   };

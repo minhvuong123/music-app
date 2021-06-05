@@ -17,13 +17,13 @@ import { BsMusicNoteList } from "react-icons/bs";
 import { apiLink } from 'shared/const';
 import { convertSingers, formatNumberToTime } from 'shared/converter';
 import axios from 'axios';
-import { loadSongAction, setPlayAction } from 'shared/redux/actions';
+import { loadSongAction, setPlayAction, updateSongAction } from 'shared/redux/actions';
 
 // scss
 import './song.scss';
-import { ComponentModel } from 'shared/model';
+import { ComponentModel, SongModel } from 'shared/model';
 
-function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction, callBackPlaySong }: ComponentModel) {
+function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction, callBackPlaySong, updateSongAction }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [isChosen, setIsChosen] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -35,6 +35,7 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
         setUser(decoded._doc);
       }
     });
+
     if (song._id === songSaga._id) {
       setIsChosen(true);
     } else {
@@ -46,7 +47,7 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     if (song._id !== songSaga._id) {
       loadSongAction(song);
       setPlayAction(true);
-      callBackPlaySong() && callBackPlaySong();
+      callBackPlaySong();
     }
     else {
       setPlayAction(!playStatus);
@@ -64,6 +65,7 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     }
     axios.patch(`${apiLink}/songs`, { song: payLoad }).then(result => {
       // handle to message success
+      return null;
     })
   }
 
@@ -72,10 +74,12 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     e.stopPropagation();
     const payload = {
       _id: song._id,
-      song_user_id: '',
-      song_id_albums: ''
+      song_user_id: ''
     }
-    axios.patch(`${apiLink}/songs`, { song: payload }).then(result => { })
+    axios.patch(`${apiLink}/songs`, { song: payload }).then(result => {
+      updateSongAction(payload._id, {song_user_id : payload.song_user_id});
+      return null;
+    })
   }
 
   function addToUser(e: any) {
@@ -85,7 +89,10 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
       _id: song._id,
       song_user_id: user._id
     }
-    axios.patch(`${apiLink}/songs`, { song: payload }).then(result => {})
+    axios.patch(`${apiLink}/songs`, { song: payload }).then(result => {
+      updateSongAction(payload._id, {song_user_id : payload.song_user_id});
+      return null;
+    })
   }
 
   function content() {
@@ -182,6 +189,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     loadSongAction: (song: any) => dispatch(loadSongAction(song)),
     setPlayAction: (status: boolean) => dispatch(setPlayAction(status)),
+    updateSongAction: (_id: string, songPayload: SongModel) => dispatch(updateSongAction(_id, songPayload)),
   }
 }
 
