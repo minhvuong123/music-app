@@ -31,6 +31,7 @@ export interface ComponentModel {
   history?: any;
   location?: any;
   children?: any;
+  match?: any;
 
   // audio
   playListStatus?: Function | any;
@@ -54,4 +55,7 @@ export interface ComponentModel {
   limit?: number;
   isSubmit?: boolean;
   handleChangeImage?: Function | any;
+
+  // search
+  updateSearch?: Function | any;
 }

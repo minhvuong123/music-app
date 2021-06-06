@@ -30,6 +30,7 @@
     border-radius: 2rem;
     overflow: hidden;
     align-items: center;
+    padding-right: 15px;
     &__icon{
       padding: 1rem 1rem 1rem 2rem;
     }
@@ -44,6 +45,7 @@
         padding: unset;
         .ant-select-selector{
           border: unset;
+          box-shadow: unset !important;
         }
         &:hover{
           .ant-select-selector{

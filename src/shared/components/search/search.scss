@@ -1,0 +1,14 @@
+.search__container{
+  .search__header{
+    display: flex;
+    .header__title{
+      font-size: 3rem;
+      color: #fff;
+      margin-bottom: unset;
+      line-height: 1;
+      padding-right: 20px;
+      border-right: 1px solid #ffffff1a;
+      align-self: center;
+    }
+  }
+}

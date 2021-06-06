@@ -46,3 +46,22 @@ export const sidebarList = [
     icon: CgTikcode
   }
 ]
+
+export const searchNav = [
+  {
+    key: "tat-ca",
+    value: "TẤT CẢ"
+  },
+  {
+    key: "bai-hat",
+    value: "BÀI HÁT"
+  },
+  {
+    key: "play-list",
+    value: "PLAYLIST/ALBUM"
+  },
+  {
+    key: "nghe-si",
+    value: "NGHỆ SĨ"
+  }
+]

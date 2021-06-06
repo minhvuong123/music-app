@@ -7,6 +7,7 @@ import albumReducer from './album.reducer';
 import songReducer from './song.reducer';
 import playReducer from './play.reducer';
 import statusReducer from './status.reducer';
+import searchReducer from './search.reducer';
 
 const rootReducer = combineReducers({
   isLoading: loadingReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   error: errorReducer,
   song: songReducer,
   play: playReducer,
-  status: statusReducer
+  status: statusReducer,
+  search: searchReducer
 });
 
 export default  rootReducer;

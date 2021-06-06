@@ -1,0 +1,26 @@
+.search__nav{
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin-bottom: unset;
+  li {
+    padding: 0 20px;
+    a {
+      color: #fff;
+      padding: 10px 0 8px 0;
+      border-bottom: 2px solid transparent;
+      display: inline-block;
+      &.active{
+        border-bottom-color: #7200a1;
+      }
+      .search-badge{
+        padding: 3px 6px;
+        border-radius: 8px;
+        background-color: #ffffff1a;
+        font-size: 10px;
+        line-height: normal;
+        margin-left: 5px;
+      }
+    }
+  }
+}

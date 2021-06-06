@@ -22,6 +22,10 @@ export const STATUS = {
   MENU_NAME: 'MENU_NAME'
 }
 
+export const SEARCH =  {
+  UPDATE: 'UPDATE'
+};
+
 export const ERROR = "ERROR";
 
 export const PLAY = "PLAY";

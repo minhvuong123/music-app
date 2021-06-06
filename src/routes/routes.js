@@ -1,5 +1,5 @@
-import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+
 
 import MainComponent from 'shared/components/main/main.component';
 import AlbumDetail from 'shared/components/albumDetail/album-detail.component';
@@ -9,6 +9,10 @@ import CategoriesComponent from 'shared/components/categories/categories.compone
 import NewSongsComponent from 'shared/components/newSongs/new-songs.component';
 import RegisterComponent from 'shared/components/register/register.component';
 import LoginComponent from 'shared/components/login/login.component';
+import SearchComponent from 'shared/components/search/search.component';
+import searchMainComponent from 'shared/components/search-main/search-main.component';
+import searchSongsComponent from 'shared/components/search-songs/search-songs.component';
+import searchAlbumsComponent from 'shared/components/search-albums/search-albums.component';
 
 const RouteWithSubRoutes = (route) => {
   return (
@@ -16,7 +20,7 @@ const RouteWithSubRoutes = (route) => {
       path={route.path}
       exact={route.exact}
       render={props => {
-        return <route.component {...props} keyPath={route.keyPath} routes={route.routes} />
+        return <route.component {...props} keyPath={route.keyPath} routes={route.nested} />
       }} 
     />
   );
@@ -89,6 +93,38 @@ const Routes = [
     keyPath: '/login',
     exact: true,
     component: LoginComponent
+  },
+  {
+    path: '/tim-kiem',
+    keyPath: '/tim-kiem',
+    exact: false,
+    component: SearchComponent,
+    nested: [
+      {
+        path: '/tim-kiem/tat-ca',
+        keyPath: '/tim-kiem/tat-ca',
+        exact: false,
+        component: searchMainComponent
+      },
+      {
+        path: '/tim-kiem/bai-hat',
+        keyPath: '/tim-kiem/bai-hat',
+        exact: false,
+        component: searchSongsComponent
+      },
+      {
+        path: '/tim-kiem/play-list',
+        keyPath: '/tim-kiem/play-list',
+        exact: false,
+        component: searchAlbumsComponent
+      },
+      {
+        path: '/tim-kiem/nghe-si',
+        keyPath: '/tim-kiem/nghe-si',
+        exact: false,
+        component: searchAlbumsComponent
+      }
+    ]
   }
 ]
 
