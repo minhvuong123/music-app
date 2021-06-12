@@ -58,4 +58,6 @@ export interface ComponentModel {
 
   // search
   updateSearch?: Function | any;
+  search?: Object | any;
+  searchItem?: Object | any;
 }

@@ -65,7 +65,6 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     }
     axios.patch(`${apiLink}/songs`, { song: payLoad }).then(result => {
       // handle to message success
-      return null;
     })
   }
 
@@ -78,7 +77,6 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     }
     axios.patch(`${apiLink}/songs`, { song: payload }).then(result => {
       updateSongAction(payload._id, {song_user_id : payload.song_user_id});
-      return null;
     })
   }
 
@@ -91,7 +89,6 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     }
     axios.patch(`${apiLink}/songs`, { song: payload }).then(result => {
       updateSongAction(payload._id, {song_user_id : payload.song_user_id});
-      return null;
     })
   }
 

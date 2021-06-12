@@ -11,21 +11,42 @@ import { RightOutlined } from '@ant-design/icons';
 // styles
 import './search-main.scss';
 import { setSongsAction } from 'shared/redux/actions';
+import _ from 'lodash';
+import { updateSearchAction } from 'shared/redux/actions/search.action';
 
-function SearchMainComponent({ location, setSongsAction } : ComponentModel) {
+function SearchMainComponent({ location, songs, setSongsAction, updateSearch } : ComponentModel) {
   const [singers, setSingers] = useState([] as SingerModel[]);
-  const [songs, setSongs] = useState([] as SongModel[]);
+  const [currentStringText, seturrentStringText] = useState('');
 
   useEffect(() => {
-    const { inputText, type } = location.state;
-    axios.post(`${apiLink}/search/result`, { value: inputText, type: type, limit: 5 }).then(result => {
-      const { singers, songs } = result.data || {};
+    let mounted = true;
+    function loadData() {
+      const { inputText, type } = location.state;
+      axios.post(`${apiLink}/search/result`, { value: inputText, type: type, limit: 5 }).then(result => {
+        if (mounted) {
+          const { singers, songs } = result.data || {};
+          setSingers(singers || [] as SingerModel[]);
+          setSongsAction(songs) || [] as SingerModel[];
+          seturrentStringText(inputText);
 
-      setSingers(singers || [] as SingerModel[]);
-      setSongs(songs || [] as SongModel[]);
-    });
-    return () => { }
-  }, [location.state])
+          const searchItem = {
+            stringText: inputText,
+            songs: songs.length,
+            albums: 0,
+            singers: singers.length
+          } as any;
+
+          updateSearch(searchItem);
+        }
+      });
+    }
+
+    if (currentStringText !== location.state.inputText) {
+      loadData();
+    }
+
+    return () => {  mounted = false; }
+  }, [location.state, setSongsAction, updateSearch, currentStringText])
 
   function callBackPlaySong() {
     setSongsAction(songs);
@@ -45,19 +66,25 @@ function SearchMainComponent({ location, setSongsAction } : ComponentModel) {
             <span className="ml__10"><RightOutlined /></span>
           </NavLink>
         }
-
-          {
-            songs && songs.map((s: SongModel) => <Song key={s._id} song={s} callBackPlaySong={callBackPlaySong} />)
-          }
+        {
+          songs && songs.map((s: SongModel) => <Song key={s._id} song={s} callBackPlaySong={callBackPlaySong} />)
+        }
         </div>
     </div>
   );
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapStateToProps = ({ songs }: any) => {
   return {
-    setSongsAction: (songs: SongModel[]) => dispatch(setSongsAction(songs)),
+    songs
   }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(SearchMainComponent));
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateSearch: (value: string) => dispatch(updateSearchAction(value)),
+    setSongsAction: (songs: SongModel[]) => dispatch(setSongsAction(songs))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SearchMainComponent));

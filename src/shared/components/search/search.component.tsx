@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import SearchNavComponent from '../search-nav/search-nav.component';
+import SearchNavComponent from 'shared/components/search-nav/search-nav.component';
 
 // styles
 import './search.scss';
@@ -28,5 +28,6 @@ function SearchComponent({ match }: ComponentModel) {
     </div>
   );
 }
+
 
 export default SearchComponent;

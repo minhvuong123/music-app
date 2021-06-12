@@ -11,18 +11,19 @@ import './search-songs.scss';
 import axios from 'axios';
 import { apiLink } from 'shared/const';
 
-function SearchSongsComponent({ location, setSongsAction } : ComponentModel) {
-  const [songs, setSongs] = useState([] as SongModel[]);
+function SearchSongsComponent({ location, songs, setSongsAction } : ComponentModel) {
 
   useEffect(() => {
+    let mounted = true;
     const { inputText, type } = location.state;
     axios.post(`${apiLink}/search/result`, { value: inputText, type: type, limit: 5 }).then(result => {
-      const { songs } = result.data || {};
-
-      setSongs(songs || [] as SongModel[]);
+      if (mounted) {
+        const { songs } = result.data || {};
+        setSongsAction(songs);
+      }
     });
-    return () => { }
-  }, [location.state])
+    return () => { mounted = false; }
+  }, [location.state, setSongsAction])
 
   function callBackPlaySong() {
     setSongsAction(songs);
@@ -45,10 +46,16 @@ function SearchSongsComponent({ location, setSongsAction } : ComponentModel) {
   );
 }
 
+const mapStateToProps = ({ songs }: any) => {
+  return {
+    songs
+  }
+}
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     setSongsAction: (songs: SongModel[]) => dispatch(setSongsAction(songs)),
   }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(SearchSongsComponent));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SearchSongsComponent));

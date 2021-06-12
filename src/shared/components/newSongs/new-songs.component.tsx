@@ -27,15 +27,12 @@ function NewSongsComponent({ setSongsAction, loadSongAction, songs }: ComponentM
     async function loadData() {
       const resultSongs = await axios.get(`${apiLink}/songs/new`);
       setSongsAction(resultSongs.data.songs);
-      return null;
     }
 
-    if (_.isEmpty(songs)) {
-      loadData();
-    }
+    loadData();
 
       return () => { }
-    }, [token, songs, setSongsAction])
+    }, [token, setSongsAction])
 
   function callBackPlaySong() {
     setSongsAction(songs);

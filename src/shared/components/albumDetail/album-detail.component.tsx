@@ -29,7 +29,6 @@ function AlbumDetail({ location, playStatus, setPlayAction, loadSongAction, song
   useEffect(() => {
     axios.patch(`${apiLink}/albums/view/${albumId}`).then(result => {
       loadAlbumAction(albumId);
-      return null;
     });
     return () => { }
   }, [albumId, loadAlbumAction])

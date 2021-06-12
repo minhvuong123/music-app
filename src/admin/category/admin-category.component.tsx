@@ -48,7 +48,7 @@ function AdminCategory({ tabStatus }: ComponentModel) {
     axios.post(`${apiLink}/categories`, { category: resultData, imageType: imageType }).then(result => {
       form.resetFields();
       openNotification('topRight');
-      return null;
+      
     })
   }
 

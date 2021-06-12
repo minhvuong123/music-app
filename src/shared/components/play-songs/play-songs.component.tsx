@@ -36,7 +36,7 @@ function PlayListSong({ song, songSaga, loadSongAction, playStatus, setPlayActio
       setPlayAction(true);
       axios.patch(`${apiLink}/songs/view/${song._id}`).then(result => {
         callBackPlaySong();
-        return null;
+        
       });
 
     }

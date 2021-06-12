@@ -24,7 +24,7 @@ function LoginComponent({ history }: ComponentModel) {
     axios.post(`${apiLink}/users/login`, { user: resultData }).then(result => {
       localStorage.setItem('token', result.data.token);
       history.push('/');
-      return null;
+      
     });
   };
 

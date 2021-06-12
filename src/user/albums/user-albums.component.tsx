@@ -15,13 +15,13 @@ import './user-albums.scss';
 // ant
 import { Form, Input, Modal } from 'antd';
 import { AiOutlinePlus } from "react-icons/ai";
-import Album from 'shared/components/album/album.component';
 import CategoryAlbumComponent from 'shared/components/category-album/category-album.component';
+import { AlbumModel } from 'shared/model';
 
 
 function UserPlayList() {
   const token = localStorage.getItem('token') as string;
-  const [albums, setAlbums] = useState([]);
+  const [albums, setAlbums] = useState([] as AlbumModel[]);
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -60,11 +60,17 @@ function UserPlayList() {
 
         axios.post(`${apiLink}/albums`, { album: resultData }).then(result => {
           // handle to message success
-          return null;
         });
       }
     });
   };
+
+  function updateAlbum(_id: string, payLoad: AlbumModel): void {
+    const albumsUpdate = _.cloneDeepWith(albums).filter((album: AlbumModel) => album._id !== _id) as AlbumModel[];
+
+    setAlbums(albumsUpdate);
+  }
+
   return (
     <div className="user__playList">
       <div className="title">
@@ -79,7 +85,7 @@ function UserPlayList() {
           albums && albums.map((album: any) => {
             return (
               <div key={album._id} className="item ml__20">
-               <CategoryAlbumComponent key={album._id} album={album} />
+               <CategoryAlbumComponent key={album._id} album={album} updateAlbum={updateAlbum} />
               </div>
             )
           })

@@ -32,7 +32,6 @@ function Album({ album, updateAlbum }: ComponentModel) {
           if(result && result.data && result.data.song){
             setSong(result.data.song);
           }
-          return null;
         })
       }
     });
@@ -48,7 +47,6 @@ function Album({ album, updateAlbum }: ComponentModel) {
     }
     axios.patch(`${apiLink}/albums`, { album: payload }).then(result => { 
       updateAlbum && updateAlbum({ album_user_id: payload.album_user_id });
-      return null 
     })
   }
 
@@ -61,7 +59,6 @@ function Album({ album, updateAlbum }: ComponentModel) {
     }
     axios.patch(`${apiLink}/albums`, { album: payload }).then(result => { 
       updateAlbum && updateAlbum({ album_user_id: payload.album_user_id });
-      return null 
     })
   }
 

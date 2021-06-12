@@ -66,7 +66,7 @@ function AdminContent({ tabStatus, contentStatus, setContentChangeStatus }: Comp
     axios.patch(`${apiLink}/albumList/status`, { albums: payLoad }).then(result => {
       // handle to success message
       setContentChangeStatus(!contentStatus);
-      return null;
+      
     })
   }
 

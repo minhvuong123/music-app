@@ -52,7 +52,7 @@ function UserSongs({ setSongsAction }: ComponentModel) {
         }
         axios.post(`${apiLink}/songs`, { song: resultData }).then(result => {
           // handle to success message
-          return null;
+          
         })
       }
     });

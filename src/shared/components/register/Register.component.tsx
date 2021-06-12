@@ -23,7 +23,7 @@ function RegisterComponent({ history }: ComponentModel) {
     resultData.created_at = moment().toISOString();
     axios.post(`${apiLink}/users/register`, { user: resultData }).then(result => {
       history.push('/login');
-      return null;
+      
     });
   };
   return (

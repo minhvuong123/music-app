@@ -47,7 +47,7 @@ export const sidebarList = [
   }
 ]
 
-export const searchNav = [
+export const SEARCH_NAV = [
   {
     key: "tat-ca",
     value: "TẤT CẢ"
@@ -65,3 +65,10 @@ export const searchNav = [
     value: "NGHỆ SĨ"
   }
 ]
+
+export const SEARCH_HEADER_KEY =  {
+  TAT_CA: 'tat-ca',
+  BAI_HAT: 'bai-hat',
+  PLAY_LIST: 'play-list',
+  NGHE_SI: 'nghe-si'
+}

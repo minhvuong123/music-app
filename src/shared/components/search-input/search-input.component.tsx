@@ -12,12 +12,11 @@ import { apiLink } from 'shared/const';
 import axios from 'axios';
 
 function SearchInputComponent({ match, history, updateSearch }: ComponentModel) {
+  const [options, setOptions] = useState<[]>([]);
 
   useEffect(() => {
     return () => {}
   }, [match.path])
-
-  const [options, setOptions] = useState<[]>([]);
 
   function onSearch(searchText: string) {
     axios.post(`${apiLink}/search`, { value: searchText, limit: 5 }).then(result => {
@@ -26,11 +25,10 @@ function SearchInputComponent({ match, history, updateSearch }: ComponentModel) 
   };
 
   function onSelect(value: string) {
-    updateSearch(value);
     history.push({
       pathname: `/tim-kiem/tat-ca`,
       search: `?q=${value}`,
-      state: { inputText: value, type: 'tat-ca' }
+      state: { inputText: value, type: 'tat-ca'}
     });
   };
 
@@ -46,7 +44,7 @@ function SearchInputComponent({ match, history, updateSearch }: ComponentModel) 
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateSearch: (value: string) => dispatch(updateSearchAction(value))
+    updateSearch: (value: any) => dispatch(updateSearchAction(value))
   }
 }
 
