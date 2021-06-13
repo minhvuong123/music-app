@@ -27,3 +27,10 @@ export function setMenuName(name: string) {
     name
   }
 } 
+
+export function setExtendSideBar(status: boolean) {
+  return {
+    type: STATUS.EXTEND_SIDE_BAR,
+    status
+  }
+} 

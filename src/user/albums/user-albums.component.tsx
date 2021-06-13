@@ -13,7 +13,7 @@ import { apiLink } from 'shared/const';
 import './user-albums.scss';
 
 // ant
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, Modal, notification } from 'antd';
 import { AiOutlinePlus } from "react-icons/ai";
 import CategoryAlbumComponent from 'shared/components/category-album/category-album.component';
 import { AlbumModel } from 'shared/model';
@@ -22,9 +22,9 @@ import { AlbumModel } from 'shared/model';
 function UserPlayList() {
   const token = localStorage.getItem('token') as string;
   const [albums, setAlbums] = useState([] as AlbumModel[]);
-  const [form] = Form.useForm();
+  const [form] = Form.useForm() as any;
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [albumName, setAlbumName] = useState('');
 
   useEffect(() => {
     jwt.verify(token, 'kiwi', async function (err, decoded: any) {
@@ -47,6 +47,15 @@ function UserPlayList() {
     setIsModalVisible(false);
   };
 
+  function openNotification(placement: any){
+    notification.success({
+      className: "app-notification",
+      message: 'Success!',
+      placement,
+      duration: 1
+    });
+  };
+
   function onFinish(values: any) {
     jwt.verify(token, 'kiwi', function (err, decoded: any) {
       if (!err) {
@@ -57,10 +66,18 @@ function UserPlayList() {
         resultData.album_listShow = '';
         resultData.album_url_image = '';
         resultData.album_country = '';
+        resultData.album_added = 'user';
 
-        axios.post(`${apiLink}/albums`, { album: resultData }).then(result => {
-          // handle to message success
-        });
+        if (resultData.album_name) {
+          axios.post(`${apiLink}/albums`, { album: resultData }).then(result => {
+            const currentAlbums = _.cloneDeepWith(albums) as AlbumModel[];
+            currentAlbums.push(result.data.album);
+            setAlbums(currentAlbums);
+            form.resetFields();
+            openNotification('topRight');
+            setIsModalVisible(false);
+          });
+        }
       }
     });
   };
@@ -71,8 +88,18 @@ function UserPlayList() {
     setAlbums(albumsUpdate);
   }
 
+  function deleteAlbum(_id: string): void {
+    const albumsUpdate = _.cloneDeepWith(albums).filter((album: AlbumModel) => album._id !== _id) as AlbumModel[];
+
+    setAlbums(albumsUpdate);
+  }
+
+  function inputChange(event: any): void {
+    setAlbumName(event.target.value);
+  }
+
   return (
-    <div className="user__playList">
+    <div className="user__albums">
       <div className="title">
         <span>Albums</span>
       </div>
@@ -85,17 +112,19 @@ function UserPlayList() {
           albums && albums.map((album: any) => {
             return (
               <div key={album._id} className="item ml__20">
-               <CategoryAlbumComponent key={album._id} album={album} updateAlbum={updateAlbum} />
+               <CategoryAlbumComponent key={album._id} album={album} updateAlbum={updateAlbum} deleteAlbum={deleteAlbum} />
               </div>
             )
           })
         }
         <Modal
-          title='Tạo album mới'
+          title="Tạo playlist mới"
           width={300}
+          wrapClassName="create-play-list"
           visible={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
+          closable={false}
           footer={null}
         >
           <Form
@@ -108,14 +137,11 @@ function UserPlayList() {
             onFinish={onFinish}
             onFinishFailed={onFinish}
           >
-            <Form.Item
-              name="album_name"
-              rules={[{ required: true, message: 'Name is not empty!' }]}
-            >
-              <Input />
-            </Form.Item>
-            <div>
-              <button type="submit" className="album__btn">Confirm</button>
+            <Form.Item name="album_name">
+              <Input className="create-input-form" onChange={inputChange} placeholder="Nhập tên playlist" autoComplete="off" />
+            </Form.Item >
+            <div className="create-action">
+              <button type="submit" className={`album__btn ${albumName ? "active" : ""}`}>Tạo mới</button>
             </div>
           </Form>
         </Modal>

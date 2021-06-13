@@ -18,8 +18,35 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.ant-popover-inner-content{
-  padding: 0;
+.app-notification {
+  background-color: #7200a1;
+  .ant-notification-notice-content {
+    color: #fff;
+    .ant-notification-notice-with-icon {
+      .ant-notification-notice-icon {
+        color: #fff;
+      }
+      .ant-notification-notice-message {
+        color: #fff;
+      }
+    }
+  }
+  .ant-notification-notice-close {
+    color: #fff;
+  }
+}
+
+.ant-popover-content{
+  .ant-popover-arrow{
+    border-color: #432275 !important;
+    top: 5px !important;
+  }
+  .ant-popover-inner{
+    background-color: transparent;
+    .ant-popover-inner-content{
+      padding: 0;
+    }
+  }
 }
 
 .admin_drawer{

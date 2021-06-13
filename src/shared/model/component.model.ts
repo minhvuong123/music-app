@@ -13,6 +13,7 @@ export interface ComponentModel {
   loadAlbumAction?: Function | any;
   albums?: AlbumModel[];
   updateAlbum?: Function | any;
+  deleteAlbum?: Function | any;
 
   // song
   songs?: SongModel[] | any;
@@ -60,4 +61,8 @@ export interface ComponentModel {
   updateSearch?: Function | any;
   search?: Object | any;
   searchItem?: Object | any;
+
+  // side bar
+  extendStatus?: boolean;
+  setExtendSideBarStore?: Function | any;
 }

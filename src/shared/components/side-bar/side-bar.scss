@@ -4,11 +4,8 @@
   background-color: #2a213a;
   min-width: 22rem;
   height: 100%;
-  transition: width 0.3s ease-in-out;
+  transition: min-width 0.3s ease-in-out;
   position: relative;
-  @media screen and (max-width: 1024px) {
-    min-width: 10rem;
-  }
   &__logo {
   }
   .line {
@@ -63,10 +60,34 @@
       background-color: #ffffff1a;
       color: #fff;
       cursor: pointer;
+      display: none;
     }
     @media screen and (max-width: 1024px) {
       padding: 0;
       justify-content: center;
+      .extend__icon{
+        display: flex;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    min-width: 10rem;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+  }
+
+  &.active{
+    min-width: 220px;
+    .sidebar__list {
+      .item {
+        text-align: left;
+        &__text {
+          display: inline-block;
+        }
+      }
     }
   }
 }

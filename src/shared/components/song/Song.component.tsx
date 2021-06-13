@@ -9,9 +9,10 @@ import {
   HeartOutlined,
   LoadingOutlined
 } from '@ant-design/icons';
-import { Popover, Tooltip } from 'antd';
+import { Popover, Tooltip, Input } from 'antd';
 import { AiOutlinePlus, AiOutlineRight } from "react-icons/ai";
 import { BsMusicNoteList } from "react-icons/bs";
+import { IoAddOutline } from "react-icons/io5";
 
 // assets
 import { apiLink } from 'shared/const';
@@ -21,18 +22,23 @@ import { loadSongAction, setPlayAction, updateSongAction } from 'shared/redux/ac
 
 // scss
 import './song.scss';
-import { ComponentModel, SongModel } from 'shared/model';
+import { AlbumModel, ComponentModel, SongModel } from 'shared/model';
 
 function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction, callBackPlaySong, updateSongAction }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [isChosen, setIsChosen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [user, setUser] = useState<any>({});
+  const [userAlbums, setUserAlbums] = useState<AlbumModel[]>([]);
 
   useEffect(() => {
     jwt.verify(token, 'kiwi', async function (err, decoded: any) {
       if (!err) {
         setUser(decoded._doc);
+        const resultAlbums = await axios.get(`${apiLink}/albums/user/${decoded._doc._id}`);
+        if (resultAlbums && resultAlbums.data && resultAlbums.data.albums) {
+          setUserAlbums(resultAlbums.data.albums);
+        }
       }
     });
 
@@ -92,28 +98,38 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     })
   }
 
-  function content() {
+  function content(currentSong: SongModel) {
     return (
       <div className="song__more">
         <div className="song__info">
           <div className="song__image">
-            <img src={`${apiLink}/${song.song_url_image}`} alt="" />
+            <img src={`${apiLink}/${currentSong.song_url_image}`} alt="" />
           </div>
           <div className="song__text">
-            <span className="name name--song">{song.song_name}</span>
-            <span className="name">{convertSingers(song.song_singer)}</span>
+            <span className="name name--song">{currentSong.song_name}</span>
+            <span className="name">{convertSingers(currentSong.song_singer)}</span>
           </div>
         </div>
         <div className="song__actions">
           <div className="action__item">
             <span><AiOutlinePlus /> Thêm vào play list </span> <AiOutlineRight />
             <div className="popup">
+              <ul className="menu-list">
+                <li className="search-box">
+                  <Input placeholder="Tìm playlist" />
+                </li>
+                <li className="init-play-list">
+                  <span className="init-icon"><IoAddOutline /></span>
+                  <span className="init-text">Tạo playlist mới</span>
+                </li>
+              </ul>
               <div className="play__list">
                 {
-                  albums && albums.map((album: any) => (
-                    <span key={album._id} onClick={() => handleAddSongToAlbum(album._id, song._id)} className="item">
-                      <BsMusicNoteList /> {album.album_name}
-                    </span>
+                  userAlbums && userAlbums.map((album: any) => (
+                    <div key={album._id} onClick={() => handleAddSongToAlbum(album._id, currentSong._id)} className="item">
+                      <span className="init-icon"><BsMusicNoteList /></span>
+                      <span className="init-text">{album.album_name}</span>
+                    </div>
                   ))
                 }
               </div>
@@ -161,7 +177,7 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
 
             <div className="action__btn">
               <Popover
-                content={content}
+                content={content(song)}
                 placement="leftTop"
                 trigger="click"
                 visible={visible}

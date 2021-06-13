@@ -50,6 +50,19 @@
             color: #5a1eae;
           }
         }
+        &--erase{
+          font-size: 25px;
+          width: 30px;
+          height: 30px;
+          padding: unset;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          &:hover {
+            background-color: #9a9a9a;
+          }
+        }
       }
     }
     &:hover {

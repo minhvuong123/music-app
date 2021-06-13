@@ -10,13 +10,13 @@ import { CgTikcode } from "react-icons/cg";
 import { SiApplemusic, SiCircle } from "react-icons/si";
 
 // assets
-import { setMenuName } from 'shared/redux/actions';
+import { setExtendSideBar, setMenuName } from 'shared/redux/actions';
 
 // styles
 import './side-bar.scss';
 import { ComponentModel } from 'shared/model';
 
-function SideBar({ history }: ComponentModel) {
+function SideBar({ history, extendStatus, setExtendSideBarStore }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [user, setUser] = useState({} as any);
 
@@ -34,8 +34,13 @@ function SideBar({ history }: ComponentModel) {
       history.push('login');
     }
   }
+
+  function changeSideBarStatus() {
+    setExtendSideBarStore(!extendStatus);
+  }
+
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${extendStatus ? "active" : ""}`}>
       <div className="sidebar__logo">
         <NavLink to="/">Home</NavLink>
       </div>
@@ -61,7 +66,7 @@ function SideBar({ history }: ComponentModel) {
         </NavLink>
       </div>
       <div className="extend">
-        <span className="extend__icon">
+        <span onClick={changeSideBarStatus} className="extend__icon">
           <RightOutlined/>
         </span>
       </div>
@@ -69,18 +74,20 @@ function SideBar({ history }: ComponentModel) {
   );
 }
 
-const mapStateToProps = ({ isLoading, songs, album, error }: any) => {
+const mapStateToProps = ({ isLoading, songs, album, error, status }: any) => {
   return {
     isLoading,
     songs,
     album,
-    error
+    error,
+    extendStatus: status.extendSideBarStatus
   }
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setMenuName: (name: string) => dispatch(setMenuName(name))
+    setMenuName: (name: string) => dispatch(setMenuName(name)),
+    setExtendSideBarStore: (status: boolean) => dispatch(setExtendSideBar(status))
   }
 }
 

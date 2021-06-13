@@ -9,5 +9,6 @@ export interface AlbumModel {
   album_listShow?: string;
   album_user_id?: string;
   album_slug?: string;
+  album_added?: string;
   created_at?: string;
 }

@@ -9,6 +9,7 @@ import {
   PlayCircleOutlined,
 } from '@ant-design/icons';
 import { Tooltip } from 'antd';
+import { IoClose } from "react-icons/io5";
 
 // styles
 import './album.scss';
@@ -16,9 +17,9 @@ import { apiLink } from 'shared/const';
 
 import album_default from 'images/album_default.png';
 import axios from 'axios';
-import { ComponentModel } from 'shared/model';
+import { AlbumModel, ComponentModel } from 'shared/model';
 
-function Album({ album, updateAlbum }: ComponentModel) {
+function Album({ album, updateAlbum, deleteAlbum }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [song, setSong] = useState<any>({});
   const [user, setUser] = useState<any>({});
@@ -38,9 +39,9 @@ function Album({ album, updateAlbum }: ComponentModel) {
     return () => {}
   }, [album, token])
 
-  function addToAlbum(e: any) {
-    e.preventDefault();
-    e.stopPropagation();
+  function addToAlbum(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
     const payload = {
       _id: album!._id,
       album_user_id: user._id
@@ -50,9 +51,9 @@ function Album({ album, updateAlbum }: ComponentModel) {
     })
   }
 
-  function removeFromAlbum(e: any) {
-    e.preventDefault();
-    e.stopPropagation();
+  function removeFromAlbum(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
     const payload = {
       _id: album!._id,
       album_user_id: ''
@@ -60,6 +61,37 @@ function Album({ album, updateAlbum }: ComponentModel) {
     axios.patch(`${apiLink}/albums`, { album: payload }).then(result => { 
       updateAlbum && updateAlbum({ album_user_id: payload.album_user_id });
     })
+  }
+
+  function removeAlbum(event: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const payload = {
+      _id: album!._id,
+    }
+    axios.post(`${apiLink}/albums/delete`, { album: payload }).then(result => { 
+      deleteAlbum && deleteAlbum(payload._id);
+    })
+  }
+
+  function getToolTipAddOrRemove(album: AlbumModel) {
+    if (album && album.album_user_id) {
+      return (
+        album.album_added === 'admin' 
+        ? <Tooltip placement="top" color="#383737" title="Xóa khỏi thư viện">
+            <div onClick={removeFromAlbum} className="block__icon block__icon--svg"><HeartOutlined /></div>
+          </Tooltip>
+        : <Tooltip placement="top" color="#383737" title="Xóa">
+            <div onClick={removeAlbum} className="block__icon block__icon--erase"><IoClose /></div>
+          </Tooltip>
+      );
+    }
+
+    return (
+      <Tooltip placement="top" color="#383737" title="Thêm vào thư viện">
+        <div onClick={addToAlbum} className="block__icon"><HeartOutlined /></div>
+      </Tooltip>
+    );
   }
 
   return (
@@ -79,15 +111,7 @@ function Album({ album, updateAlbum }: ComponentModel) {
         }
         <div className="block__opacity"></div>
         <div className="block__actions">
-          {
-            album && album.album_user_id
-              ? <Tooltip placement="top" color="#383737" title="Xóa khỏi thư viện">
-                <div onClick={removeFromAlbum} className="block__icon block__icon--svg"><HeartOutlined /></div>
-              </Tooltip>
-              : <Tooltip placement="top" color="#383737" title="Thêm vào thư viện">
-                <div onClick={addToAlbum} className="block__icon"><HeartOutlined /></div>
-              </Tooltip>
-          }
+          { getToolTipAddOrRemove(album) }
           <div className="block__icon block__icon--play">
             <PlayCircleOutlined />
           </div>

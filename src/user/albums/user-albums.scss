@@ -1,4 +1,4 @@
-.user__playList {
+.user__albums {
   .title {
     font-size: 20px;
     display: flex;
@@ -27,6 +27,40 @@
     }
   }
 
+  .margin_left_20 {
+    margin-left: 20px;
+  }
+}
+
+.create-play-list {
+  .ant-modal-content {
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: transparent;
+    width: 330px;
+    .ant-modal-header {
+      background-color: #432275;
+      border-bottom: unset;
+      .ant-modal-title {
+        color: #fff;
+        font-size: 20px;
+        text-align: center;
+        margin-top: 10px;
+      }
+    }
+    .ant-modal-body {
+      background-color: #432275;
+      padding-top: unset;
+      .create-input-form {
+        border-color: unset;
+        box-shadow: unset;
+        outline: unset;
+        border-radius: 20px;
+        padding: 8px 15px;
+      }
+    }
+  }
+
   .album__btn {
     display: flex;
     justify-content: center;
@@ -39,9 +73,10 @@
     padding: 8px 0;
     border-radius: 999px;
     opacity: 0.5;
-    background-color: #ea7aa0;
+    background-color: #7200a1;
     border: 1px solid #0000001a;
-    border-color: #ea7aa0;
+    border-color: #7200a1;
+    cursor: not-allowed;
     &:focus {
       outline: none;
     }
@@ -49,9 +84,5 @@
       opacity: 1;
       cursor: pointer;
     }
-  }
-
-  .margin_left_20 {
-    margin-left: 20px;
   }
 }

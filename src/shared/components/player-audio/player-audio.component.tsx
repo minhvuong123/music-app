@@ -59,7 +59,10 @@ function PlayerAudio({ song, audioSrc, playStatus, playListStatus, setPlayListSt
       // listen and set current time -> total time of audio
       setCurrentTime(Math.floor(audio.currentTime));
       const percentage = audio.currentTime / audio.duration * 100;
-      progressRef.current.style.width = percentage + '%';
+      
+      if(progressRef && progressRef.current) {
+        progressRef.current.style.width = percentage + '%';
+      }
 
       if (audio.currentTime === audio.duration) {
         endFunc();

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import PersonalMenu from 'shared/components/personal-menu/personal-menu.component';
 import UserGeneral from 'user/general/general.component';
 import UserSongs from 'user/songs/user-songs.component';
-import UserPlayList from 'user/albums/user-albums.component';
+import UserAlbums from 'user/albums/user-albums.component';
 import PersonalInfo from '../personal-info/personal-info.component';
 
 // styles scss
@@ -30,7 +30,7 @@ function Personal({ history }: ComponentModel) {
         setPage(<UserSongs />);
         break;
       case 'play_list':
-        setPage(<UserPlayList />);
+        setPage(<UserAlbums />);
         break;
       default:
         setPage(<UserGeneral />);

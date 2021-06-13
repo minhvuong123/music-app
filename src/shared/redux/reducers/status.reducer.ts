@@ -4,7 +4,8 @@ const status = {
   playListStatus: false,
   loginStatus: false,
   contentStatus: false,
-  menuName: '/'
+  menuName: '/',
+  extendSideBarStatus: false 
 }
 
 export default function statusReducer(state = status, action: any) {
@@ -17,6 +18,8 @@ export default function statusReducer(state = status, action: any) {
       return { ...state, contentStatus: action.status }
     case STATUS.MENU_NAME:
       return { ...state, menuName: action.name }
+    case STATUS.EXTEND_SIDE_BAR:
+      return { ...state, extendSideBarStatus: action.status }
     default:
       return state;
   }

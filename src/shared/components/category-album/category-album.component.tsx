@@ -6,7 +6,7 @@ import { AlbumModel, ComponentModel } from 'shared/model';
 import Album from '../album/album.component';
 import _ from 'lodash';
 
-function CategoryAlbumComponent({ album, updateAlbum }: ComponentModel) {
+function CategoryAlbumComponent({ album, updateAlbum, deleteAlbum }: ComponentModel) {
   const [currentAlbum, setCurrentAlbum] = useState({} as AlbumModel);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function CategoryAlbumComponent({ album, updateAlbum }: ComponentModel) {
 
   return (
     <div className="pl__10 pr__10">
-      <Album album={currentAlbum} updateAlbum={updateAlbumCurrent} />
+      <Album album={currentAlbum} updateAlbum={updateAlbumCurrent} deleteAlbum={deleteAlbum} />
     </div>
   );
 }
