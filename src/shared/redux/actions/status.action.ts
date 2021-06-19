@@ -34,3 +34,10 @@ export function setExtendSideBar(status: boolean) {
     status
   }
 } 
+
+export function setCreatePlayList(status: boolean) {
+  return {
+    type: STATUS.CREATE_PLAY_LIST,
+    status
+  }
+} 

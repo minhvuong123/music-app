@@ -24,6 +24,7 @@ function AdminCategory({ tabStatus }: ComponentModel) {
 
   function openNotification(placement: any){
     notification.success({
+      className: "app-notification",
       message: 'Success!',
       placement,
       duration: 1

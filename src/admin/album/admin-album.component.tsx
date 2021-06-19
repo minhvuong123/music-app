@@ -53,6 +53,7 @@ function AdminAlbum({ tabStatus }: ComponentModel) {
 
   function openNotification(placement: any){
     notification.success({
+      className: "app-notification",
       message: 'Success!',
       placement,
       duration: 1
@@ -78,7 +79,6 @@ function AdminAlbum({ tabStatus }: ComponentModel) {
       setIsSubmit(!isSubmit);
       form.resetFields();
       openNotification('topRight');
-      
     })
   }
 

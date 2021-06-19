@@ -6,6 +6,7 @@ import SideBar from 'shared/components/side-bar/side-bar.component';
 import Header from 'shared/components/header/header.component';
 import PlayControl from 'shared/components/player-control/play-control.component';
 import PlayList from 'shared/components/play-list/play-list.component';
+import CreatePlayList from 'shared/components/create-play-list/create-play-list.component';
 
 // routes
 import Routes, { RenderRoutes } from 'routes/routes';
@@ -27,6 +28,7 @@ function App({ song } : ComponentModel) {
             </div>
           </div>
         </div>
+        <CreatePlayList />
         <PlayList />
         <PlayControl />
       </div>

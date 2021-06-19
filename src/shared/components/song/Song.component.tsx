@@ -5,14 +5,10 @@ import jwt from 'jsonwebtoken';
 // ant
 import {
   CaretRightOutlined,
-  EllipsisOutlined,
   HeartOutlined,
   LoadingOutlined
 } from '@ant-design/icons';
-import { Popover, Tooltip, Input } from 'antd';
-import { AiOutlinePlus, AiOutlineRight } from "react-icons/ai";
-import { BsMusicNoteList } from "react-icons/bs";
-import { IoAddOutline } from "react-icons/io5";
+import { Tooltip } from 'antd';
 
 // assets
 import { apiLink } from 'shared/const';
@@ -22,23 +18,18 @@ import { loadSongAction, setPlayAction, updateSongAction } from 'shared/redux/ac
 
 // scss
 import './song.scss';
-import { AlbumModel, ComponentModel, SongModel } from 'shared/model';
+import { ComponentModel, SongModel } from 'shared/model';
+import SongMoreAction from 'shared/components/song-more-action/song-more-action.component';
 
-function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayAction, callBackPlaySong, updateSongAction }: ComponentModel) {
+function Song({ song, songSaga, loadSongAction, playStatus, setPlayAction, callBackPlaySong, updateSongAction }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [isChosen, setIsChosen] = useState(false);
-  const [visible, setVisible] = useState(false);
   const [user, setUser] = useState<any>({});
-  const [userAlbums, setUserAlbums] = useState<AlbumModel[]>([]);
 
   useEffect(() => {
     jwt.verify(token, 'kiwi', async function (err, decoded: any) {
       if (!err) {
         setUser(decoded._doc);
-        const resultAlbums = await axios.get(`${apiLink}/albums/user/${decoded._doc._id}`);
-        if (resultAlbums && resultAlbums.data && resultAlbums.data.albums) {
-          setUserAlbums(resultAlbums.data.albums);
-        }
       }
     });
 
@@ -58,20 +49,6 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
     else {
       setPlayAction(!playStatus);
     }
-  }
-
-  function handleVisibleChange(visible: boolean) {
-    setVisible(visible);
-  };
-
-  function handleAddSongToAlbum(albumId: string, songId: string) {
-    const payLoad = {
-      _id: songId,
-      song_id_albums: albumId
-    }
-    axios.patch(`${apiLink}/songs`, { song: payLoad }).then(result => {
-      // handle to message success
-    })
   }
 
   function removeFromUser(e: any) {
@@ -97,48 +74,6 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
       updateSongAction(payload._id, {song_user_id : payload.song_user_id});
     })
   }
-
-  function content(currentSong: SongModel) {
-    return (
-      <div className="song__more">
-        <div className="song__info">
-          <div className="song__image">
-            <img src={`${apiLink}/${currentSong.song_url_image}`} alt="" />
-          </div>
-          <div className="song__text">
-            <span className="name name--song">{currentSong.song_name}</span>
-            <span className="name">{convertSingers(currentSong.song_singer)}</span>
-          </div>
-        </div>
-        <div className="song__actions">
-          <div className="action__item">
-            <span><AiOutlinePlus /> Thêm vào play list </span> <AiOutlineRight />
-            <div className="popup">
-              <ul className="menu-list">
-                <li className="search-box">
-                  <Input placeholder="Tìm playlist" />
-                </li>
-                <li className="init-play-list">
-                  <span className="init-icon"><IoAddOutline /></span>
-                  <span className="init-text">Tạo playlist mới</span>
-                </li>
-              </ul>
-              <div className="play__list">
-                {
-                  userAlbums && userAlbums.map((album: any) => (
-                    <div key={album._id} onClick={() => handleAddSongToAlbum(album._id, currentSong._id)} className="item">
-                      <span className="init-icon"><BsMusicNoteList /></span>
-                      <span className="init-text">{album.album_name}</span>
-                    </div>
-                  ))
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  };
 
   return (
     <div className={`song ${isChosen ? "active" : ""}`}>
@@ -176,13 +111,7 @@ function Song({ song, songSaga, albums, loadSongAction, playStatus, setPlayActio
             }
 
             <div className="action__btn">
-              <Popover
-                content={content(song)}
-                placement="leftTop"
-                trigger="click"
-                visible={visible}
-                onVisibleChange={handleVisibleChange}
-              ><EllipsisOutlined /></Popover>
+              <SongMoreAction song={song}/>
             </div>
           </div>
         </div>
@@ -202,7 +131,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     loadSongAction: (song: any) => dispatch(loadSongAction(song)),
     setPlayAction: (status: boolean) => dispatch(setPlayAction(status)),
-    updateSongAction: (_id: string, songPayload: SongModel) => dispatch(updateSongAction(_id, songPayload)),
+    updateSongAction: (_id: string, songPayload: SongModel) => dispatch(updateSongAction(_id, songPayload))
   }
 }
 

@@ -24,6 +24,11 @@ export interface ComponentModel {
   callBackPlaySong?: Function | any;
   updateSongAction?: Function | any;
 
+  // song more action
+  userId?: string;
+  userAlbums?: AlbumModel[];
+  setUserAlbums?: Function | any;
+
   category?: CategoryModel | any;
   
   getMenu?: Function | any;
@@ -65,4 +70,8 @@ export interface ComponentModel {
   // side bar
   extendStatus?: boolean;
   setExtendSideBarStore?: Function | any;
+
+  // user
+  createPlayListStatus?: boolean;
+  setCreatePlayList?: Function | any;
 }
