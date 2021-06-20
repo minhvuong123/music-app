@@ -17,11 +17,11 @@ import './create-play-list.scss';
 import { Form, Input, Modal, notification } from 'antd';
 import { AlbumModel, ComponentModel } from 'shared/model';
 import { setCreatePlayList } from 'shared/redux/actions';
+import { addUserAlbums } from 'shared/redux/actions/user.action';
 
 
-function CreatePlayList({ createPlayListStatus, setCreatePlayList }: ComponentModel) {
+function CreatePlayList({ createPlayListStatus, setCreatePlayList, addUserAlbums }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
-  const [albums, setAlbums] = useState([] as AlbumModel[]);
   const [form] = Form.useForm() as any;
   const [albumName, setAlbumName] = useState('');
 
@@ -36,10 +36,10 @@ function CreatePlayList({ createPlayListStatus, setCreatePlayList }: ComponentMo
     setCreatePlayList(false);
   };
 
-  function openNotification(placement: any) {
+  function openNotification(placement: any, album_name: string): void {
     notification.success({
       className: "app-notification",
-      message: 'Success!',
+      message:  <div>Bài hát <b>{album_name}</b> được thêm vào Play List thành công !</div>,
       placement,
       duration: 1
     });
@@ -59,12 +59,10 @@ function CreatePlayList({ createPlayListStatus, setCreatePlayList }: ComponentMo
 
         if (resultData.album_name) {
           axios.post(`${apiLink}/albums`, { album: resultData }).then(result => {
-            const currentAlbums = _.cloneDeepWith(albums) as AlbumModel[];
-            currentAlbums.push(result.data.album);
-            setAlbums(currentAlbums);
             setAlbumName('');
+            addUserAlbums(result.data.album);
             form.resetFields();
-            openNotification('topRight');
+            openNotification('topRight', resultData.album_name);
             setCreatePlayList(false);
           });
         }
@@ -118,7 +116,8 @@ const mapStateToProps = ({ status }: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setCreatePlayList: (status: boolean) => dispatch(setCreatePlayList(status))
+    setCreatePlayList: (status: boolean) => dispatch(setCreatePlayList(status)),
+    addUserAlbums: (album: AlbumModel) => dispatch(addUserAlbums(album))
   }
 }
 

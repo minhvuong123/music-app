@@ -54,7 +54,7 @@ function SongMoreAction({ song, setCreatePlayList, userAlbums, setUserAlbums }: 
   function handleAddSongToAlbum(albumId: string, songId: string) {
     const payLoad = {
       _id: songId,
-      song_id_albums: albumId
+      song_personal_id_albums: albumId
     }
     axios.patch(`${apiLink}/songs`, { song: payLoad }).then(result => {
       if (result.data.status === 'ok') {
@@ -122,8 +122,7 @@ function SongMoreAction({ song, setCreatePlayList, userAlbums, setUserAlbums }: 
       content={content(song)}
       placement="leftTop" 
       trigger="click" visible={visible}
-      onVisibleChange={handleVisibleChange} 
-      getPopupContainer={() => document.getElementsByClassName('action__btn')[0] as any}
+      onVisibleChange={handleVisibleChange}
     >
       <EllipsisOutlined />
     </Popover>

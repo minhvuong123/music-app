@@ -167,25 +167,6 @@ function PlayerAudio({ song, audioSrc, playStatus, playListStatus, setPlayListSt
               </a>
             </div>
           </div>
-          <div className="media__right">
-            <div className="icons">
-              <Tooltip placement="top" color="#383737" title="Thêm vào thư viện">
-                <span className="icon__btn"><HeartOutlined /></span>
-              </Tooltip>
-              <Popover
-                title="Title"
-                trigger="click"
-                visible={visible}
-                onVisibleChange={handleVisibleChange}
-              >
-                <Tooltip placement="top" color="#383737" title="Xem thêm">
-                  <span className="icon__btn ml__10">
-                    <EllipsisOutlined />
-                  </span>
-                </Tooltip>
-              </Popover>
-            </div>
-          </div>
         </div>
       </div>
       <div className="player__bar">

@@ -41,7 +41,7 @@ function Header({ history }: ComponentModel) {
   function handleUser() {
     jwt.verify(token, 'kiwi', function (err, decoded) {
       if (!err) {
-        history.push('/my-music');
+        history.push('/my-music/tong-quan');
       } else {
         history.push('/login');
       }

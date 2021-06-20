@@ -51,6 +51,7 @@ body {
 
 .admin_drawer{
   .ant-drawer-content{
+    overflow: unset;
     background-color: #2a213a;
   }
 }

@@ -7,3 +7,10 @@ export function setUserAlbums(albums: AlbumModel[]) {
     albums
   }
 } 
+
+export function addUserAlbums(album: AlbumModel) {
+  return {
+    type: USER.ADD_ALBUM,
+    album
+  }
+} 

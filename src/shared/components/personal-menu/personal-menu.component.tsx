@@ -1,17 +1,20 @@
 import { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { personalMenu } from 'shared/const';
 import { ComponentModel } from 'shared/model';
 
 // styles scss
 import './personal-menu.scss';
 
-function PersonalMenu({ getMenu }: ComponentModel ) {
-  const [name, setName] = useState('tong_quan');
+function PersonalMenu({ history }: ComponentModel) {
+  const [name, setName] = useState('tong-quan');
 
   function changeMenu(e: any, value: string) {
     e.preventDefault();
+    history.push({
+      pathname: `/my-music/${value}`
+    });
     setName(value);
-    getMenu(value);
   }
   return (
     <ul className="personal__nav">
@@ -27,4 +30,4 @@ function PersonalMenu({ getMenu }: ComponentModel ) {
 }
 
 
-export default PersonalMenu;
+export default withRouter(PersonalMenu);

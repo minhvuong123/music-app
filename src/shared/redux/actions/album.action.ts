@@ -8,16 +8,16 @@ export function loadAlbumAction(albumId: string) {
   }
 } 
 
-export function setAlbumAction(album: any) {
+export function setAlbumAction(album: AlbumModel) {
   return {
     type: ALBUM.LOAD_SUCCESS,
     album
   }
 } 
 
-export function updateAlbumAction(_id: string, payLoad: AlbumModel) {
+export function updateAlbumAction(albumPayLoad: AlbumModel) {
   return {
     type: ALBUM.UPDATE,
-    payLoad
+    albumPayLoad
   }
 } 

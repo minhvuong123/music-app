@@ -45,7 +45,7 @@ function SideBar({ history, extendStatus, setExtendSideBarStore }: ComponentMode
         <NavLink to="/">Home</NavLink>
       </div>
       <div className="sidebar__list mb__20">
-        <NavLink to="/my-music" onClick={authenticate} className="item">
+        <NavLink to="/my-music/tong-quan" onClick={authenticate} className="item">
           <span className="item__icon"><SiApplemusic /></span>
           <span className="item__text">Cá nhân</span>
         </NavLink>

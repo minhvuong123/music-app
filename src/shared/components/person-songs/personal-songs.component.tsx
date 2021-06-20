@@ -8,7 +8,7 @@ import UploadComponent from 'shared/components/upload/upload.component';
 import SlideList from 'shared/components/slide-list/slide-list.component';
 
 // styles scss
-import './user-songs.scss';
+import './personal-songs.scss';
 
 // icons
 import {
@@ -22,7 +22,7 @@ import axios from 'axios';
 import { apiLink } from 'shared/const';
 import { ComponentModel, SongModel } from 'shared/model';
 
-function UserSongs({ setSongsAction }: ComponentModel) {
+function PersonalSongs({ setSongsAction }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [isSubmit] = useState(false);
   const [songs, setSongs] = useState([]);
@@ -132,4 +132,4 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(UserSongs);
+export default connect(null, mapDispatchToProps)(PersonalSongs);

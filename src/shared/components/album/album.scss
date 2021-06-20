@@ -79,11 +79,16 @@
   }
 
   .block__name {
+    line-height: 1;
     a {
       display: inline-block;
       width: 100%;
       color: #fff;
       transition: color 0.2s ease-in-out;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &:hover {
         color: #c662ef;
       }

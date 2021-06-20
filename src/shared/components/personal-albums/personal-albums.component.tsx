@@ -10,27 +10,35 @@ import axios from 'axios';
 import { apiLink } from 'shared/const';
 
 // styles scss
-import './user-albums.scss';
+import './personal-albums.scss';
 
 // ant
 import { AiOutlinePlus } from "react-icons/ai";
 import CategoryAlbumComponent from 'shared/components/category-album/category-album.component';
 import { AlbumModel, ComponentModel } from 'shared/model';
 import { setCreatePlayList } from 'shared/redux/actions';
+import { setUserAlbums } from 'shared/redux/actions/user.action';
 
 
-function UserPlayList({ createPlayListStatus, setCreatePlayList } : ComponentModel) {
+function PersonalPlayList({ userAlbums, setUserAlbums, setCreatePlayList } : ComponentModel) {
   const token = localStorage.getItem('token') as string;
   const [albums, setAlbums] = useState([] as AlbumModel[]);
 
   useEffect(() => {
+    // if ()
     jwt.verify(token, 'kiwi', async function (err, decoded: any) {
       if (!err) {
         const resultAlbums = await axios.get(`${apiLink}/albums/user/${decoded._doc._id}`);
         setAlbums(resultAlbums.data.albums);
+        setUserAlbums(resultAlbums.data.albums as AlbumModel[]);
+        localStorage.setItem('userAlbums', JSON.stringify(resultAlbums.data.albums));
       }
     });
-  }, [token]);
+  }, [token, setUserAlbums]);
+
+  useEffect(() => {
+    setAlbums(userAlbums as AlbumModel[]);
+  }, [userAlbums]);
 
   const showModal = () => {
     setCreatePlayList(true);
@@ -56,13 +64,15 @@ function UserPlayList({ createPlayListStatus, setCreatePlayList } : ComponentMod
       </div>
       <div className="albums">
         <div onClick={showModal} className="empty item">
-          <span><AiOutlinePlus /></span>
-          <span>Tạo album mới</span>
+          <div className="empty__content">
+            <span><AiOutlinePlus /></span>
+            <span>Tạo album mới</span>
+          </div>
         </div>
         {
           albums && albums.map((album: any) => {
             return (
-              <div key={album._id} className="item ml__20">
+              <div key={album._id} className="item">
                <CategoryAlbumComponent key={album._id} album={album} updateAlbum={updateAlbum} deleteAlbum={deleteAlbum} />
               </div>
             )
@@ -73,11 +83,17 @@ function UserPlayList({ createPlayListStatus, setCreatePlayList } : ComponentMod
   );
 }
 
-
-const mapDispatchToProps = (dispatch: any) => {
+const mapStateToProps = ({ user }: any) => {
   return {
-    setCreatePlayList: (status: boolean) => dispatch(setCreatePlayList(status))
+    userAlbums: user.albums
   }
 }
 
-export default connect(null, mapDispatchToProps)(UserPlayList);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setCreatePlayList: (status: boolean) => dispatch(setCreatePlayList(status)),
+    setUserAlbums: (albums: AlbumModel[]) => dispatch(setUserAlbums(albums))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalPlayList);

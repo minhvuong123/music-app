@@ -1,34 +1,44 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import jwt from 'jsonwebtoken';
 
 // ant design
 import {
   CaretRightOutlined,
-  EllipsisOutlined,
   HeartOutlined,
   LoadingOutlined
 } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 
 // assets
 import axios from 'axios';
-import { loadSongAction, setPlayAction } from 'shared/redux/actions';
+import { loadSongAction, setPlayAction, updateSongAction } from 'shared/redux/actions';
 import { apiLink } from 'shared/const';
 import { convertSingers } from 'shared/converter';
+import SongMoreAction from 'shared/components/song-more-action/song-more-action.component';
 
 // styles scss
 import './play-list-song.scss';
-import { ComponentModel } from 'shared/model';
+import { ComponentModel, SongModel } from 'shared/model';
 
-function PlayListSong({ song, songSaga, loadSongAction, playStatus, setPlayAction, callBackPlaySong}: ComponentModel) {
+function PlayListSong({ song, songSaga, loadSongAction, playStatus, setPlayAction, updateSongAction, callBackPlaySong}: ComponentModel) {
+  const token = localStorage.getItem('token') as string;
   const [isChosen, setIsChosen] = useState(false);
+  const [user, setUser] = useState<any>({});
 
   useEffect(() => {
+    jwt.verify(token, 'kiwi', async function (err, decoded: any) {
+      if (!err) {
+        setUser(decoded._doc);
+      }
+    });
+
     if (song._id === songSaga._id) {
       setIsChosen(true);
     } else {
       setIsChosen(false);
     }
-  }, [song, songSaga])
+  }, [token, song, songSaga])
 
   function handlePlaySong() {
     if (song._id !== songSaga._id) {
@@ -43,6 +53,30 @@ function PlayListSong({ song, songSaga, loadSongAction, playStatus, setPlayActio
     else {
       setPlayAction(!playStatus);
     }
+  }
+
+  function removeFromUser(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    const payload = {
+      _id: song._id,
+      song_user_id: ''
+    }
+    axios.patch(`${apiLink}/songs`, { song: payload }).then(result => {
+      updateSongAction(payload._id, {song_user_id : payload.song_user_id});
+    })
+  }
+
+  function addToUser(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    const payload = {
+      _id: song._id,
+      song_user_id: user._id
+    }
+    axios.patch(`${apiLink}/songs`, { song: payload }).then(result => {
+      updateSongAction(payload._id, {song_user_id : payload.song_user_id});
+    })
   }
 
 
@@ -68,8 +102,18 @@ function PlayListSong({ song, songSaga, loadSongAction, playStatus, setPlayActio
         </div>
         <div className="media__right">
           <div className="actions">
-            <div className="action__btn"><HeartOutlined /></div>
-            <div className="action__btn"><EllipsisOutlined /></div>
+          {
+              song && song.song_user_id === user._id
+                ? <Tooltip placement="top" color="#383737" title="Xóa khỏi thư viện">
+                  <div onClick={removeFromUser} className="action__btn action__btn--svg"><HeartOutlined /></div>
+                </Tooltip>
+                : <Tooltip placement="top" color="#383737" title="Thêm vào thư viện">
+                  <div onClick={addToUser} className="action__btn"><HeartOutlined /></div>
+                </Tooltip>
+            }
+            <div className="action__btn">
+              <SongMoreAction song={song}/>
+            </div>
           </div>
         </div>
       </div>
@@ -88,6 +132,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     loadSongAction: (song: any) => dispatch(loadSongAction(song)),
     setPlayAction: (status: boolean) => dispatch(setPlayAction(status)),
+    updateSongAction: (_id: string, songPayload: SongModel) => dispatch(updateSongAction(_id, songPayload))
   }
 }
 

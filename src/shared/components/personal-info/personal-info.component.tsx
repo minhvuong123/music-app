@@ -25,6 +25,7 @@ function PersonalInfo({ history } : ComponentModel) {
 
   function logout() {
     localStorage.setItem('token', '');
+    localStorage.setItem('userAlbums', '');
     history.push('/');
   }
 

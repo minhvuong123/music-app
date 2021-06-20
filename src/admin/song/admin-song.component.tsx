@@ -103,6 +103,7 @@ function AdminSong({ tabStatus }: ComponentModel) {
       const resultData = { ...results };
       resultData.song_url_music = base64MP3;
       resultData.song_url_image = base64Image;
+      resultData.song_personal_id_albums = '';
       resultData.created_at = moment().toISOString();
 
       axios.post(`${apiLink}/songs`, { song: resultData }).then(result => {

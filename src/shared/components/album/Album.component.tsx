@@ -21,21 +21,23 @@ import { AlbumModel, ComponentModel } from 'shared/model';
 
 function Album({ album, updateAlbum, deleteAlbum }: ComponentModel) {
   const token = localStorage.getItem('token') as string;
-  const [song, setSong] = useState<any>({});
+  // const [song, setSong] = useState<any>({});
   const [user, setUser] = useState<any>({});
 
   useEffect(() => {
-    jwt.verify(token, 'kiwi', async function (err, decoded: any) {
-      if (!err) {
-        setUser(decoded._doc);
-        axios.get(`${apiLink}/songs/albums/${album!._id}`).then(result => {
-          // handle to message success
-          if(result && result.data && result.data.song){
-            setSong(result.data.song);
-          }
-        })
-      }
-    });
+    if (album._id) {
+      jwt.verify(token, 'kiwi', async function (err, decoded: any) {
+        if (!err) {
+          setUser(decoded._doc);
+          // axios.get(`${apiLink}/songs/albums/${album!._id}`).then(result => {
+          //   // handle to message success
+          //   if(result && result.data && result.data.song){
+          //     setSong(result.data.song);
+          //   }
+          // })
+        }
+      });
+    } 
     return () => {}
   }, [album, token])
 
@@ -101,9 +103,9 @@ function Album({ album, updateAlbum, deleteAlbum }: ComponentModel) {
         state: { albumId: album!._id }
       }} className="block">
         {
-          album!.album_url_image || Object.keys(song).length > 0
+          album!.album_url_image
             ? <div className="block__image">
-              <img src={`${apiLink}/${album!.album_url_image || song.song_url_image}`} alt="music app" />
+              <img src={`${apiLink}/${album!.album_url_image}`} alt="music app" />
             </div>
             : <div className="block__image">
               <img src={album_default} alt="" />

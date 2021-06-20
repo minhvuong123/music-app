@@ -6,15 +6,15 @@ export const apiLink = 'http://localhost:4000';
 
 export const personalMenu = [
   {
-    key: "tong_quan",
+    key: "tong-quan",
     value: "TỔNG QUAN"
   },
   {
-    key: "bai_hat",
+    key: "bai-hat",
     value: "BÀI HÁT"
   },
   {
-    key: "play_list",
+    key: "play-list",
     value: "PLAYLIST"
   }
 ]

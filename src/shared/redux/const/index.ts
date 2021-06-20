@@ -16,7 +16,8 @@ export const ALBUM = {
 }
 
 export const USER = {
-  LOAD_ALBUM: 'USER_LOAD_ALBUM'
+  LOAD_ALBUM: 'USER_LOAD_ALBUM',
+  ADD_ALBUM: 'USER_ADD_ALBUM'
 };
 
 export const STATUS = {

@@ -56,30 +56,6 @@
           }
         }
       }
-      .media__right{
-        display: flex;
-        align-items: center;
-        .icons{
-          font-size: 2rem;
-          color: #fff;
-          margin-left: 1.5rem;
-          display: flex;
-          .icon__btn{
-            color: #fff;
-            cursor: pointer;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color .2s ease-in-out;
-            &:hover{
-              background-color: #76767680;
-            }
-          }
-        }
-      }
     }
   }
   .player__bar{

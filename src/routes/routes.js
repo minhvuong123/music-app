@@ -10,9 +10,12 @@ import NewSongsComponent from 'shared/components/newSongs/new-songs.component';
 import RegisterComponent from 'shared/components/register/register.component';
 import LoginComponent from 'shared/components/login/login.component';
 import SearchComponent from 'shared/components/search/search.component';
-import searchMainComponent from 'shared/components/search-main/search-main.component';
-import searchSongsComponent from 'shared/components/search-songs/search-songs.component';
-import searchAlbumsComponent from 'shared/components/search-albums/search-albums.component';
+import SearchMainComponent from 'shared/components/search-main/search-main.component';
+import SearchSongsComponent from 'shared/components/search-songs/search-songs.component';
+import SearchAlbumsComponent from 'shared/components/search-albums/search-albums.component';
+import PersonalGeneral from 'shared/components/personal-general/personal-general.component';
+import PersonalSongs from 'shared/components/person-songs/personal-songs.component';
+import PersonalAlbums from 'shared/components/personal-albums/personal-albums.component';
 
 const RouteWithSubRoutes = (route) => {
   return (
@@ -55,8 +58,28 @@ const Routes = [
   {
     path: '/my-music',
     keyPath: '/my-music',
-    exact: true,
-    component: Personal
+    exact: false,
+    component: Personal,
+    nested: [
+      {
+        path: '/my-music/tong-quan',
+        keyPath: '/my-music/tong-quan',
+        exact: false,
+        component: PersonalGeneral
+      },
+      {
+        path: '/my-music/bai-hat',
+        keyPath: '/my-music/bai-hat',
+        exact: false,
+        component: PersonalSongs
+      },
+      {
+        path: '/my-music/play-list',
+        keyPath: '/my-music/play-list',
+        exact: false,
+        component: PersonalAlbums
+      }
+    ]
   },
   {
     path: '/kham-pha',
@@ -104,25 +127,25 @@ const Routes = [
         path: '/tim-kiem/tat-ca',
         keyPath: '/tim-kiem/tat-ca',
         exact: false,
-        component: searchMainComponent
+        component: SearchMainComponent
       },
       {
         path: '/tim-kiem/bai-hat',
         keyPath: '/tim-kiem/bai-hat',
         exact: false,
-        component: searchSongsComponent
+        component: SearchSongsComponent
       },
       {
         path: '/tim-kiem/play-list',
         keyPath: '/tim-kiem/play-list',
         exact: false,
-        component: searchAlbumsComponent
+        component: SearchAlbumsComponent
       },
       {
         path: '/tim-kiem/nghe-si',
         keyPath: '/tim-kiem/nghe-si',
         exact: false,
-        component: searchAlbumsComponent
+        component: SearchAlbumsComponent
       }
     ]
   }

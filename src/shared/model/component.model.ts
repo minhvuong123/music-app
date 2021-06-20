@@ -14,6 +14,7 @@ export interface ComponentModel {
   albums?: AlbumModel[];
   updateAlbum?: Function | any;
   deleteAlbum?: Function | any;
+  addUserAlbums?: Function | any;
 
   // song
   songs?: SongModel[] | any;

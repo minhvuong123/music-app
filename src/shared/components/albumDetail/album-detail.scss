@@ -144,7 +144,7 @@
             background-color: #777777;
           }
         }
-        .content__level{
+        .content__level {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -152,7 +152,7 @@
           @media screen and (max-width: 1200px) {
             margin-top: 0;
           }
-          .level__item{
+          .level__item {
             margin: 0 1rem;
             color: #fff;
             cursor: pointer;
@@ -164,8 +164,14 @@
             justify-content: center;
             transition: background-color .2s ease-in-out;
             background-color: #76767680;
+            .block__icon {
+              &--svg{
+                span {
+                  color: #5a1eae;
+                }
+              }
+            }
           }
-          
         }
       }
       @media screen and (max-width: 1200px) {

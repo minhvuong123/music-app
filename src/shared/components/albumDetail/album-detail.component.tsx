@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { loadAlbumAction, loadSongAction, setPlayAction } from 'shared/redux/actions';
+import { loadAlbumAction, loadSongAction, setPlayAction, updateAlbumAction } from 'shared/redux/actions';
 
 // ant
 import {
@@ -11,6 +11,8 @@ import {
   LoadingOutlined
 } from '@ant-design/icons';
 
+import { Tooltip } from 'antd';
+
 // styles scss
 import './album-detail.scss';
 
@@ -19,19 +21,27 @@ import Song from 'shared/components/song/song.component';
 import album_default from 'images/album_default.png';
 import axios from 'axios';
 import { setSongsAction } from 'shared/redux/actions';
-import { ComponentModel, SongModel } from 'shared/model';
+import { AlbumModel, ComponentModel, SongModel } from 'shared/model';
 import _ from 'lodash';
+import jwt from 'jsonwebtoken';
 
-
-function AlbumDetail({ location, playStatus, setPlayAction, loadSongAction, songs, song, album, loadAlbumAction, setSongsAction }: ComponentModel) {
+function AlbumDetail({ location, playStatus, setPlayAction, loadSongAction, songs, song, album, loadAlbumAction, setSongsAction, updateAlbum }: ComponentModel) {
+  const token = localStorage.getItem('token') as string;
   const { albumId } = location.state;
+  const [user, setUser] = useState<any>({});
 
   useEffect(() => {
+    jwt.verify(token, 'kiwi', async function (err: any, decoded: any) {
+      if (!err) {
+        setUser(decoded._doc);
+      }
+    });
+
     axios.patch(`${apiLink}/albums/view/${albumId}`).then(result => {
-      loadAlbumAction(albumId);
+      loadAlbumAction(albumId); // set Album to store is defined in album.saga.ts
     });
     return () => { }
-  }, [albumId, loadAlbumAction])
+  }, [token, albumId, loadAlbumAction])
   
   function callBackPlaySong() {
     setSongsAction(songs);
@@ -53,6 +63,34 @@ function AlbumDetail({ location, playStatus, setPlayAction, loadSongAction, song
     }
   }
 
+  function addToAlbum(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    const payload = {
+      _id: album!._id,
+      album_user_id: user._id
+    }
+    axios.patch(`${apiLink}/albums`, { album: payload }).then(result => { 
+      updateAlbum && updateAlbum({ album_user_id: payload.album_user_id });
+    })
+  }
+
+  function removeFromAlbum(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    const payload = {
+      _id: album!._id,
+      album_user_id: ''
+    }
+    axios.patch(`${apiLink}/albums`, { album: payload }).then(result => { 
+      updateAlbum && updateAlbum({ album_user_id: payload.album_user_id });
+    })
+  }
+
+  function getStatusPlay(status: boolean | any, albumId: string, song_id_albums: string): boolean {
+    return status && albumId === song_id_albums;
+  }
+
   return album && Object.keys(album).length > 0 ? (
     <div className="album">
       <div className="album__left">
@@ -67,7 +105,7 @@ function AlbumDetail({ location, playStatus, setPlayAction, loadSongAction, song
             </div>
            <div className={`block__opacity ${playStatus ? "isPlay" : ""}`}></div>
             <div className={`block__btn ${playStatus ? "isPlay" : ""}`}> 
-              {playStatus ? <LoadingOutlined /> : <PlayCircleOutlined />}
+              { getStatusPlay(playStatus, album._id, song.song_id_albums) ? <LoadingOutlined /> : <PlayCircleOutlined /> }
             </div>
           </div>
         </a>
@@ -83,7 +121,17 @@ function AlbumDetail({ location, playStatus, setPlayAction, loadSongAction, song
               <span className="text" onClick={playAll}>Phát Ngẫu Nhiên</span>
             </div>
             <div className="content__level">
-              <span className="level__item"><HeartOutlined /></span>
+              <span className="level__item">
+                {
+                  album && album.album_user_id
+                  ? <Tooltip placement="top" color="#383737" title="Xóa khỏi thư viện">
+                      <div onClick={removeFromAlbum} className="block__icon block__icon--svg"><HeartOutlined /></div>
+                    </Tooltip>
+                  : <Tooltip placement="top" color="#383737" title="Thêm vào thư viện">
+                      <div onClick={addToAlbum} className="block__icon"><HeartOutlined /></div>
+                    </Tooltip>
+                }
+              </span>
               <span className="level__item"><EllipsisOutlined /></span>
             </div>
           </div>
@@ -117,6 +165,7 @@ const mapDispatchToProps = (dispatch: any) => {
     loadSongAction: (song: any) => dispatch(loadSongAction(song)),
     setSongsAction: (songs: any) => dispatch(setSongsAction(songs)),
     setPlayAction: (status: boolean) => dispatch(setPlayAction(status)),
+    updateAlbum: (album: AlbumModel) => dispatch(updateAlbumAction(album)),
   }
 }
 
